@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 Route::group([
+    'middleware' => 'cors',
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
