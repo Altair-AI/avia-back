@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('malfunction_cause_rule_then_if', function (Blueprint $table) {
+        Schema::create('malfunction_cause_rule_then', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('type');
             $table->integer('malfunction_cause_rule_id')->unsigned();
             $table->foreign('malfunction_cause_rule_id')
                 ->references('id')
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('malfunction_cause_rule_then_if');
+        Schema::dropIfExists('malfunction_cause_rule_then');
     }
 };
