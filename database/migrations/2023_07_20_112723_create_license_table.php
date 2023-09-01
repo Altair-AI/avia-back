@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('license', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->smallInteger('role');
-            $table->smallInteger('status');
-            $table->string('full_name')->nullable();
-            $table->timestamp('last_login_date');
-            $table->string('login_ip');
+            $table->text('description')->nullable();
+            $table->timestamp('start_date');
+            $table->timestamp('end_date');
+            $table->smallInteger('type');
             $table->integer('organization_id')->unsigned();
             $table->foreign('organization_id')
                 ->references('id')
                 ->on('organization')
+                ->onDelete('cascade');
+            $table->integer('project_id')->unsigned();
+            $table->foreign('project_id')
+                ->references('id')
+                ->on('project')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -37,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('license');
     }
 };
