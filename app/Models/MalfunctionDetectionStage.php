@@ -2,9 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\MalfunctionDetectionStage
+ *
+ * @property int $id
+ * @property string $name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, ECase> $cases
+ * @property-read int|null $cases_count
+ * @method static Builder|MalfunctionDetectionStage newModelQuery()
+ * @method static Builder|MalfunctionDetectionStage newQuery()
+ * @method static Builder|MalfunctionDetectionStage query()
+ * @method static Builder|MalfunctionDetectionStage whereCreatedAt($value)
+ * @method static Builder|MalfunctionDetectionStage whereId($value)
+ * @method static Builder|MalfunctionDetectionStage whereName($value)
+ * @method static Builder|MalfunctionDetectionStage whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class MalfunctionDetectionStage extends Model
 {
     use HasFactory;

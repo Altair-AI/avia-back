@@ -2,9 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\MalfunctionConsequence
+ *
+ * @property int $id
+ * @property string $name
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|MalfunctionConsequence newModelQuery()
+ * @method static Builder|MalfunctionConsequence newQuery()
+ * @method static Builder|MalfunctionConsequence query()
+ * @method static Builder|MalfunctionConsequence whereCreatedAt($value)
+ * @method static Builder|MalfunctionConsequence whereId($value)
+ * @method static Builder|MalfunctionConsequence whereName($value)
+ * @method static Builder|MalfunctionConsequence whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class MalfunctionConsequence extends Model
 {
     use HasFactory;

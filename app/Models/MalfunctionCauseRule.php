@@ -2,9 +2,34 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\MalfunctionCauseRule
+ *
+ * @property int $id
+ * @property string|null $description
+ * @property string $cause
+ * @property int $document_id
+ * @property int $rule_based_knowledge_base_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Document $document
+ * @method static Builder|MalfunctionCauseRule newModelQuery()
+ * @method static Builder|MalfunctionCauseRule newQuery()
+ * @method static Builder|MalfunctionCauseRule query()
+ * @method static Builder|MalfunctionCauseRule whereCause($value)
+ * @method static Builder|MalfunctionCauseRule whereCreatedAt($value)
+ * @method static Builder|MalfunctionCauseRule whereDescription($value)
+ * @method static Builder|MalfunctionCauseRule whereDocumentId($value)
+ * @method static Builder|MalfunctionCauseRule whereId($value)
+ * @method static Builder|MalfunctionCauseRule whereRuleBasedKnowledgeBaseId($value)
+ * @method static Builder|MalfunctionCauseRule whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class MalfunctionCauseRule extends Model
 {
     use HasFactory;

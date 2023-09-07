@@ -2,9 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\RealTimeTechnicalSystemUser
+ *
+ * @property int $id
+ * @property int $real_time_technical_system_id
+ * @property int $user_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read RealTimeTechnicalSystem $real_time_technical_system
+ * @method static Builder|RealTimeTechnicalSystemUser newModelQuery()
+ * @method static Builder|RealTimeTechnicalSystemUser newQuery()
+ * @method static Builder|RealTimeTechnicalSystemUser query()
+ * @method static Builder|RealTimeTechnicalSystemUser whereCreatedAt($value)
+ * @method static Builder|RealTimeTechnicalSystemUser whereId($value)
+ * @method static Builder|RealTimeTechnicalSystemUser whereRealTimeTechnicalSystemId($value)
+ * @method static Builder|RealTimeTechnicalSystemUser whereUpdatedAt($value)
+ * @method static Builder|RealTimeTechnicalSystemUser whereUserId($value)
+ * @mixin Builder
+ */
 class RealTimeTechnicalSystemUser extends Model
 {
     use HasFactory;

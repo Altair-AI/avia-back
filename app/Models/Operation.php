@@ -2,9 +2,51 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\Operation
+ *
+ * @property int $id
+ * @property string $code
+ * @property string $imperative_name
+ * @property string $verbal_name
+ * @property string|null $description
+ * @property string $document_indication_number
+ * @property int $start_document_page
+ * @property int $end_document_page
+ * @property int $document_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, CompletedOperation> $completed_operations
+ * @property-read int|null $completed_operations_count
+ * @property-read Collection<int, ConcreteOperationCondition> $concrete_operation_conditions
+ * @property-read int|null $concrete_operation_conditions_count
+ * @property-read Collection<int, ConcreteOperationResult> $concrete_operation_results
+ * @property-read int|null $concrete_operation_results_count
+ * @property-read Document $document
+ * @property-read Collection<int, CompletedOperation> $previous_completed_operations
+ * @property-read int|null $previous_completed_operations_count
+ * @method static Builder|Operation newModelQuery()
+ * @method static Builder|Operation newQuery()
+ * @method static Builder|Operation query()
+ * @method static Builder|Operation whereCode($value)
+ * @method static Builder|Operation whereCreatedAt($value)
+ * @method static Builder|Operation whereDescription($value)
+ * @method static Builder|Operation whereDocumentId($value)
+ * @method static Builder|Operation whereDocumentIndicationNumber($value)
+ * @method static Builder|Operation whereEndDocumentPage($value)
+ * @method static Builder|Operation whereId($value)
+ * @method static Builder|Operation whereImperativeName($value)
+ * @method static Builder|Operation whereStartDocumentPage($value)
+ * @method static Builder|Operation whereUpdatedAt($value)
+ * @method static Builder|Operation whereVerbalName($value)
+ * @mixin Builder
+ */
 class Operation extends Model
 {
     use HasFactory;

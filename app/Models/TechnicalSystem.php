@@ -2,9 +2,51 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\TechnicalSystem
+ *
+ * @property int $id
+ * @property string|null $code
+ * @property string $name
+ * @property string|null $description
+ * @property int|null $parent_technical_system_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection<int, TechnicalSystem> $child_technical_systems
+ * @property-read int|null $child_technical_systems_count
+ * @property-read Collection<int, MalfunctionCauseRuleThen> $malfunction_cause_rules_then
+ * @property-read int|null $malfunction_cause_rules_then_count
+ * @property-read Collection<int, MalfunctionCode> $malfunction_codes
+ * @property-read int|null $malfunction_codes_count
+ * @property-read Collection<int, OperationRule> $operation_rules_for_cause_system
+ * @property-read int|null $operation_rules_for_cause_system_count
+ * @property-read Collection<int, OperationRule> $operation_rules_for_malfunction_system
+ * @property-read int|null $operation_rules_for_malfunction_system_count
+ * @property-read TechnicalSystem|null $parent_technical_system
+ * @property-read Collection<int, Project> $projects
+ * @property-read int|null $projects_count
+ * @property-read Collection<int, RealTimeTechnicalSystem> $real_time_technical_systems
+ * @property-read int|null $real_time_technical_systems_count
+ * @property-read Collection<int, RuleBasedKnowledgeBase> $rule_based_knowledge_bases
+ * @property-read int|null $rule_based_knowledge_bases_count
+ * @method static Builder|TechnicalSystem newModelQuery()
+ * @method static Builder|TechnicalSystem newQuery()
+ * @method static Builder|TechnicalSystem query()
+ * @method static Builder|TechnicalSystem whereCode($value)
+ * @method static Builder|TechnicalSystem whereCreatedAt($value)
+ * @method static Builder|TechnicalSystem whereDescription($value)
+ * @method static Builder|TechnicalSystem whereId($value)
+ * @method static Builder|TechnicalSystem whereName($value)
+ * @method static Builder|TechnicalSystem whereParentTechnicalSystemId($value)
+ * @method static Builder|TechnicalSystem whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class TechnicalSystem extends Model
 {
     use HasFactory;

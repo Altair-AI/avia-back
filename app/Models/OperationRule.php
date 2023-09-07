@@ -2,9 +2,55 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\OperationRule
+ *
+ * @property int $id
+ * @property string|null $description
+ * @property int $type
+ * @property int $status
+ * @property int $rule_based_knowledge_base_id
+ * @property int $operation_id_if
+ * @property int $operation_status_if
+ * @property int $operation_result_id
+ * @property int $operation_id_then
+ * @property int $operation_status_then
+ * @property int $priority
+ * @property int $malfunction_system_id
+ * @property int $cause_system_id
+ * @property int $document_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Document $document
+ * @property-read Operation|null $operation_if
+ * @property-read OperationResult $operation_result
+ * @property-read Operation|null $operation_then
+ * @method static Builder|OperationRule newModelQuery()
+ * @method static Builder|OperationRule newQuery()
+ * @method static Builder|OperationRule query()
+ * @method static Builder|OperationRule whereCauseSystemId($value)
+ * @method static Builder|OperationRule whereCreatedAt($value)
+ * @method static Builder|OperationRule whereDescription($value)
+ * @method static Builder|OperationRule whereDocumentId($value)
+ * @method static Builder|OperationRule whereId($value)
+ * @method static Builder|OperationRule whereMalfunctionSystemId($value)
+ * @method static Builder|OperationRule whereOperationIdIf($value)
+ * @method static Builder|OperationRule whereOperationIdThen($value)
+ * @method static Builder|OperationRule whereOperationResultId($value)
+ * @method static Builder|OperationRule whereOperationStatusIf($value)
+ * @method static Builder|OperationRule whereOperationStatusThen($value)
+ * @method static Builder|OperationRule wherePriority($value)
+ * @method static Builder|OperationRule whereRuleBasedKnowledgeBaseId($value)
+ * @method static Builder|OperationRule whereStatus($value)
+ * @method static Builder|OperationRule whereType($value)
+ * @method static Builder|OperationRule whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class OperationRule extends Model
 {
     use HasFactory;

@@ -2,9 +2,41 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\ECase
+ *
+ * @property int $id
+ * @property string $date
+ * @property string $card_number
+ * @property int $malfunction_detection_stage_id
+ * @property int $malfunction_system_id
+ * @property int $system_id_for_repair
+ * @property int|null $initial_completed_operation_id
+ * @property int $case_based_knowledge_base_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read CaseBasedKnowledgeBase $case_based_knowledge_base
+ * @property-read CompletedOperation|null $initial_completed_operation
+ * @method static Builder|ECase newModelQuery()
+ * @method static Builder|ECase newQuery()
+ * @method static Builder|ECase query()
+ * @method static Builder|ECase whereCardNumber($value)
+ * @method static Builder|ECase whereCaseBasedKnowledgeBaseId($value)
+ * @method static Builder|ECase whereCreatedAt($value)
+ * @method static Builder|ECase whereDate($value)
+ * @method static Builder|ECase whereId($value)
+ * @method static Builder|ECase whereInitialCompletedOperationId($value)
+ * @method static Builder|ECase whereMalfunctionDetectionStageId($value)
+ * @method static Builder|ECase whereMalfunctionSystemId($value)
+ * @method static Builder|ECase whereSystemIdForRepair($value)
+ * @method static Builder|ECase whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class ECase extends Model
 {
     use HasFactory;

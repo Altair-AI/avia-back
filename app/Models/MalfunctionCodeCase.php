@@ -2,9 +2,31 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\MalfunctionCodeCase
+ *
+ * @property int $id
+ * @property int $case_id
+ * @property int $malfunction_code_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read ECase $case
+ * @property-read MalfunctionCode $malfunction_code
+ * @method static Builder|MalfunctionCodeCase newModelQuery()
+ * @method static Builder|MalfunctionCodeCase newQuery()
+ * @method static Builder|MalfunctionCodeCase query()
+ * @method static Builder|MalfunctionCodeCase whereCaseId($value)
+ * @method static Builder|MalfunctionCodeCase whereCreatedAt($value)
+ * @method static Builder|MalfunctionCodeCase whereId($value)
+ * @method static Builder|MalfunctionCodeCase whereMalfunctionCodeId($value)
+ * @method static Builder|MalfunctionCodeCase whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class MalfunctionCodeCase extends Model
 {
     use HasFactory;
