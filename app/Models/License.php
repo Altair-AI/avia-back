@@ -41,6 +41,11 @@ class License extends Model
 {
     use HasFactory;
 
+    // Типы лицензий
+    const BASE_TYPE = 0;  // Базовый (основной тариф)
+    const LOYALTY_TYPE = 1; // Лояльный (тариф для постоянных клиентов)
+    const PROMO_TYPE = 1; // Промо (тариф по акции)
+
     /**
      * The table associated with the model.
      *

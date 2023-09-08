@@ -55,6 +55,24 @@ class OperationRule extends Model
 {
     use HasFactory;
 
+    // Типы правил
+    const DISPOSABLE_TYPE = 0; // Одноразовое правило
+    const REUSABLE_TYPE = 1;   // Многоразовое правило
+
+    // Статусы правил
+    const COMPLETED_RULE_STATUS = 0;     // Правило выполнено
+    const NOT_COMPLETED_RULE_STATUS = 1; // Правило не выполнено
+
+    // Статусы операций (условия)
+    const COMPLETED_OPERATION_IF_STATUS = 0;     // Работа выполнена
+    const NOT_COMPLETED_OPERATION_IF_STATUS = 1; // Работа не выполнена
+    const INITIATED_OPERATION_IF_STATUS = 2;     // Работа инициирована
+
+    // Статусы операций (действия)
+    const COMPLETED_OPERATION_THEN_STATUS = 0;     // Работа выполнена
+    const NOT_COMPLETED_OPERATION_THEN_STATUS = 1; // Работа не выполнена
+    const INITIATED_OPERATION_THEN_STATUS = 2;     // Работа инициирована
+
     /**
      * The table associated with the model.
      *

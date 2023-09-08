@@ -35,6 +35,10 @@ class Document extends Model
 {
     use HasFactory;
 
+    // Типы технических документов
+    const TROUBLESHOOTING_GUIDE_TYPE = 0; // РУН (руководство по устранению неисправности)
+    const MAINTENANCE_GUIDE_TYPE = 1;     // РЭ (руководство по эксплуатации)
+
     /**
      * The table associated with the model.
      *

@@ -65,6 +65,17 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
+    // Роли пользователей
+    const SUPER_ADMIN_ROLE = 0; // Супер-администратор (может все)
+    const ADMIN_ROLE = 1;       // Администратор (занимается созданием и настройкой проектов)
+    const TECHNICIAN_ROLE = 2;  // Техник (использует проекты)
+    const GUEST_ROLE = 3;       // Гость (ничего не может, только просмотр определенной информации)
+
+    // Статусы пользователей
+    const ACTIVE_STATUS = 0;       // Авторизованный пользователь, который может взаимодействовать с системой
+    const INACTIVE_STATUS = 1;     // Авторизованный пользователь, но который не может взаимодействовать с системой
+    const NOT_VERIFIED_STATUS = 2; // Пользователь не прошедший до конца процедуру верификации при регистрации аккаунта
+
     /**
      * The attributes that are mass assignable.
      *
@@ -125,7 +136,8 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return mixed
      */
-    public function getJWTIdentifier() {
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -134,7 +146,8 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 }

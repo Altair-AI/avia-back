@@ -34,6 +34,12 @@ class MalfunctionCode extends Model
 {
     use HasFactory;
 
+    // Типы кодов неисправностей
+    const CAS_TYPE = 0;   // CAS
+    const CDS_TYPE = 1;   // CDS
+    const LOCAL_TYPE = 2; // LOCAL
+    const BSTO_TYPE = 3;  // BSTO
+
     /**
      * The table associated with the model.
      *

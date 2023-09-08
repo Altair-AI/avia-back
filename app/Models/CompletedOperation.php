@@ -35,6 +35,13 @@ class CompletedOperation extends Model
 {
     use HasFactory;
 
+    // Типы выполненных работ
+    const PREPARATORY_TYPE = 0;                  // Подготовительная работа
+    const FAULT_CONFIRMATION_TYPE = 1;           // Подтверждение неисправности
+    const TROUBLESHOOTING_TYPE = 2;              // Поиск и устранение неисправности
+    const TROUBLESHOOTING_CONFIRMATION_TYPE = 3; // Подтверждение устранения неисправности
+    const FINAL_TYPE = 4;                        // Заключительная работа
+
     /**
      * The table associated with the model.
      *
