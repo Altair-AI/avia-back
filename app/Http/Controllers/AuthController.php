@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -18,7 +17,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'registerTechnician']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -48,31 +47,28 @@ class AuthController extends Controller
      * @throws ValidationException
      */
     public function registerTechnician(Request $request) {
-        if (Auth::check()) {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string|between:2,100',
-                'email' => 'required|string|email|max:100|unique:users',
-                'password' => 'required|string|confirmed|min:6',
-            ]);
-            if ($validator->fails())
-                return response()->json($validator->errors()->toJson(), 400);
-            $user = User::create(array_merge(
-                $validator->validated(),
-                [
-                    'password' => bcrypt($request->password),
-                    'role' => User::TECHNICIAN_ROLE,
-                    'status' => User::ACTIVE_STATUS,
-                    'organization_id' => auth()->user()->organization->id,
-                    'last_login_date' => Carbon::now(),
-                    'login_ip' => '127.0.0.1',
-                ],
-            ));
-            return response()->json([
-                'message' => 'User successfully registered!',
-                'user' => $user
-            ], 201);
-        } else
-            return response()->json('User not authorized!', 400);
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|confirmed|min:6',
+        ]);
+        if ($validator->fails())
+            return response()->json($validator->errors()->toJson(), 400);
+        $user = User::create(array_merge(
+            $validator->validated(),
+            [
+                'password' => bcrypt($request->password),
+                'role' => User::TECHNICIAN_ROLE,
+                'status' => User::ACTIVE_STATUS,
+                'organization_id' => auth()->user()->organization->id,
+                'last_login_date' => Carbon::now(),
+                'login_ip' => '127.0.0.1',
+            ],
+        ));
+        return response()->json([
+            'message' => 'User successfully registered.',
+            'user' => $user
+        ], 201);
     }
 
     /**
@@ -82,7 +78,7 @@ class AuthController extends Controller
      */
     public function logout() {
         auth()->logout();
-        return response()->json(['message' => 'User successfully signed out!']);
+        return response()->json(['message' => 'User successfully signed out.']);
     }
 
     /**
