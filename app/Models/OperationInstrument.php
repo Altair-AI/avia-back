@@ -50,11 +50,11 @@ class OperationInstrument extends Model
 
     public function operation()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function instrument()
     {
-        return $this->belongsTo('app\Models\Instrument');
+        return $this->belongsTo('App\Models\Instrument');
     }
 }

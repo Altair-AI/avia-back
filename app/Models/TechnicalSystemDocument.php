@@ -50,11 +50,11 @@ class TechnicalSystemDocument extends Model
 
     public function document()
     {
-        return $this->belongsTo('app\Models\Document');
+        return $this->belongsTo('App\Models\Document');
     }
 
     public function technical_system()
     {
-        return $this->belongsTo('app\Models\TechnicalSystem');
+        return $this->belongsTo('App\Models\TechnicalSystem');
     }
 }

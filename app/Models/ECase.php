@@ -65,41 +65,41 @@ class ECase extends Model
 
     public function malfunction_detection_stage()
     {
-        return $this->belongsTo('app\Models\MalfunctionDetectionStage');
+        return $this->belongsTo('App\Models\MalfunctionDetectionStage');
     }
 
     public function malfunction_system()
     {
-        return $this->belongsTo('app\Models\RealTimeTechnicalSystem');
+        return $this->belongsTo('App\Models\RealTimeTechnicalSystem');
     }
 
     public function system_for_repair()
     {
-        return $this->belongsTo('app\Models\RealTimeTechnicalSystem');
+        return $this->belongsTo('App\Models\RealTimeTechnicalSystem');
     }
 
     public function initial_completed_operation()
     {
-        return $this->belongsTo('app\Models\CompletedOperation');
+        return $this->belongsTo('App\Models\CompletedOperation');
     }
 
     public function case_based_knowledge_base()
     {
-        return $this->belongsTo('app\Models\CaseBasedKnowledgeBase');
+        return $this->belongsTo('App\Models\CaseBasedKnowledgeBase');
     }
 
     public function malfunction_code_cases()
     {
-        return $this->hasMany('app\Models\MalfunctionCodeCase', 'case_id');
+        return $this->hasMany('App\Models\MalfunctionCodeCase', 'case_id');
     }
 
     public function external_malfunction_sign_cases()
     {
-        return $this->hasMany('app\Models\ExternalMalfunctionSignCase', 'case_id');
+        return $this->hasMany('App\Models\ExternalMalfunctionSignCase', 'case_id');
     }
 
     public function malfunction_consequence_cases()
     {
-        return $this->hasMany('app\Models\MalfunctionConsequenceCase', 'case_id');
+        return $this->hasMany('App\Models\MalfunctionConsequenceCase', 'case_id');
     }
 }

@@ -62,11 +62,11 @@ class OperationHierarchy extends Model
 
     public function parent_operation()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function child_operation()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 }

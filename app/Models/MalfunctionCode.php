@@ -60,21 +60,21 @@ class MalfunctionCode extends Model
 
     public function technical_system()
     {
-        return $this->belongsTo('app\Models\TechnicalSystem');
+        return $this->belongsTo('App\Models\TechnicalSystem');
     }
 
     public function malfunction_code_cases()
     {
-        return $this->hasMany('app\Models\MalfunctionCodeCase', 'malfunction_code_id');
+        return $this->hasMany('App\Models\MalfunctionCodeCase', 'malfunction_code_id');
     }
 
     public function malfunction_cause_rules_if()
     {
-        return $this->hasMany('app\Models\MalfunctionCauseRuleIf', 'malfunction_code_id');
+        return $this->hasMany('App\Models\MalfunctionCauseRuleIf', 'malfunction_code_id');
     }
 
     public function operation_rule_malfunction_codes()
     {
-        return $this->hasMany('app\Models\OperationRuleMalfunctionCode', 'malfunction_code_id');
+        return $this->hasMany('App\Models\OperationRuleMalfunctionCode', 'malfunction_code_id');
     }
 }

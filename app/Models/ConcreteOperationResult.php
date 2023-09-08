@@ -48,11 +48,11 @@ class ConcreteOperationResult extends Model
 
     public function operation()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function operation_result()
     {
-        return $this->belongsTo('app\Models\OperationResult');
+        return $this->belongsTo('App\Models\OperationResult');
     }
 }

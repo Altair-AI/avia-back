@@ -103,41 +103,41 @@ class OperationRule extends Model
 
     public function rule_based_knowledge_base()
     {
-        return $this->belongsTo('app\Models\RuleBasedKnowledgeBase');
+        return $this->belongsTo('App\Models\RuleBasedKnowledgeBase');
     }
 
     public function operation_if()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function operation_result()
     {
-        return $this->belongsTo('app\Models\OperationResult');
+        return $this->belongsTo('App\Models\OperationResult');
     }
 
     public function operation_then()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function malfunction_system()
     {
-        return $this->belongsTo('app\Models\TechnicalSystem');
+        return $this->belongsTo('App\Models\TechnicalSystem');
     }
 
     public function cause_system()
     {
-        return $this->belongsTo('app\Models\TechnicalSystem');
+        return $this->belongsTo('App\Models\TechnicalSystem');
     }
 
     public function document()
     {
-        return $this->belongsTo('app\Models\Document');
+        return $this->belongsTo('App\Models\Document');
     }
 
     public function operation_rule_malfunction_codes()
     {
-        return $this->hasMany('app\Models\OperationRuleMalfunctionCode', 'operation_rule_id');
+        return $this->hasMany('App\Models\OperationRuleMalfunctionCode', 'operation_rule_id');
     }
 }

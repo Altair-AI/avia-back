@@ -48,11 +48,11 @@ class ConcreteOperationCondition extends Model
 
     public function operation()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function operation_condition()
     {
-        return $this->belongsTo('app\Models\OperationCondition');
+        return $this->belongsTo('App\Models\OperationCondition');
     }
 }

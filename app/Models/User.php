@@ -108,27 +108,27 @@ class User extends Authenticatable implements JWTSubject
 
     public function organization()
     {
-        return $this->belongsTo('app\Models\Organization');
+        return $this->belongsTo('App\Models\Organization');
     }
 
     public function real_time_technical_system_users()
     {
-        return $this->hasMany('app\Models\RealTimeTechnicalSystemUser', 'user_id');
+        return $this->hasMany('App\Models\RealTimeTechnicalSystemUser', 'user_id');
     }
 
     public function completed_operations()
     {
-        return $this->hasMany('app\Models\CompletedOperation', 'user_id');
+        return $this->hasMany('App\Models\CompletedOperation', 'user_id');
     }
 
     public function case_based_knowledge_bases()
     {
-        return $this->hasMany('app\Models\CaseBasedKnowledgeBase', 'author');
+        return $this->hasMany('App\Models\CaseBasedKnowledgeBase', 'author');
     }
 
     public function rule_based_knowledge_bases()
     {
-        return $this->hasMany('app\Models\RuleBasedKnowledgeBase', 'author');
+        return $this->hasMany('App\Models\RuleBasedKnowledgeBase', 'author');
     }
 
     /**

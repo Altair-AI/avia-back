@@ -50,11 +50,11 @@ class MalfunctionCodeCase extends Model
 
     public function case()
     {
-        return $this->belongsTo('app\Models\ECase');
+        return $this->belongsTo('App\Models\ECase');
     }
 
     public function malfunction_code()
     {
-        return $this->belongsTo('app\Models\MalfunctionCode');
+        return $this->belongsTo('App\Models\MalfunctionCode');
     }
 }

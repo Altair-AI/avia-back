@@ -61,21 +61,21 @@ class Document extends Model
 
     public function technical_system_documents()
     {
-        return $this->hasMany('app\Models\TechnicalSystemDocument', 'document_id');
+        return $this->hasMany('App\Models\TechnicalSystemDocument', 'document_id');
     }
 
     public function operations()
     {
-        return $this->hasMany('app\Models\Operation', 'document_id');
+        return $this->hasMany('App\Models\Operation', 'document_id');
     }
 
     public function malfunction_cause_rules()
     {
-        return $this->hasMany('app\Models\MalfunctionCauseRule', 'document_id');
+        return $this->hasMany('App\Models\MalfunctionCauseRule', 'document_id');
     }
 
     public function operation_rules()
     {
-        return $this->hasMany('app\Models\OperationRule', 'document_id');
+        return $this->hasMany('App\Models\OperationRule', 'document_id');
     }
 }

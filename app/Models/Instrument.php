@@ -48,6 +48,6 @@ class Instrument extends Model
 
     public function operation_instruments()
     {
-        return $this->hasMany('app\Models\OperationInstrument', 'instrument_id');
+        return $this->hasMany('App\Models\OperationInstrument', 'instrument_id');
     }
 }

@@ -55,21 +55,21 @@ class MalfunctionCauseRule extends Model
 
     public function document()
     {
-        return $this->belongsTo('app\Models\Document');
+        return $this->belongsTo('App\Models\Document');
     }
 
     public function rule_based_knowledge_base()
     {
-        return $this->belongsTo('app\Models\RuleBasedKnowledgeBase');
+        return $this->belongsTo('App\Models\RuleBasedKnowledgeBase');
     }
 
     public function malfunction_cause_rules_if()
     {
-        return $this->hasMany('app\Models\MalfunctionCauseRuleIf', 'malfunction_cause_rule_id');
+        return $this->hasMany('App\Models\MalfunctionCauseRuleIf', 'malfunction_cause_rule_id');
     }
 
     public function malfunction_cause_rules_then()
     {
-        return $this->hasMany('app\Models\MalfunctionCauseRuleThen', 'malfunction_cause_rule_id');
+        return $this->hasMany('App\Models\MalfunctionCauseRuleThen', 'malfunction_cause_rule_id');
     }
 }

@@ -51,6 +51,6 @@ class OperationCondition extends Model
 
     public function concrete_operation_conditions()
     {
-        return $this->hasMany('app\Models\ConcreteOperationCondition', 'operation_condition_id');
+        return $this->hasMany('App\Models\ConcreteOperationCondition', 'operation_condition_id');
     }
 }

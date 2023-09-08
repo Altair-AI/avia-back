@@ -90,11 +90,11 @@ class Organization extends Model
 
     public function licenses()
     {
-        return $this->hasMany('app\Models\License', 'organization_id');
+        return $this->hasMany('App\Models\License', 'organization_id');
     }
 
     public function users()
     {
-        return $this->hasMany('app\Models\User', 'organization_id');
+        return $this->hasMany('App\Models\User', 'organization_id');
     }
 }
