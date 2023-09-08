@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\License;
 use App\Models\Organization;
 use App\Models\Project;
 use Carbon\Carbon;
@@ -18,7 +19,7 @@ class LicenseSeeder extends Seeder
             'description' => 'Описание лицензии',
             'start_date' => Carbon::now(),
             'end_date' => Carbon::now(),
-            'type' => 0,
+            'type' => License::BASE_TYPE,
             'organization_id' => Organization::all()->first()->id,
             'project_id' => Project::all()->first()->id,
             'created_at' => Carbon::now(),
