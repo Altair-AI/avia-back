@@ -12,9 +12,10 @@ class UserSeeder extends Seeder
     public function run()
     {
         // Создание супер-администратора по-умолчанию
-        DB::table('technical_system')->insert([
+        DB::table('users')->insert([
             'name' => 'super-admin',
             'email' => 'altair-ii@yandex.ru',
+            'password' => bcrypt('altair-super-admin'),
             'role' => 0,
             'status' => 0,
             'full_name' => 'Супер-администратор',
@@ -25,9 +26,10 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         // Создание тестового администратора
-        DB::table('technical_system')->insert([
+        DB::table('users')->insert([
             'name' => 'test-admin',
             'email' => 'test-admin@avia-back.ru',
+            'password' => bcrypt('altair-admin'),
             'role' => 1,
             'status' => 0,
             'full_name' => 'Тестовый администратор',
