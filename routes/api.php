@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -29,4 +31,6 @@ Route::group([
     'prefix' => 'v1/admin/'
 ], function () {
     Route::post('register-technician', [AuthController::class, 'registerTechnician']);
+    Route::get('get-project/{id}', [ProjectController::class, 'getProject']);
+    Route::get('get-projects', [ProjectController::class, 'getProjects']);
 });
