@@ -11,8 +11,8 @@ class OrganizationSeeder extends Seeder
     public function run()
     {
         DB::table('organization')->insert([
-            'name' => 'Тестовая организация',
-            'description' => 'Тестовая организация',
+            'name' => 'ООО АЛЬТАИР-ИИ',
+            'description' => 'ООО АЛЬТАИР-ИИ',
             'actual_address' => 'Фактический адрес организации',
             'legal_address' => 'Юридический адрес организации',
             'phone' => 'Телефон',

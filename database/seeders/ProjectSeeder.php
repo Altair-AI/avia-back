@@ -12,8 +12,8 @@ class ProjectSeeder extends Seeder
     public function run()
     {
         DB::table('project')->insert([
-            'name' => 'Название проекта',
-            'description' => 'Описание проекта',
+            'name' => 'Тестовый проект',
+            'description' => 'Описание тестового проекта',
             'type' => 0,
             'status' => 0,
             'technical_system_id' => Organization::all()->first()->id,
