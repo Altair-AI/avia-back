@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\Project;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
@@ -19,41 +21,78 @@ class ProjectController extends Controller
     }
 
     /**
-     * Get all projects.
+     * Display a listing of the resource.
      *
      * @return JsonResponse
      */
-    public function getAllProjects() {
-        $projects = Project::all();
-        if ($projects)
-            return response()->json($projects->toArray());
+    public function index()
+    {
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
+            $projects = Project::all();
+            if ($projects)
+                return response()->json($projects->toArray());
+        }
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            $projects = [];
+            foreach (Organization::find(auth()->user()->organization->id)->licenses as $license)
+                array_push($projects, $license->project->toArray());
+            if ($projects)
+                return response()->json($projects);
+        }
         return response()->json('No projects found.', 400);
     }
 
     /**
-     * Get all projects available to an authorized user.
+     * Store a newly created resource in storage.
      *
+     * @param StoreProjectRequest $request
      * @return JsonResponse
      */
-    public function getProjects() {
-        $projects = [];
-        foreach (Organization::find(auth()->user()->organization->id)->licenses as $license)
-            array_push($projects, $license->project->toArray());
-        if ($projects)
-            return response()->json($projects);
-        return response()->json('No projects found.', 400);
+    public function store(StoreProjectRequest $request)
+    {
+        $validated = $request->validated();
+        $project = Project::create($validated);
+        return response()->json($project->toArray());
     }
 
     /**
-     * Get project by id.
+     * Display the specified resource.
      *
-     * @param  int $id
+     * @param Project $project
      * @return JsonResponse
      */
-    public function getProject(int $id) {
-        $project = Project::find($id);
-        if ($project)
-            return response()->json($project->toArray());
-        return response()->json('Project with this id was not found.', 400);
+    public function show(Project $project)
+    {
+        return response()->json($project->toArray());
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateProjectRequest $request
+     * @param Project $project
+     * @return JsonResponse
+     */
+    public function update(UpdateProjectRequest $request, Project $project)
+    {
+        $validated = $request->validated();
+        $project->fill($validated);
+        $project->save();
+        return response()->json($project->toArray());
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Project $project
+     * @return JsonResponse|null
+     */
+    public function destroy(Project $project)
+    {
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
+            $project->delete();
+            return response()->json('Project was successfully deleted.', 200);
+        }
+        return null;
     }
 }

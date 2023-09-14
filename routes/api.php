@@ -31,6 +31,5 @@ Route::group([
     'prefix' => 'v1/admin/'
 ], function () {
     Route::post('register-technician', [AuthController::class, 'registerTechnician']);
-    Route::get('get-project/{id}', [ProjectController::class, 'getProject']);
-    Route::get('get-projects', [ProjectController::class, 'getProjects']);
+    Route::apiResource('projects', ProjectController::class);
 });
