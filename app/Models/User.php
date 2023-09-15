@@ -88,6 +88,8 @@ class User extends Authenticatable implements JWTSubject
         'role',
         'status',
         'organization_id',
+        'login_ip',
+        'last_login_date',
     ];
 
     /**

@@ -124,7 +124,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/api/v1/admin/users/{user}",
      *     summary="Получить данные пользователя",
-     *     tags={"Пользователь"},
+     *     tags={"Пользователи"},
      *     security={{ "bearerAuth": {} }},
      *
      *     @OA\Parameter(
@@ -262,6 +262,44 @@ class UserController extends Controller
      *
      * @param RegisterTechnicianRequest $request
      * @return JsonResponse
+     *
+     * * @OA\Post(
+     *     path="/api/v1/admin/users/register-technician",
+     *     summary="Регистрация техника",
+     *     tags={"Пользователи"},
+     *     security={{ "bearerAuth": {} }},
+     *
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             allOf={
+     *                 @OA\Schema(
+     *                     @OA\Property(property="name", type="string", example="Some name"),
+     *                     @OA\Property(property="email", type="string", example="Some email"),
+     *                     @OA\Property(property="password", type="string", example="Some password")
+     *                 )
+     *             }
+     *         )
+     *     ),
+     *
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="name", type="string", example="Some name"),
+     *             @OA\Property(property="email", type="string", example="Some email"),
+     *             @OA\Property(property="password", type="string", example="Some password"),
+     *             @OA\Property(property="role", type="integer", example=0),
+     *             @OA\Property(property="status", type="integer", example=0),
+     *             @OA\Property(property="full_name", type="string", example="Some full name"),
+     *             @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+     *             @OA\Property(property="login_ip", type="string", example="Some IP"),
+     *             @OA\Property(property="organization_id", type="integer", example=1),
+     *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+     *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+     *         )
+     *     )
+     * )
      */
     public function registerTechnician(RegisterTechnicianRequest $request) {
         $validated = $request->validated();
