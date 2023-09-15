@@ -23,6 +23,6 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 });
 
 Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], function () {
-    Route::post('register-technician', [UserController::class, 'registerTechnician'])->middleware('jwt.auth');
+    Route::apiResource('users', UserController::class)->middleware('jwt.auth');
     Route::apiResource('projects', ProjectController::class)->middleware('jwt.auth');
 });

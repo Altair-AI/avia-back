@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -37,38 +35,6 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($validator->validated()))
             return response()->json(['error' => 'Unauthorized'], 401);
         return $this->createNewToken($token);
-    }
-
-    /**
-     * registerTechnician a new User (technician).
-     *
-     * @param Request $request
-     * @return JsonResponse
-     * @throws ValidationException
-     */
-    public function registerTechnician(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
-        ]);
-        if ($validator->fails())
-            return response()->json($validator->errors()->toJson(), 400);
-        $user = User::create(array_merge(
-            $validator->validated(),
-            [
-                'password' => bcrypt($request->password),
-                'role' => User::TECHNICIAN_ROLE,
-                'status' => User::ACTIVE_STATUS,
-                'organization_id' => auth()->user()->organization->id,
-                'last_login_date' => Carbon::now(),
-                'login_ip' => '127.0.0.1',
-            ],
-        ));
-        return response()->json([
-            'message' => 'User successfully registered.',
-            'user' => $user
-        ], 201);
     }
 
     /**
