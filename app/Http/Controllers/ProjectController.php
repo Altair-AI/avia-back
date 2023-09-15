@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Organization;
 use App\Models\Project;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 

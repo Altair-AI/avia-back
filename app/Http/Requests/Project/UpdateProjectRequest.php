@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Project;
 
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -26,9 +26,9 @@ class UpdateProjectRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'type' => 'required',
-            'status' => 'required',
-            'technical_system_id' => 'required|numeric'
+            'type' => 'required|integer',
+            'status' => 'required|integer',
+            'technical_system_id' => 'required|integer'
         ];
     }
 }
