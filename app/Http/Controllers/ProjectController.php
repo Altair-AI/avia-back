@@ -12,6 +12,16 @@ use Illuminate\Http\JsonResponse;
 class ProjectController extends Controller
 {
     /**
+     * Create a new ProjectController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return JsonResponse
