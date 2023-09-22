@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\RegisterTechnicianRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Organization;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new UserController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,9 +58,15 @@ class UserController extends Controller
         $users = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
             $users = User::all();
-        if (auth()->user()->role == User::ADMIN_ROLE)
-            foreach (User::where('role', User::TECHNICIAN_ROLE)->get() as $user)
-                array_push($users, $user->toArray());
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            array_push($users, User::find(auth()->user()->id)->toArray());
+            $models = User::where([
+                ['role', User::TECHNICIAN_ROLE],
+                ['organization_id', auth()->user()->organization->id]
+            ])->get();
+            foreach ($models as $model)
+                array_push($users, $model->toArray());
+        }
         return response()->json($users);
     }
 
@@ -190,10 +207,13 @@ class UserController extends Controller
      *             allOf={
      *                 @OA\Schema(
      *                     @OA\Property(property="name", type="string", example="Some name for edit"),
-     *                     @OA\Property(property="description", type="string", example="Some description for edit"),
-     *                     @OA\Property(property="type", type="integer", example=0),
+     *                     @OA\Property(property="email", type="string", example="Some email for edit"),
+     *                     @OA\Property(property="password", type="string", example="Some password for edit"),
+     *                     @OA\Property(property="password_confirmation", type="string", example="Password confirmation for edit"),
+     *                     @OA\Property(property="role", type="integer", example=0),
      *                     @OA\Property(property="status", type="integer", example=0),
-     *                     @OA\Property(property="technical_system_id", type="integer", example=1)
+     *                     @OA\Property(property="full_name", type="string", example="Some full name for edit"),
+     *                     @OA\Property(property="organization_id", type="integer", example=1)
      *                 )
      *             }
      *         )
@@ -205,10 +225,14 @@ class UserController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="id", type="integer", example=1),
      *             @OA\Property(property="name", type="string", example="Some name"),
-     *             @OA\Property(property="description", type="string", example="Some description"),
-     *             @OA\Property(property="type", type="integer", example=0),
+     *             @OA\Property(property="email", type="string", example="Some email"),
+     *             @OA\Property(property="password", type="string", example="Some password"),
+     *             @OA\Property(property="role", type="integer", example=0),
      *             @OA\Property(property="status", type="integer", example=0),
-     *             @OA\Property(property="technical_system_id", type="integer", example=1),
+     *             @OA\Property(property="full_name", type="string", example="Some full name"),
+     *             @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+     *             @OA\Property(property="login_ip", type="string", example="Some IP"),
+     *             @OA\Property(property="organization_id", type="integer", example=1),
      *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
      *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
      *         )
