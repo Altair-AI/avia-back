@@ -2,28 +2,41 @@ version: '3'
 
 services:
   nginx:
+    container_name: avia-back_nginx
     image: nginx:latest
     volumes:
       - ./:/var/www/
       - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
     ports: 
       - 8080:80
-    container_name: avia-back_nginx
     depends_on:
       - app
       
   app:
+    container_name: avia-back_app
     build: 
       context: .
       dockerfile: _docker/app/Dockerfile
     volumes:
       - ./:/var/www/
-    container_name: avia-back_app
     depends_on:
       - db
 
   db:
+    container_name: avia-postgres
     image: postgres:14.8-alpine3.18
+    volumes:
+      - aviadb-data: /var/lib/postgresql/data
+    restart: always 
+    environment:
+      POSTGRES_DB: "avia-db"
+      POSTGRES_USER: "avia-user"
+      POSTGRES_PASSWORD: BYiaGewrEFLgnij
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
     command:
       - "postgres"
       - "-c"
@@ -54,33 +67,28 @@ services:
       - "pg_stat_statements.max=10000"
       - "-c"
       - "pg_stat_statements.track=all"
-    restart: always
-    volumes:
-      - ./tmp/db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: "avia-db"
-      POSTGRES_USER: "avia-user"
-      POSTGRES_PASSWORD: BYiaGewrEFLgnij
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-    ports:
-      - "5432:5432"
-    container_name: avia-postgres
-    networks:
-      - postgres
 
   pgadmin:
     container_name: avia-pgadmin
     image: dpage/pgadmin4
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: "user@avia.com"
       PGADMIN_DEFAULT_PASSWORD: "123"
       PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
     ports:
       - "5050:8081"
-    restart: unless-stopped
-    depends_on:
-      - db
     networks:
       - postgres
+    depends_on:
+      - db
+
+volumes:
+  aviadb-data:
+  pgadmin-data:
+
+networks:
+  postgres:
+    driver: bridge
