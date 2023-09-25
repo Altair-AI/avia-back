@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Swagger;
 
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 
 /**
  * @OA\Get(
