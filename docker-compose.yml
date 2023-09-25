@@ -35,8 +35,6 @@ services:
       PGDATA: "/var/lib/postgresql/data/pgdata"
     ports:
       - "5432:5432"
-    networks:
-      - postgres
     command:
       - "postgres"
       - "-c"
@@ -75,20 +73,13 @@ services:
       - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: "user@avia.com"
-      PGADMIN_DEFAULT_PASSWORD: "123"
+      PGADMIN_DEFAULT_EMAIL: "pgadmin@avia-front.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456789"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
-      - "5050:8081"
-    networks:
-      - postgres
-    depends_on:
-      - db
+      - "5050:80"
 
 volumes:
   aviadb-data:
   pgadmin-data:
 
-networks:
-  postgres:
-    driver: bridge
