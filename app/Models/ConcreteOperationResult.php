@@ -2,9 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\ConcreteOperationResult
+ *
+ * @property int $id
+ * @property int $operation_id
+ * @property int $operation_result_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|ConcreteOperationResult newModelQuery()
+ * @method static Builder|ConcreteOperationResult newQuery()
+ * @method static Builder|ConcreteOperationResult query()
+ * @method static Builder|ConcreteOperationResult whereCreatedAt($value)
+ * @method static Builder|ConcreteOperationResult whereId($value)
+ * @method static Builder|ConcreteOperationResult whereOperationId($value)
+ * @method static Builder|ConcreteOperationResult whereOperationResultId($value)
+ * @method static Builder|ConcreteOperationResult whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class ConcreteOperationResult extends Model
 {
     use HasFactory;
@@ -28,11 +48,11 @@ class ConcreteOperationResult extends Model
 
     public function operation()
     {
-        return $this->belongsTo('app\Models\Operation');
+        return $this->belongsTo('App\Models\Operation');
     }
 
     public function operation_result()
     {
-        return $this->belongsTo('app\Models\OperationResult');
+        return $this->belongsTo('App\Models\OperationResult');
     }
 }

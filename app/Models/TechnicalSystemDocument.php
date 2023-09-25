@@ -2,9 +2,31 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\TechnicalSystemDocument
+ *
+ * @property int $id
+ * @property int $document_id
+ * @property int $technical_system_id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Document $document
+ * @property-read TechnicalSystem $technical_system
+ * @method static Builder|TechnicalSystemDocument newModelQuery()
+ * @method static Builder|TechnicalSystemDocument newQuery()
+ * @method static Builder|TechnicalSystemDocument query()
+ * @method static Builder|TechnicalSystemDocument whereCreatedAt($value)
+ * @method static Builder|TechnicalSystemDocument whereDocumentId($value)
+ * @method static Builder|TechnicalSystemDocument whereId($value)
+ * @method static Builder|TechnicalSystemDocument whereTechnicalSystemId($value)
+ * @method static Builder|TechnicalSystemDocument whereUpdatedAt($value)
+ * @mixin Builder
+ */
 class TechnicalSystemDocument extends Model
 {
     use HasFactory;
@@ -28,11 +50,11 @@ class TechnicalSystemDocument extends Model
 
     public function document()
     {
-        return $this->belongsTo('app\Models\Document');
+        return $this->belongsTo('App\Models\Document');
     }
 
     public function technical_system()
     {
-        return $this->belongsTo('app\Models\TechnicalSystem');
+        return $this->belongsTo('App\Models\TechnicalSystem');
     }
 }
