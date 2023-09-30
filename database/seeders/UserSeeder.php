@@ -40,5 +40,19 @@ class UserSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        // Создание тестового техника
+        DB::table('users')->insert([
+            'name' => 'test-technician',
+            'email' => 'test-technician@avia-back.ru',
+            'password' => bcrypt('altair-technician'),
+            'role' => User::ADMIN_ROLE,
+            'status' => User::ACTIVE_STATUS,
+            'full_name' => 'Тестовый техник',
+            'last_login_date' => Carbon::now(),
+            'login_ip' => '127.0.0.1',
+            'organization_id' => Organization::all()->first()->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
     }
 }
