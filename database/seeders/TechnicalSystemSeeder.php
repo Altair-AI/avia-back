@@ -50,6 +50,14 @@ class TechnicalSystemSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+        DB::table('technical_system')->insert([
+            'code' => 'Уникальный код элемента для объекта 1',
+            'name' => 'Название элемента для объекта 1',
+            'description' => 'Описание элемента для объекта 1',
+            'parent_technical_system_id' => 4,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         // Создание технической системы (дельтаплана)
         DB::table('technical_system')->insert([
             'code' => 'Уникальный код технической системы (дельтаплана)',

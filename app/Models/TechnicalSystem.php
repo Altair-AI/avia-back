@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -70,53 +72,74 @@ class TechnicalSystem extends Model
         'parent_technical_system_id',
     ];
 
+    /**
+     * Возвращает родительскую систему (если она есть).
+     *
+     * @return BelongsTo
+     */
     public function parent_technical_system()
     {
-        return $this->belongsTo('App\Models\TechnicalSystem');
+        return $this->belongsTo(self::class);
     }
 
+    /**
+     * Возвращает непосредственные дочерние системы и объекты (один уровень вложенности иерархии) для
+     * текущей технической системы.
+     *
+     * @return HasMany
+     */
     public function child_technical_systems()
     {
-        return $this->hasMany('App\Models\TechnicalSystem', 'parent_technical_system_id');
+        return $this->hasMany(self::class, 'parent_technical_system_id');
+    }
+
+    /**
+     * Возвращает всю иерархию дочерних систем и объектов для текущей технической системы.
+     *
+     * @return HasMany
+     */
+    public function grandchildren_technical_systems()
+    {
+        return $this->child_technical_systems()->with('grandchildren_technical_systems');
     }
 
     public function projects()
     {
-        return $this->hasMany('App\Models\Project', 'technical_system_id');
+        return $this->hasMany(Project::class, 'technical_system_id');
     }
 
     public function real_time_technical_systems()
     {
-        return $this->hasMany('App\Models\RealTimeTechnicalSystem', 'technical_system_id');
+        return $this->hasMany(RealTimeTechnicalSystem::class, 'technical_system_id');
     }
 
     public function technical_system_documents()
     {
-        return $this->hasMany('App\Models\TechnicalSystemDocument', 'technical_system_id');
+        return $this->hasMany(TechnicalSystemDocument::class, 'technical_system_id');
     }
 
     public function malfunction_codes()
     {
-        return $this->hasMany('App\Models\MalfunctionCode', 'technical_system_id');
+        return $this->hasMany(MalfunctionCode::class, 'technical_system_id');
     }
 
     public function rule_based_knowledge_bases()
     {
-        return $this->hasMany('App\Models\RuleBasedKnowledgeBase', 'technical_system_id');
+        return $this->hasMany(RuleBasedKnowledgeBase::class, 'technical_system_id');
     }
 
     public function malfunction_cause_rules_then()
     {
-        return $this->hasMany('App\Models\MalfunctionCauseRuleThen', 'technical_system_id');
+        return $this->hasMany(MalfunctionCauseRuleThen::class, 'technical_system_id');
     }
 
     public function operation_rules_for_malfunction_system()
     {
-        return $this->hasMany('App\Models\OperationRule', 'malfunction_system_id');
+        return $this->hasMany(OperationRule::class, 'malfunction_system_id');
     }
 
     public function operation_rules_for_cause_system()
     {
-        return $this->hasMany('App\Models\OperationRule', 'cause_system_id');
+        return $this->hasMany(OperationRule::class, 'cause_system_id');
     }
 }
