@@ -1,0 +1,160 @@
+<?php
+
+namespace App\Http\Controllers\Swagger;
+
+use App\Http\Controllers\Controller;
+
+/**
+ * @OA\Get(
+ *     path="/api/v1/admin/technical-systems",
+ *     summary="Получить список всех технических систем",
+ *     tags={"Технические системы"},
+ *     security={{ "bearerAuth": {} }},
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(type="array", @OA\Items(
+ *             @OA\Property(property="id", type="integer", example=2),
+ *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="name", type="string", example="Some name"),
+ *             @OA\Property(property="description", type="string", example="Some description"),
+ *             @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *         ))
+ *     )
+ * ),
+ *
+ * @OA\Post(
+ *     path="/api/v1/admin/technical-systems",
+ *     summary="Создание новой технической системы или объекта",
+ *     tags={"Технические системы"},
+ *     security={{ "bearerAuth": {} }},
+ *
+ *     @OA\RequestBody(
+ *         @OA\JsonContent(
+ *             allOf={
+ *                 @OA\Schema(
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1)
+ *                 )
+ *             }
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=2),
+ *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="name", type="string", example="Some name"),
+ *             @OA\Property(property="description", type="string", example="Some description"),
+ *             @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *         )
+ *     )
+ * ),
+ *
+ * @OA\Get(
+ *     path="/api/v1/admin/technical-systems/{technical-system}",
+ *     summary="Получить единичную техническую систему или объект",
+ *     tags={"Технические системы"},
+ *     security={{ "bearerAuth": {} }},
+ *
+ *     @OA\Parameter(
+ *         description="id технической системы или объекта",
+ *         in="path",
+ *         name="technical-system",
+ *         required=true,
+ *         example=2
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="name", type="string", example="Some name"),
+ *             @OA\Property(property="description", type="string", example="Some description"),
+ *             @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *         )
+ *     )
+ * ),
+ *
+ * @OA\Put(
+ *     path="/api/v1/admin/technical-systems/{technical-system}",
+ *     summary="Обновить техническую систему или объект",
+ *     tags={"Технические системы"},
+ *     security={{ "bearerAuth": {} }},
+ *
+ *     @OA\Parameter(
+ *         description="id технической системы или объекта",
+ *         in="path",
+ *         name="technical-system",
+ *         required=true,
+ *         example=2
+ *     ),
+ *
+ *     @OA\RequestBody(
+ *         @OA\JsonContent(
+ *             allOf={
+ *                 @OA\Schema(
+ *                     @OA\Property(property="code", type="string", example="Some code for edit"),
+ *                     @OA\Property(property="name", type="string", example="Some name for edit"),
+ *                     @OA\Property(property="description", type="string", example="Some description for edit"),
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1)
+ *                 )
+ *             }
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=2),
+ *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="name", type="string", example="Some name"),
+ *             @OA\Property(property="description", type="string", example="Some description"),
+ *             @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *         )
+ *     )
+ * ),
+ *
+ * @OA\Delete(
+ *     path="/api/v1/admin/technical-systems/{technical-system}",
+ *     summary="Удалить техническую систему или объект",
+ *     tags={"Технические системы"},
+ *     security={{ "bearerAuth": {} }},
+ *
+ *     @OA\Parameter(
+ *         description="id технической системы или объекта",
+ *         in="path",
+ *         name="technical-system",
+ *         required=true,
+ *         example=1
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Technical system was successfully deleted.")
+ *         )
+ *     )
+ * )
+ */
+class TechnicalSystemController extends Controller
+{
+    //
+}
