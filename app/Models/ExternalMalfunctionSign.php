@@ -45,6 +45,6 @@ class ExternalMalfunctionSign extends Model
 
     public function external_malfunction_sign_cases()
     {
-        return $this->hasMany('App\Models\ExternalMalfunctionSignCase', 'external_malfunction_sign_id');
+        return $this->hasMany(ExternalMalfunctionSignCase::class, 'external_malfunction_sign_id');
     }
 }

@@ -71,26 +71,26 @@ class Project extends Model
 
     public function technical_system()
     {
-        return $this->belongsTo('App\Models\TechnicalSystem');
+        return $this->belongsTo(TechnicalSystem::class);
     }
 
     public function licenses()
     {
-        return $this->hasMany('App\Models\License', 'project_id');
+        return $this->hasMany(License::class, 'project_id');
     }
 
     public function real_time_technical_systems()
     {
-        return $this->hasMany('App\Models\RealTimeTechnicalSystem', 'project_id');
+        return $this->hasMany(RealTimeTechnicalSystem::class, 'project_id');
     }
 
     public function case_based_knowledge_bases()
     {
-        return $this->hasMany('App\Models\CaseBasedKnowledgeBase', 'project_id');
+        return $this->hasMany(CaseBasedKnowledgeBase::class, 'project_id');
     }
 
     public function rule_based_knowledge_base_projects()
     {
-        return $this->hasMany('App\Models\RuleBasedKnowledgeBaseProject', 'project_id');
+        return $this->hasMany(RuleBasedKnowledgeBaseProject::class, 'project_id');
     }
 }

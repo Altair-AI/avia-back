@@ -49,11 +49,11 @@ class MalfunctionCauseRuleThen extends Model
 
     public function malfunction_cause_rule()
     {
-        return $this->belongsTo('App\Models\MalfunctionCauseRule');
+        return $this->belongsTo(MalfunctionCauseRule::class);
     }
 
     public function technical_system()
     {
-        return $this->belongsTo('App\Models\TechnicalSystem');
+        return $this->belongsTo(TechnicalSystem::class);
     }
 }

@@ -49,11 +49,11 @@ class RealTimeTechnicalSystemUser extends Model
 
     public function real_time_technical_system()
     {
-        return $this->belongsTo('App\Models\RealTimeTechnicalSystem');
+        return $this->belongsTo(RealTimeTechnicalSystem::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 }

@@ -68,31 +68,31 @@ class RealTimeTechnicalSystem extends Model
 
     public function technical_system()
     {
-        return $this->belongsTo('App\Models\TechnicalSystem');
+        return $this->belongsTo(TechnicalSystem::class);
     }
 
     public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo(Project::class);
     }
 
     public function real_time_technical_system_users()
     {
-        return $this->hasMany('App\Models\RealTimeTechnicalSystemUser', 'real_time_technical_system_id');
+        return $this->hasMany(RealTimeTechnicalSystemUser::class, 'real_time_technical_system_id');
     }
 
     public function case_based_knowledge_bases()
     {
-        return $this->hasMany('App\Models\CaseBasedKnowledgeBase', 'real_time_technical_system_id');
+        return $this->hasMany(CaseBasedKnowledgeBase::class, 'real_time_technical_system_id');
     }
 
     public function malfunction_system_cases()
     {
-        return $this->hasMany('App\Models\ECase', 'malfunction_system_id');
+        return $this->hasMany(ECase::class, 'malfunction_system_id');
     }
 
     public function system_for_repair_cases()
     {
-        return $this->hasMany('App\Models\ECase', 'system_id_for_repair');
+        return $this->hasMany(ECase::class, 'system_id_for_repair');
     }
 }

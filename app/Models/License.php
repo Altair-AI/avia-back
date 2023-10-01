@@ -71,11 +71,11 @@ class License extends Model
 
     public function organization()
     {
-        return $this->belongsTo('App\Models\Organization');
+        return $this->belongsTo(Organization::class);
     }
 
     public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo(Project::class);
     }
 }

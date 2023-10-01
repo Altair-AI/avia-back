@@ -50,11 +50,11 @@ class MalfunctionConsequenceCase extends Model
 
     public function case()
     {
-        return $this->belongsTo('App\Models\ECase');
+        return $this->belongsTo(ECase::class);
     }
 
     public function malfunction_consequence()
     {
-        return $this->belongsTo('App\Models\MalfunctionConsequence');
+        return $this->belongsTo(MalfunctionConsequence::class);
     }
 }

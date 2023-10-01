@@ -71,21 +71,21 @@ class CaseBasedKnowledgeBase extends Model
 
     public function author()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function real_time_technical_system()
     {
-        return $this->belongsTo('App\Models\RealTimeTechnicalSystem');
+        return $this->belongsTo(RealTimeTechnicalSystem::class);
     }
 
     public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo(Project::class);
     }
 
     public function cases()
     {
-        return $this->hasMany('App\Models\ECase', 'case_based_knowledge_base_id');
+        return $this->hasMany(ECase::class, 'case_based_knowledge_base_id');
     }
 }

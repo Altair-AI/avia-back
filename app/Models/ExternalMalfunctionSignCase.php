@@ -50,11 +50,11 @@ class ExternalMalfunctionSignCase extends Model
 
     public function case()
     {
-        return $this->belongsTo('App\Models\ECase');
+        return $this->belongsTo(ECase::class);
     }
 
     public function external_malfunction_sign()
     {
-        return $this->belongsTo('App\Models\ExternalMalfunctionSign');
+        return $this->belongsTo(ExternalMalfunctionSign::class);
     }
 }

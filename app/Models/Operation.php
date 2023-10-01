@@ -76,51 +76,51 @@ class Operation extends Model
 
     public function document()
     {
-        return $this->belongsTo('App\Models\Document');
+        return $this->belongsTo(Document::class);
     }
 
     public function operation_instruments()
     {
-        return $this->hasMany('App\Models\OperationInstrument', 'operation_id');
+        return $this->hasMany(OperationInstrument::class, 'operation_id');
     }
 
     public function concrete_operation_conditions()
     {
-        return $this->hasMany('App\Models\ConcreteOperationCondition', 'operation_id');
+        return $this->hasMany(ConcreteOperationCondition::class, 'operation_id');
     }
 
     public function concrete_operation_results()
     {
-        return $this->hasMany('App\Models\ConcreteOperationResult', 'operation_id');
+        return $this->hasMany(ConcreteOperationResult::class, 'operation_id');
     }
 
     public function parent_operations()
     {
-        return $this->hasMany('App\Models\OperationHierarchy', 'parent_operation_id');
+        return $this->hasMany(OperationHierarchy::class, 'parent_operation_id');
     }
 
     public function child_operations()
     {
-        return $this->hasMany('App\Models\OperationHierarchy', 'child_operation_id');
+        return $this->hasMany(OperationHierarchy::class, 'child_operation_id');
     }
 
     public function completed_operations()
     {
-        return $this->hasMany('App\Models\CompletedOperation', 'operation_id');
+        return $this->hasMany(CompletedOperation::class, 'operation_id');
     }
 
     public function previous_completed_operations()
     {
-        return $this->hasMany('App\Models\CompletedOperation', 'previous_operation_id');
+        return $this->hasMany(CompletedOperation::class, 'previous_operation_id');
     }
 
     public function operation_rules_if()
     {
-        return $this->hasMany('App\Models\OperationRule', 'operation_id_if');
+        return $this->hasMany(OperationRule::class, 'operation_id_if');
     }
 
     public function operation_rules_then()
     {
-        return $this->hasMany('App\Models\OperationRule', 'operation_id_then');
+        return $this->hasMany(OperationRule::class, 'operation_id_then');
     }
 }

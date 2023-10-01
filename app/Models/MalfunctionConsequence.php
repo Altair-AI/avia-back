@@ -45,6 +45,6 @@ class MalfunctionConsequence extends Model
 
     public function malfunction_consequence_cases()
     {
-        return $this->hasMany('App\Models\MalfunctionConsequenceCase', 'malfunction_consequence_id');
+        return $this->hasMany(MalfunctionConsequenceCase::class, 'malfunction_consequence_id');
     }
 }
