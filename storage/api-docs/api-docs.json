@@ -536,7 +536,7 @@
                                         "properties": {
                                             "id": {
                                                 "type": "integer",
-                                                "example": 2
+                                                "example": 1
                                             },
                                             "code": {
                                                 "type": "string",
@@ -563,6 +563,48 @@
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "grandchildren_technical_systems": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "Some code"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "parent_technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "grandchildren_technical_systems": {
+                                                            "type": "array",
+                                                            "items": {}
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
                                             }
                                         },
                                         "type": "object"

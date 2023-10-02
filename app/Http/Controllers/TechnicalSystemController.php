@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Organization;
+use App\Models\Project;
 use App\Models\TechnicalSystem;
 use App\Http\Requests\TechnicalSystem\StoreTechnicalSystemRequest;
 use App\Http\Requests\TechnicalSystem\UpdateTechnicalSystemRequest;
@@ -27,11 +28,22 @@ class TechnicalSystemController extends Controller
     public function index()
     {
         $technical_systems = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            $technical_systems = TechnicalSystem::all();
-        if (auth()->user()->role == User::ADMIN_ROLE)
-            foreach (Organization::find(auth()->user()->organization->id)->licenses as $license)
-                array_push($technical_systems, $license->project->technical_system->toArray());
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
+            foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $item) {
+                $technical_system = $item->toArray();
+                $technical_system['grandchildren_technical_systems'] = TechnicalSystem::find(
+                    $item->id)->grandchildren_technical_systems;
+                array_push($technical_systems, $technical_system);
+            }
+        }
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            foreach (Organization::find(auth()->user()->organization->id)->licenses as $license) {
+                $technical_system = $license->project->technical_system->toArray();
+                $technical_system['grandchildren_technical_systems'] = TechnicalSystem::find(
+                    $license->project->technical_system_id)->grandchildren_technical_systems;
+                array_push($technical_systems, $technical_system);
+            }
+        }
         return response()->json($technical_systems);
     }
 
