@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
             $user->delete();
-            return response()->json($user->id, 200);
+            return response()->json(['id' => $user->id], 200);
         }
         return null;
     }

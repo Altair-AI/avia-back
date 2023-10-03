@@ -155,7 +155,7 @@ use App\Http\Controllers\Controller;
  *         response=200,
  *         description="successful operation",
  *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", example="Project was successfully deleted.")
+ *             @OA\Property(property="id", type="integer", example=1)
  *         )
  *     )
  * )

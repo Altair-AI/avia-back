@@ -102,7 +102,7 @@ class TechnicalSystemController extends Controller
     {
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
             $technical_system->delete();
-            return response()->json($technical_system->id, 200);
+            return response()->json(['id' => $technical_system->id], 200);
         }
         return null;
     }

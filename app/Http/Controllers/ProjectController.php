@@ -86,7 +86,7 @@ class ProjectController extends Controller
     {
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
             $project->delete();
-            return response()->json($project->id, 200);
+            return response()->json(['id' => $project->id], 200);
         }
         return null;
     }
