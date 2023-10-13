@@ -48,6 +48,6 @@ class MalfunctionDetectionStage extends Model
 
     public function cases()
     {
-        return $this->hasMany('App\Models\ECase', 'malfunction_detection_stage_id');
+        return $this->hasMany(ECase::class, 'malfunction_detection_stage_id');
     }
 }

@@ -73,26 +73,26 @@ class RuleBasedKnowledgeBase extends Model
 
     public function author()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function technical_system()
     {
-        return $this->belongsTo('App\Models\TechnicalSystem');
+        return $this->belongsTo(TechnicalSystem::class);
     }
 
     public function rule_based_knowledge_base_projects()
     {
-        return $this->hasMany('App\Models\RuleBasedKnowledgeBaseProject', 'rule_based_knowledge_base_id');
+        return $this->hasMany(RuleBasedKnowledgeBaseProject::class, 'rule_based_knowledge_base_id');
     }
 
     public function malfunction_cause_rules()
     {
-        return $this->hasMany('App\Models\MalfunctionCauseRule', 'rule_based_knowledge_base_id');
+        return $this->hasMany(MalfunctionCauseRule::class, 'rule_based_knowledge_base_id');
     }
 
     public function operation_rules()
     {
-        return $this->hasMany('App\Models\OperationRule', 'rule_based_knowledge_base_id');
+        return $this->hasMany(OperationRule::class, 'rule_based_knowledge_base_id');
     }
 }

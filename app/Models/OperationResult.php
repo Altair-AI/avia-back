@@ -53,16 +53,16 @@ class OperationResult extends Model
 
     public function concrete_operation_results()
     {
-        return $this->hasMany('App\Models\ConcreteOperationResult', 'operation_result_id');
+        return $this->hasMany(ConcreteOperationResult::class, 'operation_result_id');
     }
 
     public function completed_operations()
     {
-        return $this->hasMany('App\Models\CompletedOperation', 'operation_result_id');
+        return $this->hasMany(CompletedOperation::class, 'operation_result_id');
     }
 
     public function operation_rules()
     {
-        return $this->hasMany('App\Models\OperationRule', 'operation_result_id');
+        return $this->hasMany(OperationRule::class, 'operation_result_id');
     }
 }

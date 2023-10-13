@@ -50,11 +50,11 @@ class OperationRuleMalfunctionCode extends Model
 
     public function malfunction_code()
     {
-        return $this->belongsTo('App\Models\MalfunctionCode');
+        return $this->belongsTo(MalfunctionCode::class);
     }
 
     public function operation_rule()
     {
-        return $this->belongsTo('App\Models\OperationRule');
+        return $this->belongsTo(OperationRule::class);
     }
 }

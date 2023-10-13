@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TechnicalSystemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -23,7 +24,10 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 });
 
 Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], function () {
-    Route::post('users/register-technician', [UserController::class, 'registerTechnician'])->middleware('jwt.auth');
+    Route::post('users/register-technician', [UserController::class, 'registerTechnician'])
+        ->middleware('jwt.auth');
     Route::apiResource('users', UserController::class)->middleware('jwt.auth');
     Route::apiResource('projects', ProjectController::class)->middleware('jwt.auth');
+    Route::apiResource('technical-systems', TechnicalSystemController::class)
+        ->middleware('jwt.auth');
 });

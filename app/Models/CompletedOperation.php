@@ -64,26 +64,26 @@ class CompletedOperation extends Model
 
     public function operation()
     {
-        return $this->belongsTo('App\Models\Operation');
+        return $this->belongsTo(Operation::class);
     }
 
     public function previous_operation()
     {
-        return $this->belongsTo('App\Models\Operation');
+        return $this->belongsTo(Operation::class);
     }
 
     public function operation_result()
     {
-        return $this->belongsTo('App\Models\OperationResult');
+        return $this->belongsTo(OperationResult::class);
     }
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function cases()
     {
-        return $this->hasMany('App\Models\ECase', 'initial_completed_operation_id');
+        return $this->hasMany(ECase::class, 'initial_completed_operation_id');
     }
 }

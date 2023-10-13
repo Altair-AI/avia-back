@@ -50,11 +50,11 @@ class RuleBasedKnowledgeBaseProject extends Model
 
     public function rule_based_knowledge_base()
     {
-        return $this->belongsTo('App\Models\RuleBasedKnowledgeBase');
+        return $this->belongsTo(RuleBasedKnowledgeBase::class);
     }
 
     public function project()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo(Project::class);
     }
 }
