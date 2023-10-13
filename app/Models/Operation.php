@@ -16,9 +16,11 @@ use Illuminate\Support\Carbon;
  * @property string $imperative_name
  * @property string $verbal_name
  * @property string|null $description
- * @property string $document_indication_number
+ * @property string $document_section
+ * @property string $document_subsection
  * @property int $start_document_page
  * @property int $end_document_page
+ * @property int $actual_document_page
  * @property int $document_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -34,11 +36,13 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Operation newModelQuery()
  * @method static Builder|Operation newQuery()
  * @method static Builder|Operation query()
+ * @method static Builder|Operation whereActualDocumentPage($value)
  * @method static Builder|Operation whereCode($value)
  * @method static Builder|Operation whereCreatedAt($value)
  * @method static Builder|Operation whereDescription($value)
  * @method static Builder|Operation whereDocumentId($value)
- * @method static Builder|Operation whereDocumentIndicationNumber($value)
+ * @method static Builder|Operation whereDocumentSection($value)
+ * @method static Builder|Operation whereDocumentSubSection($value)
  * @method static Builder|Operation whereEndDocumentPage($value)
  * @method static Builder|Operation whereId($value)
  * @method static Builder|Operation whereImperativeName($value)
@@ -68,9 +72,11 @@ class Operation extends Model
         'imperative_name',
         'verbal_name',
         'description',
-        'document_indication_number',
+        'document_section',
+        'document_subsection',
         'start_document_page',
         'end_document_page',
+        'actual_document_page',
         'document_id',
     ];
 

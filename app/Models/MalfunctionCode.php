@@ -14,6 +14,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $name
  * @property int $type
+ * @property string $source
+ * @property string $alternative_name
  * @property int $technical_system_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -22,9 +24,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MalfunctionCode newModelQuery()
  * @method static Builder|MalfunctionCode newQuery()
  * @method static Builder|MalfunctionCode query()
+ * @method static Builder|MalfunctionCode whereAlternativeName($value)
  * @method static Builder|MalfunctionCode whereCreatedAt($value)
  * @method static Builder|MalfunctionCode whereId($value)
  * @method static Builder|MalfunctionCode whereName($value)
+ * @method static Builder|MalfunctionCode whereSource($value)
  * @method static Builder|MalfunctionCode whereTechnicalSystemId($value)
  * @method static Builder|MalfunctionCode whereType($value)
  * @method static Builder|MalfunctionCode whereUpdatedAt($value)
@@ -35,10 +39,10 @@ class MalfunctionCode extends Model
     use HasFactory;
 
     // Типы кодов неисправностей
-    const CAS_TYPE = 0;   // CAS
-    const CDS_TYPE = 1;   // CDS
-    const LOCAL_TYPE = 2; // LOCAL
-    const BSTO_TYPE = 3;  // BSTO
+    const EMRG_TYPE = 0;  // Аварийно‐сигнальное сообщение
+    const BSTO_TYPE = 1;  // Сообщение БСТО
+    const SEI_TYPE = 2;   // Сигнализация СЭИ
+    const LOCAL_TYPE = 3; // Локальная сигнализация
 
     /**
      * The table associated with the model.
@@ -55,6 +59,8 @@ class MalfunctionCode extends Model
     protected $fillable = [
         'name',
         'type',
+        'source',
+        'alternative_name',
         'technical_system_id',
     ];
 

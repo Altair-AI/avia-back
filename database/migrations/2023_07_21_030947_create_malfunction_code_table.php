@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->text('name');
             $table->smallInteger('type');
+            $table->string('source')->nullable();
+            $table->text('alternative_name')->nullable();
             $table->integer('technical_system_id')->unsigned();
             $table->foreign('technical_system_id')
                 ->references('id')
