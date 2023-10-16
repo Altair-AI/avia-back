@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('operation', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->text('imperative_name');
+            $table->text('imperative_name')->nullable();
             $table->text('verbal_name');
             $table->text('description')->nullable();
-            $table->string('document_indication_number');
+            $table->string('document_section');
+            $table->string('document_subsection');
             $table->integer('start_document_page');
-            $table->integer('end_document_page');
+            $table->integer('end_document_page')->nullable();
+            $table->integer('actual_document_page')->nullable();
             $table->integer('document_id')->unsigned();
             $table->foreign('document_id')
                 ->references('id')
