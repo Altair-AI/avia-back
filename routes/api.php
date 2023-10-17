@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OperationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TechnicalSystemController;
 use App\Http\Controllers\UserController;
@@ -30,4 +31,5 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], functio
     Route::apiResource('projects', ProjectController::class)->middleware('jwt.auth');
     Route::apiResource('technical-systems', TechnicalSystemController::class)
         ->middleware('jwt.auth');
+    Route::apiResource('operations', OperationController::class)->middleware('jwt.auth');
 });
