@@ -5,6 +5,7 @@ namespace App\Http\Requests\Operation;
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateOperationRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class UpdateOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:255|unique:operation',
+            'code' => "required|string|max:255|unique:operation,code,{$this->operation->id}",
             'imperative_name' => 'nullable|string',
             'verbal_name' => 'required|string',
             'description' => 'nullable|string',
