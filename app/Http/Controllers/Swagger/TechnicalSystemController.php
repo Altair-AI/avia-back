@@ -81,7 +81,7 @@ use App\Http\Controllers\Controller;
  *         in="path",
  *         name="technical-system",
  *         required=true,
- *         example=2
+ *         example=1
  *     ),
  *
  *     @OA\Response(
