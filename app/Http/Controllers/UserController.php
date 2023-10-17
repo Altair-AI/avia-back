@@ -30,10 +30,10 @@ class UserController extends Controller
     {
         $users = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            $users = User::all();
+            $users = User::with('organization')->get();
         if (auth()->user()->role == User::ADMIN_ROLE) {
-            array_push($users, User::find(auth()->user()->id)->toArray());
-            $models = User::where([
+            array_push($users, User::with('organization')->find(auth()->user()->id)->toArray());
+            $models = User::with('organization')->where([
                 ['role', User::TECHNICIAN_ROLE],
                 ['organization_id', auth()->user()->organization->id]
             ])->get();
@@ -61,7 +61,7 @@ class UserController extends Controller
         ));
         return response()->json([
             'message' => 'New user successfully registered.',
-            'user' => $user
+            'user' => array_merge($user->toArray(), ['organization' => $user->organization])
         ], 201);
     }
 
@@ -73,7 +73,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user);
+        return response()->json(array_merge($user->toArray(), ['organization' => $user->organization]));
     }
 
     /**
@@ -88,7 +88,7 @@ class UserController extends Controller
         $validated = $request->validated();
         $user->fill($validated);
         $user->save();
-        return response()->json($user);
+        return response()->json(array_merge($user->toArray(), ['organization' => $user->organization]));
     }
 
     /**
@@ -127,7 +127,7 @@ class UserController extends Controller
         ));
         return response()->json([
             'message' => 'New user (technician) successfully registered.',
-            'user' => $user
+            'user' => array_merge($user->toArray(), ['organization' => $user->organization])
         ], 201);
     }
 }

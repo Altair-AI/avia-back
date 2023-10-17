@@ -971,6 +971,86 @@
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "organization": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "actual_address": {
+                                                        "type": "string",
+                                                        "example": "Some actual address"
+                                                    },
+                                                    "legal_address": {
+                                                        "type": "string",
+                                                        "example": "Some legal address"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "Some phone"
+                                                    },
+                                                    "tin": {
+                                                        "type": "string",
+                                                        "example": "Some tin"
+                                                    },
+                                                    "rboc": {
+                                                        "type": "string",
+                                                        "example": "Some rboc"
+                                                    },
+                                                    "psrn": {
+                                                        "type": "string",
+                                                        "example": "Some psrn"
+                                                    },
+                                                    "bank_account": {
+                                                        "type": "string",
+                                                        "example": "Some bank account"
+                                                    },
+                                                    "bank_name": {
+                                                        "type": "string",
+                                                        "example": "Some bank name"
+                                                    },
+                                                    "bik": {
+                                                        "type": "string",
+                                                        "example": "Some bik"
+                                                    },
+                                                    "correspondent_account": {
+                                                        "type": "string",
+                                                        "example": "Some correspondent account"
+                                                    },
+                                                    "full_director_name": {
+                                                        "type": "string",
+                                                        "example": "Some full director name"
+                                                    },
+                                                    "treaty_number": {
+                                                        "type": "string",
+                                                        "example": "Some treaty number"
+                                                    },
+                                                    "treaty_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-16 07:09:30"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
                                             }
                                         },
                                         "type": "object"
@@ -1097,6 +1177,86 @@
                                                     "type": "string",
                                                     "format": "date-time",
                                                     "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "organization": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "actual_address": {
+                                                            "type": "string",
+                                                            "example": "Some actual address"
+                                                        },
+                                                        "legal_address": {
+                                                            "type": "string",
+                                                            "example": "Some legal address"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "Some phone"
+                                                        },
+                                                        "tin": {
+                                                            "type": "string",
+                                                            "example": "Some tin"
+                                                        },
+                                                        "rboc": {
+                                                            "type": "string",
+                                                            "example": "Some rboc"
+                                                        },
+                                                        "psrn": {
+                                                            "type": "string",
+                                                            "example": "Some psrn"
+                                                        },
+                                                        "bank_account": {
+                                                            "type": "string",
+                                                            "example": "Some bank account"
+                                                        },
+                                                        "bank_name": {
+                                                            "type": "string",
+                                                            "example": "Some bank name"
+                                                        },
+                                                        "bik": {
+                                                            "type": "string",
+                                                            "example": "Some bik"
+                                                        },
+                                                        "correspondent_account": {
+                                                            "type": "string",
+                                                            "example": "Some correspondent account"
+                                                        },
+                                                        "full_director_name": {
+                                                            "type": "string",
+                                                            "example": "Some full director name"
+                                                        },
+                                                        "treaty_number": {
+                                                            "type": "string",
+                                                            "example": "Some treaty number"
+                                                        },
+                                                        "treaty_date": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-10-16 07:09:30"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -1187,6 +1347,86 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "organization": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "actual_address": {
+                                                    "type": "string",
+                                                    "example": "Some actual address"
+                                                },
+                                                "legal_address": {
+                                                    "type": "string",
+                                                    "example": "Some legal address"
+                                                },
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "Some phone"
+                                                },
+                                                "tin": {
+                                                    "type": "string",
+                                                    "example": "Some tin"
+                                                },
+                                                "rboc": {
+                                                    "type": "string",
+                                                    "example": "Some rboc"
+                                                },
+                                                "psrn": {
+                                                    "type": "string",
+                                                    "example": "Some psrn"
+                                                },
+                                                "bank_account": {
+                                                    "type": "string",
+                                                    "example": "Some bank account"
+                                                },
+                                                "bank_name": {
+                                                    "type": "string",
+                                                    "example": "Some bank name"
+                                                },
+                                                "bik": {
+                                                    "type": "string",
+                                                    "example": "Some bik"
+                                                },
+                                                "correspondent_account": {
+                                                    "type": "string",
+                                                    "example": "Some correspondent account"
+                                                },
+                                                "full_director_name": {
+                                                    "type": "string",
+                                                    "example": "Some full director name"
+                                                },
+                                                "treaty_number": {
+                                                    "type": "string",
+                                                    "example": "Some treaty number"
+                                                },
+                                                "treaty_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-10-16 07:09:30"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1319,6 +1559,86 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "organization": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "actual_address": {
+                                                    "type": "string",
+                                                    "example": "Some actual address"
+                                                },
+                                                "legal_address": {
+                                                    "type": "string",
+                                                    "example": "Some legal address"
+                                                },
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "Some phone"
+                                                },
+                                                "tin": {
+                                                    "type": "string",
+                                                    "example": "Some tin"
+                                                },
+                                                "rboc": {
+                                                    "type": "string",
+                                                    "example": "Some rboc"
+                                                },
+                                                "psrn": {
+                                                    "type": "string",
+                                                    "example": "Some psrn"
+                                                },
+                                                "bank_account": {
+                                                    "type": "string",
+                                                    "example": "Some bank account"
+                                                },
+                                                "bank_name": {
+                                                    "type": "string",
+                                                    "example": "Some bank name"
+                                                },
+                                                "bik": {
+                                                    "type": "string",
+                                                    "example": "Some bik"
+                                                },
+                                                "correspondent_account": {
+                                                    "type": "string",
+                                                    "example": "Some correspondent account"
+                                                },
+                                                "full_director_name": {
+                                                    "type": "string",
+                                                    "example": "Some full director name"
+                                                },
+                                                "treaty_number": {
+                                                    "type": "string",
+                                                    "example": "Some treaty number"
+                                                },
+                                                "treaty_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-10-16 07:09:30"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1472,6 +1792,86 @@
                                                     "type": "string",
                                                     "format": "date-time",
                                                     "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "organization": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "actual_address": {
+                                                            "type": "string",
+                                                            "example": "Some actual address"
+                                                        },
+                                                        "legal_address": {
+                                                            "type": "string",
+                                                            "example": "Some legal address"
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": "Some phone"
+                                                        },
+                                                        "tin": {
+                                                            "type": "string",
+                                                            "example": "Some tin"
+                                                        },
+                                                        "rboc": {
+                                                            "type": "string",
+                                                            "example": "Some rboc"
+                                                        },
+                                                        "psrn": {
+                                                            "type": "string",
+                                                            "example": "Some psrn"
+                                                        },
+                                                        "bank_account": {
+                                                            "type": "string",
+                                                            "example": "Some bank account"
+                                                        },
+                                                        "bank_name": {
+                                                            "type": "string",
+                                                            "example": "Some bank name"
+                                                        },
+                                                        "bik": {
+                                                            "type": "string",
+                                                            "example": "Some bik"
+                                                        },
+                                                        "correspondent_account": {
+                                                            "type": "string",
+                                                            "example": "Some correspondent account"
+                                                        },
+                                                        "full_director_name": {
+                                                            "type": "string",
+                                                            "example": "Some full director name"
+                                                        },
+                                                        "treaty_number": {
+                                                            "type": "string",
+                                                            "example": "Some treaty number"
+                                                        },
+                                                        "treaty_date": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-10-16 07:09:30"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
