@@ -150,6 +150,495 @@
                 ]
             }
         },
+        "/api/v1/admin/operations": {
+            "get": {
+                "tags": [
+                    "Работы (операции)"
+                ],
+                "summary": "Получить список всех работ",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "code": {
+                                                "type": "string",
+                                                "example": "Some code"
+                                            },
+                                            "imperative_name": {
+                                                "type": "string",
+                                                "example": "Some imperative name"
+                                            },
+                                            "verbal_name": {
+                                                "type": "string",
+                                                "example": "Some verbal name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "document_section": {
+                                                "type": "string",
+                                                "example": "Some document section"
+                                            },
+                                            "document_subsection": {
+                                                "type": "string",
+                                                "example": "Some document subsection"
+                                            },
+                                            "start_document_page": {
+                                                "type": "integer",
+                                                "example": 100
+                                            },
+                                            "end_document_page": {
+                                                "type": "integer",
+                                                "example": 101
+                                            },
+                                            "actual_document_page": {
+                                                "type": "integer",
+                                                "example": 123
+                                            },
+                                            "document_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Работы (операции)"
+                ],
+                "summary": "Создание новой работы",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": "Some code"
+                                            },
+                                            "imperative_name": {
+                                                "type": "string",
+                                                "example": "Some imperative name"
+                                            },
+                                            "verbal_name": {
+                                                "type": "string",
+                                                "example": "Some verbal name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "document_section": {
+                                                "type": "string",
+                                                "example": "Some document section"
+                                            },
+                                            "document_subsection": {
+                                                "type": "string",
+                                                "example": "Some document subsection"
+                                            },
+                                            "start_document_page": {
+                                                "type": "integer",
+                                                "example": 100
+                                            },
+                                            "end_document_page": {
+                                                "type": "integer",
+                                                "example": 101
+                                            },
+                                            "actual_document_page": {
+                                                "type": "integer",
+                                                "example": 123
+                                            },
+                                            "document_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "imperative_name": {
+                                            "type": "string",
+                                            "example": "Some imperative name"
+                                        },
+                                        "verbal_name": {
+                                            "type": "string",
+                                            "example": "Some verbal name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "document_section": {
+                                            "type": "string",
+                                            "example": "Some document section"
+                                        },
+                                        "document_subsection": {
+                                            "type": "string",
+                                            "example": "Some document subsection"
+                                        },
+                                        "start_document_page": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "end_document_page": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "actual_document_page": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "document_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/operations/{operation}": {
+            "get": {
+                "tags": [
+                    "Работы (операции)"
+                ],
+                "summary": "Получить единичную работу",
+                "parameters": [
+                    {
+                        "name": "operation",
+                        "in": "path",
+                        "description": "id работы (операции)",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "imperative_name": {
+                                            "type": "string",
+                                            "example": "Some imperative name"
+                                        },
+                                        "verbal_name": {
+                                            "type": "string",
+                                            "example": "Some verbal name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "document_section": {
+                                            "type": "string",
+                                            "example": "Some document section"
+                                        },
+                                        "document_subsection": {
+                                            "type": "string",
+                                            "example": "Some document subsection"
+                                        },
+                                        "start_document_page": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "end_document_page": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "actual_document_page": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "document_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Работы (операции)"
+                ],
+                "summary": "Обновить работу",
+                "parameters": [
+                    {
+                        "name": "operation",
+                        "in": "path",
+                        "description": "id работы (операции)",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": "Some code for edit"
+                                            },
+                                            "imperative_name": {
+                                                "type": "string",
+                                                "example": "Some imperative name for edit"
+                                            },
+                                            "verbal_name": {
+                                                "type": "string",
+                                                "example": "Some verbal name for edit"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description for edit"
+                                            },
+                                            "document_section": {
+                                                "type": "string",
+                                                "example": "Some document section for edit"
+                                            },
+                                            "document_subsection": {
+                                                "type": "string",
+                                                "example": "Some document subsection for edit"
+                                            },
+                                            "start_document_page": {
+                                                "type": "integer",
+                                                "example": 200
+                                            },
+                                            "end_document_page": {
+                                                "type": "integer",
+                                                "example": 202
+                                            },
+                                            "actual_document_page": {
+                                                "type": "integer",
+                                                "example": 333
+                                            },
+                                            "document_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "imperative_name": {
+                                            "type": "string",
+                                            "example": "Some imperative name"
+                                        },
+                                        "verbal_name": {
+                                            "type": "string",
+                                            "example": "Some verbal name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "document_section": {
+                                            "type": "string",
+                                            "example": "Some document section"
+                                        },
+                                        "document_subsection": {
+                                            "type": "string",
+                                            "example": "Some document subsection"
+                                        },
+                                        "start_document_page": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "end_document_page": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "actual_document_page": {
+                                            "type": "integer",
+                                            "example": 123
+                                        },
+                                        "document_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Работы (операции)"
+                ],
+                "summary": "Удалить работу",
+                "parameters": [
+                    {
+                        "name": "operation",
+                        "in": "path",
+                        "description": "id работы (операции)",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/admin/projects": {
             "get": {
                 "tags": [
@@ -719,7 +1208,7 @@
                         "in": "path",
                         "description": "id технической системы или объекта",
                         "required": true,
-                        "example": 2
+                        "example": 1
                     }
                 ],
                 "responses": {
