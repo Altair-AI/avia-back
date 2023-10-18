@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
  *     summary="Получить список всех пользователей",
  *     tags={"Пользователи"},
  *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора возвращает всех пользователей, зарегистрированных в системе. Для администратора возвращает только тех пользователей, которые принадлежат той же организации к которой принадлежит сам администратор.",
  *
  *     @OA\Response(
  *         response=200,
@@ -26,7 +27,27 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="login_ip", type="string", example="Some IP"),
  *             @OA\Property(property="organization_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="organization", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="actual_address", type="string", example="Some actual address"),
+ *                 @OA\Property(property="legal_address", type="string", example="Some legal address"),
+ *                 @OA\Property(property="phone", type="string", example="Some phone"),
+ *                 @OA\Property(property="tin", type="string", example="Some tin"),
+ *                 @OA\Property(property="rboc", type="string", example="Some rboc"),
+ *                 @OA\Property(property="psrn", type="string", example="Some psrn"),
+ *                 @OA\Property(property="bank_account", type="string", example="Some bank account"),
+ *                 @OA\Property(property="bank_name", type="string", example="Some bank name"),
+ *                 @OA\Property(property="bik", type="string", example="Some bik"),
+ *                 @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
+ *                 @OA\Property(property="full_director_name", type="string", example="Some full director name"),
+ *                 @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
+ *                 @OA\Property(property="treaty_date", type="datetime", example="2023-10-16 07:09:30"),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             )
  *         ))
  *     )
  * ),
@@ -70,7 +91,27 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
  *                 @OA\Property(property="organization_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="organization", type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="actual_address", type="string", example="Some actual address"),
+ *                     @OA\Property(property="legal_address", type="string", example="Some legal address"),
+ *                     @OA\Property(property="phone", type="string", example="Some phone"),
+ *                     @OA\Property(property="tin", type="string", example="Some tin"),
+ *                     @OA\Property(property="rboc", type="string", example="Some rboc"),
+ *                     @OA\Property(property="psrn", type="string", example="Some psrn"),
+ *                     @OA\Property(property="bank_account", type="string", example="Some bank account"),
+ *                     @OA\Property(property="bank_name", type="string", example="Some bank name"),
+ *                     @OA\Property(property="bik", type="string", example="Some bik"),
+ *                     @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
+ *                     @OA\Property(property="full_director_name", type="string", example="Some full director name"),
+ *                     @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
+ *                     @OA\Property(property="treaty_date", type="datetime", example="2023-10-16 07:09:30"),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )
  *             )
  *         )
  *     )
@@ -81,6 +122,7 @@ use App\Http\Controllers\Controller;
  *     summary="Получить данные пользователя",
  *     tags={"Пользователи"},
  *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора возвращает любого пользователя. Для администратора возвращает только того пользователя, который принадлежит той же организации к которой принадлежит сам администратор.",
  *
  *     @OA\Parameter(
  *         description="id пользователя",
@@ -105,7 +147,27 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="login_ip", type="string", example="Some IP"),
  *             @OA\Property(property="organization_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="organization", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="actual_address", type="string", example="Some actual address"),
+ *                 @OA\Property(property="legal_address", type="string", example="Some legal address"),
+ *                 @OA\Property(property="phone", type="string", example="Some phone"),
+ *                 @OA\Property(property="tin", type="string", example="Some tin"),
+ *                 @OA\Property(property="rboc", type="string", example="Some rboc"),
+ *                 @OA\Property(property="psrn", type="string", example="Some psrn"),
+ *                 @OA\Property(property="bank_account", type="string", example="Some bank account"),
+ *                 @OA\Property(property="bank_name", type="string", example="Some bank name"),
+ *                 @OA\Property(property="bik", type="string", example="Some bik"),
+ *                 @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
+ *                 @OA\Property(property="full_director_name", type="string", example="Some full director name"),
+ *                 @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
+ *                 @OA\Property(property="treaty_date", type="datetime", example="2023-10-16 07:09:30"),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             )
  *         )
  *     )
  * ),
@@ -156,7 +218,27 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="login_ip", type="string", example="Some IP"),
  *             @OA\Property(property="organization_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="organization", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="actual_address", type="string", example="Some actual address"),
+ *                 @OA\Property(property="legal_address", type="string", example="Some legal address"),
+ *                 @OA\Property(property="phone", type="string", example="Some phone"),
+ *                 @OA\Property(property="tin", type="string", example="Some tin"),
+ *                 @OA\Property(property="rboc", type="string", example="Some rboc"),
+ *                 @OA\Property(property="psrn", type="string", example="Some psrn"),
+ *                 @OA\Property(property="bank_account", type="string", example="Some bank account"),
+ *                 @OA\Property(property="bank_name", type="string", example="Some bank name"),
+ *                 @OA\Property(property="bik", type="string", example="Some bik"),
+ *                 @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
+ *                 @OA\Property(property="full_director_name", type="string", example="Some full director name"),
+ *                 @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
+ *                 @OA\Property(property="treaty_date", type="datetime", example="2023-10-16 07:09:30"),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             )
  *         )
  *     )
  * ),
@@ -220,7 +302,27 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
  *                 @OA\Property(property="organization_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="organization", type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="actual_address", type="string", example="Some actual address"),
+ *                     @OA\Property(property="legal_address", type="string", example="Some legal address"),
+ *                     @OA\Property(property="phone", type="string", example="Some phone"),
+ *                     @OA\Property(property="tin", type="string", example="Some tin"),
+ *                     @OA\Property(property="rboc", type="string", example="Some rboc"),
+ *                     @OA\Property(property="psrn", type="string", example="Some psrn"),
+ *                     @OA\Property(property="bank_account", type="string", example="Some bank account"),
+ *                     @OA\Property(property="bank_name", type="string", example="Some bank name"),
+ *                     @OA\Property(property="bik", type="string", example="Some bik"),
+ *                     @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
+ *                     @OA\Property(property="full_director_name", type="string", example="Some full director name"),
+ *                     @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
+ *                     @OA\Property(property="treaty_date", type="datetime", example="2023-10-16 07:09:30"),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )
  *             )
  *         )
  *     )
