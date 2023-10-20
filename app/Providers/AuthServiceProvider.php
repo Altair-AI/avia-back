@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Document;
 use App\Models\Operation;
 use App\Models\Project;
 use App\Models\TechnicalSystem;
 use App\Models\User;
+use App\Policies\DocumentPolicy;
 use App\Policies\OperationPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\TechnicalSystemPolicy;
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        Document::class => DocumentPolicy::class,
         Operation::class => OperationPolicy::class,
         Project::class => ProjectPolicy::class,
         TechnicalSystem::class => TechnicalSystemPolicy::class,
