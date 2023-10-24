@@ -118,6 +118,11 @@ class TechnicalSystem extends Model
         return $this->hasMany(TechnicalSystemDocument::class, 'technical_system_id');
     }
 
+    public function technical_system_operations()
+    {
+        return $this->hasMany(TechnicalSystemOperation::class, 'technical_system_id');
+    }
+
     public function malfunction_codes()
     {
         return $this->hasMany(MalfunctionCode::class, 'technical_system_id');
