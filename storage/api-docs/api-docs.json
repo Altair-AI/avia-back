@@ -150,6 +150,377 @@
                 ]
             }
         },
+        "/api/v1/admin/documents": {
+            "get": {
+                "tags": [
+                    "Документы"
+                ],
+                "summary": "Получить список всех документов",
+                "description": "Для супер-администратора возвращает список всех документов, содержащихся в системе. Для администратора возвращает список только тех документов на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "code": {
+                                                "type": "string",
+                                                "example": "Some code"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "type": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "version": {
+                                                "type": "string",
+                                                "example": "Some version"
+                                            },
+                                            "file": {
+                                                "type": "string",
+                                                "example": "Some path to file"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Документы"
+                ],
+                "summary": "Создание нового документа",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": "Some code"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "type": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "version": {
+                                                "type": "string",
+                                                "example": "Some version"
+                                            },
+                                            "file": {
+                                                "type": "string",
+                                                "example": "Some path to file"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "version": {
+                                            "type": "string",
+                                            "example": "Some version"
+                                        },
+                                        "file": {
+                                            "type": "string",
+                                            "example": "Some path to file"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/documents/{document}": {
+            "get": {
+                "tags": [
+                    "Документы"
+                ],
+                "summary": "Получить единичный документ",
+                "description": "Для супер-администратора возвращает любой документ. Для администратора возвращает документ на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "id документа",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "version": {
+                                            "type": "string",
+                                            "example": "Some version"
+                                        },
+                                        "file": {
+                                            "type": "string",
+                                            "example": "Some path to file"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Документы"
+                ],
+                "summary": "Обновить документ",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "id документа",
+                        "required": true,
+                        "example": 2
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": "Some code for edit"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name for edit"
+                                            },
+                                            "type": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "version": {
+                                                "type": "string",
+                                                "example": "Some version for edit"
+                                            },
+                                            "file": {
+                                                "type": "string",
+                                                "example": "Some filepath for edit"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "version": {
+                                            "type": "string",
+                                            "example": "Some version"
+                                        },
+                                        "file": {
+                                            "type": "string",
+                                            "example": "Some path to file"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Документы"
+                ],
+                "summary": "Удалить документ",
+                "parameters": [
+                    {
+                        "name": "document",
+                        "in": "path",
+                        "description": "id документа",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/admin/operations": {
             "get": {
                 "tags": [
