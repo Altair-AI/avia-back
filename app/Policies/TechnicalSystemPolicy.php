@@ -2,12 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Organization;
+use App\Components\Helper;
 use App\Models\TechnicalSystem;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
-use function App\Components\get_technical_system_hierarchy;
-use function App\Components\get_technical_system_ids;
 
 class TechnicalSystemPolicy
 {
@@ -24,9 +22,9 @@ class TechnicalSystemPolicy
             return true;
         if ($user->role === User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
-            $technical_systems = get_technical_system_hierarchy($user->organization->id);
+            $technical_systems = Helper::get_technical_system_hierarchy($user->organization->id);
             // Получение id всех технических систем или объектов для вложенного массива (иерархии) технических систем
-            $technical_system_ids = get_technical_system_ids($technical_systems, []);
+            $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
             // Поиск совпадения идентификаторов
             foreach ($technical_system_ids as $id)
                 if ($technical_system->id == $id)
