@@ -123,6 +123,15 @@ class TechnicalSystem extends Model
         return $this->hasMany(TechnicalSystemOperation::class, 'technical_system_id');
     }
 
+    /**
+     * Получить все работы (операции), относящиеся к данной технической системе.
+     */
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'technical_system_operation',
+            'technical_system_id', 'operation_id');
+    }
+
     public function malfunction_codes()
     {
         return $this->hasMany(MalfunctionCode::class, 'technical_system_id');

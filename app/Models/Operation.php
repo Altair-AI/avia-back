@@ -93,6 +93,15 @@ class Operation extends Model
         return $this->hasMany(TechnicalSystemOperation::class, 'operation_id');
     }
 
+    /**
+     * Получить все технические системы на которые направлена данная работа (операция).
+     */
+    public function technical_systems()
+    {
+        return $this->belongsToMany(TechnicalSystem::class, 'technical_system_operation',
+            'operation_id', 'technical_system_id');
+    }
+
     public function operation_instruments()
     {
         return $this->hasMany(OperationInstrument::class, 'operation_id');
