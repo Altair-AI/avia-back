@@ -53,6 +53,8 @@ class TechnicalSystem extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['pivot'];
+
     /**
      * The table associated with the model.
      *
