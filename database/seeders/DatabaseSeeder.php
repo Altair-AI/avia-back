@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ProjectSeeder::class);
         $this->call(LicenseSeeder::class);
         $this->call(DocumentSeeder::class);
-        $this->call(OperationAndMalfunctionCodeSeeder::class);
+        $this->call(OperationSeeder::class);
+        $this->call(MalfunctionCodeSeeder::class);
         $this->command->info('Данные по-умолчанию загружены в базу данных!');
     }
 }
