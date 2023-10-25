@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Helper;
 use App\Models\Operation;
+use App\Models\User;
 use App\Http\Requests\Operation\StoreOperationRequest;
 use App\Http\Requests\Operation\UpdateOperationRequest;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class OperationController extends Controller
@@ -27,7 +28,33 @@ class OperationController extends Controller
      */
     public function index()
     {
-        return response()->json(Operation::all());
+        $operations = [];
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
+            foreach (Operation::all() as $item) {
+                $operation = $item->toArray();
+                $operation['technical_systems'] = $item->technical_systems;
+                $operation['sub_operations'] = $item->sub_operations;
+                array_push($operations, $operation);
+            }
+        }
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+            // Получение всех кодов технических систем или объектов для вложенного массива (иерархии) технических систем
+            $technical_system_codes = Helper::get_technical_system_codes($technical_systems, []);
+            // Получение списка иерархии работ (операций) для технических систем доступных администратору
+            foreach (Operation::all() as $item) {
+                foreach ($technical_system_codes as $code)
+                    foreach ($item->technical_systems as $technical_system)
+                        if ($technical_system->code == $code) {
+                            $operation = $item->toArray();
+                            $operation['technical_systems'] = $item->technical_systems;
+                            $operation['sub_operations'] = $item->sub_operations;
+                            array_push($operations, $operation);
+                        }
+            }
+        }
+        return response()->json($operations);
     }
 
     /**
@@ -54,7 +81,7 @@ class OperationController extends Controller
      */
     public function show(Operation $operation)
     {
-        return response()->json($operation);
+        return response()->json(array_merge($operation->toArray(), ['sub_operations' => $operation->sub_operations]));
     }
 
     /**

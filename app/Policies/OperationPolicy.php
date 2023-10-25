@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Components\Helper;
 use App\Models\Operation;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -20,7 +21,15 @@ class OperationPolicy
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
         if ($user->role === User::ADMIN_ROLE) {
-            return true;
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $technical_systems = Helper::get_technical_system_hierarchy($user->organization->id);
+            // Получение всех кодов технических систем или объектов для вложенного массива (иерархии) технических систем
+            $technical_system_codes = Helper::get_technical_system_codes($technical_systems, []);
+            // Поиск совпадения идентификаторов кодов технических систем
+            foreach ($technical_system_codes as $code)
+                foreach ($operation->technical_systems as $technical_system)
+                    if ($technical_system->code == $code)
+                        return true;
         }
         return false;
     }

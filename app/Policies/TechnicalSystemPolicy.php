@@ -2,30 +2,13 @@
 
 namespace App\Policies;
 
-use App\Models\Organization;
+use App\Components\Helper;
 use App\Models\TechnicalSystem;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class TechnicalSystemPolicy
 {
-    /**
-     * Получение списка id для всех дочерних технических систем или объектов (если они есть).
-     *
-     * @param $technical_systems
-     * @param $id_list
-     * @return mixed
-     */
-    private static function get_technical_system_ids($technical_systems, $id_list)
-    {
-        foreach ($technical_systems as $item) {
-            array_push($id_list, $item['id']);
-            if (!empty($item['grandchildren_technical_systems']))
-                $id_list = self::get_technical_system_ids($item['grandchildren_technical_systems'], $id_list);
-        }
-        return $id_list;
-    }
-
     /**
      * Check actions for administrators.
      *
@@ -38,16 +21,10 @@ class TechnicalSystemPolicy
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
         if ($user->role === User::ADMIN_ROLE) {
-            // Формирование вложенного массива (иерархии) технических систем
-            $technical_systems = [];
-            foreach (Organization::find($user->organization->id)->licenses as $license) {
-                $model = $license->project->technical_system->toArray();
-                $model['grandchildren_technical_systems'] = TechnicalSystem::find(
-                    $license->project->technical_system_id)->grandchildren_technical_systems;
-                array_push($technical_systems, $model);
-            }
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $technical_systems = Helper::get_technical_system_hierarchy($user->organization->id);
             // Получение id всех технических систем или объектов для вложенного массива (иерархии) технических систем
-            $technical_system_ids = self::get_technical_system_ids($technical_systems, []);
+            $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
             // Поиск совпадения идентификаторов
             foreach ($technical_system_ids as $id)
                 if ($technical_system->id == $id)

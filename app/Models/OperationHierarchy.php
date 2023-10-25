@@ -48,7 +48,7 @@ class OperationHierarchy extends Model
      *
      * @var string
      */
-    protected $table = 'operation';
+    protected $table = 'operation_hierarchy';
 
     /**
      * The attributes that are mass assignable.

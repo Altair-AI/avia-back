@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
  *     summary="Получить список всех работ",
  *     tags={"Работы (операции)"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает список всех работ (операций) РУН, созданных в системе. Для администратора возвращает список только тех работ (операций) РУН, принадлежащих определенным техническим системам, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает список всех работ (операций) РУН вместе с иерархией их под-работ, созданных в системе. Для администратора возвращает список только тех работ (операций) РУН вместе с иерархией их под-работ, принадлежащих определенным техническим системам, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
  *
  *     @OA\Response(
  *         response=200,
@@ -20,6 +20,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="code", type="string", example="Some code"),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *             @OA\Property(property="designation", type="string", example="Some designation"),
  *             @OA\Property(property="description", type="string", example="Some description"),
  *             @OA\Property(property="document_section", type="string", example="Some document section"),
  *             @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
@@ -28,7 +29,33 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="actual_document_page", type="integer", example=123),
  *             @OA\Property(property="document_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             )),
+ *             @OA\Property(property="sub_operations", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
+ *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *                 @OA\Property(property="designation", type="string", example="Some designation"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="document_section", type="string", example="Some document section"),
+ *                 @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
+ *                 @OA\Property(property="start_document_page", type="integer", example=100),
+ *                 @OA\Property(property="end_document_page", type="integer", example=101),
+ *                 @OA\Property(property="actual_document_page", type="integer", example=123),
+ *                 @OA\Property(property="document_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="sub_operations", type="array", @OA\Items())
+ *             ))
  *         ))
  *     )
  * ),
@@ -46,6 +73,7 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="code", type="string", example="Some code"),
  *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *                     @OA\Property(property="designation", type="string", example="Some designation"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
  *                     @OA\Property(property="document_section", type="string", example="Some document section"),
  *                     @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
@@ -66,6 +94,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="code", type="string", example="Some code"),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *             @OA\Property(property="designation", type="string", example="Some designation"),
  *             @OA\Property(property="description", type="string", example="Some description"),
  *             @OA\Property(property="document_section", type="string", example="Some document section"),
  *             @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
@@ -84,7 +113,7 @@ use App\Http\Controllers\Controller;
  *     summary="Получить единичную работу",
  *     tags={"Работы (операции)"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает любую работу (операцию) РУН, созданную в системе. Для администратора возвращает работу (операцию) РУН, принадлежащую определенной технической системе, которые доступна в рамках проекта для той организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает любую работу (операцию) РУН вместе с иерархией под-работ, созданную в системе. Для администратора возвращает работу (операцию) РУН вместе с иерархией под-работ, принадлежащую определенной технической системе, которые доступна в рамках проекта для той организации к которой принадлежит администратор.",
  *
  *     @OA\Parameter(
  *         description="id работы (операции)",
@@ -102,6 +131,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="code", type="string", example="Some code"),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *             @OA\Property(property="designation", type="string", example="Some designation"),
  *             @OA\Property(property="description", type="string", example="Some description"),
  *             @OA\Property(property="document_section", type="string", example="Some document section"),
  *             @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
@@ -110,7 +140,33 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="actual_document_page", type="integer", example=123),
  *             @OA\Property(property="document_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             )),
+ *             @OA\Property(property="sub_operations", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
+ *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *                 @OA\Property(property="designation", type="string", example="Some designation"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="document_section", type="string", example="Some document section"),
+ *                 @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
+ *                 @OA\Property(property="start_document_page", type="integer", example=100),
+ *                 @OA\Property(property="end_document_page", type="integer", example=101),
+ *                 @OA\Property(property="actual_document_page", type="integer", example=123),
+ *                 @OA\Property(property="document_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="sub_operations", type="array", @OA\Items())
+ *             ))
  *         )
  *     )
  * ),
@@ -136,6 +192,7 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="code", type="string", example="Some code for edit"),
  *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name for edit"),
  *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name for edit"),
+ *                     @OA\Property(property="designation", type="string", example="Some designation for edit"),
  *                     @OA\Property(property="description", type="string", example="Some description for edit"),
  *                     @OA\Property(property="document_section", type="string", example="Some document section for edit"),
  *                     @OA\Property(property="document_subsection", type="string", example="Some document subsection for edit"),
@@ -156,6 +213,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="code", type="string", example="Some code"),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *             @OA\Property(property="designation", type="string", example="Some designation"),
  *             @OA\Property(property="description", type="string", example="Some description"),
  *             @OA\Property(property="document_section", type="string", example="Some document section"),
  *             @OA\Property(property="document_subsection", type="string", example="Some document subsection"),

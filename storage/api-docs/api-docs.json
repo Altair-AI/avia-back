@@ -527,7 +527,7 @@
                     "Работы (операции)"
                 ],
                 "summary": "Получить список всех работ",
-                "description": "Для супер-администратора возвращает список всех работ (операций) РУН, созданных в системе. Для администратора возвращает список только тех работ (операций) РУН, принадлежащих определенным техническим системам, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+                "description": "Для супер-администратора возвращает список всех работ (операций) РУН вместе с иерархией их под-работ, созданных в системе. Для администратора возвращает список только тех работ (операций) РУН вместе с иерархией их под-работ, принадлежащих определенным техническим системам, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -552,6 +552,10 @@
                                             "verbal_name": {
                                                 "type": "string",
                                                 "example": "Some verbal name"
+                                            },
+                                            "designation": {
+                                                "type": "string",
+                                                "example": "Some designation"
                                             },
                                             "description": {
                                                 "type": "string",
@@ -590,6 +594,114 @@
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "technical_systems": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "Some code"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "parent_technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "sub_operations": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "Some code"
+                                                        },
+                                                        "imperative_name": {
+                                                            "type": "string",
+                                                            "example": "Some imperative name"
+                                                        },
+                                                        "verbal_name": {
+                                                            "type": "string",
+                                                            "example": "Some verbal name"
+                                                        },
+                                                        "designation": {
+                                                            "type": "string",
+                                                            "example": "Some designation"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "document_section": {
+                                                            "type": "string",
+                                                            "example": "Some document section"
+                                                        },
+                                                        "document_subsection": {
+                                                            "type": "string",
+                                                            "example": "Some document subsection"
+                                                        },
+                                                        "start_document_page": {
+                                                            "type": "integer",
+                                                            "example": 100
+                                                        },
+                                                        "end_document_page": {
+                                                            "type": "integer",
+                                                            "example": 101
+                                                        },
+                                                        "actual_document_page": {
+                                                            "type": "integer",
+                                                            "example": 123
+                                                        },
+                                                        "document_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "sub_operations": {
+                                                            "type": "array",
+                                                            "items": {}
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
                                             }
                                         },
                                         "type": "object"
@@ -628,6 +740,10 @@
                                             "verbal_name": {
                                                 "type": "string",
                                                 "example": "Some verbal name"
+                                            },
+                                            "designation": {
+                                                "type": "string",
+                                                "example": "Some designation"
                                             },
                                             "description": {
                                                 "type": "string",
@@ -687,6 +803,10 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
+                                        },
+                                        "designation": {
+                                            "type": "string",
+                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
@@ -746,7 +866,7 @@
                     "Работы (операции)"
                 ],
                 "summary": "Получить единичную работу",
-                "description": "Для супер-администратора возвращает любую работу (операцию) РУН, созданную в системе. Для администратора возвращает работу (операцию) РУН, принадлежащую определенной технической системе, которые доступна в рамках проекта для той организации к которой принадлежит администратор.",
+                "description": "Для супер-администратора возвращает любую работу (операцию) РУН вместе с иерархией под-работ, созданную в системе. Для администратора возвращает работу (операцию) РУН вместе с иерархией под-работ, принадлежащую определенной технической системе, которые доступна в рамках проекта для той организации к которой принадлежит администратор.",
                 "parameters": [
                     {
                         "name": "operation",
@@ -778,6 +898,10 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
+                                        },
+                                        "designation": {
+                                            "type": "string",
+                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
@@ -816,6 +940,114 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_systems": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "sub_operations": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "imperative_name": {
+                                                        "type": "string",
+                                                        "example": "Some imperative name"
+                                                    },
+                                                    "verbal_name": {
+                                                        "type": "string",
+                                                        "example": "Some verbal name"
+                                                    },
+                                                    "designation": {
+                                                        "type": "string",
+                                                        "example": "Some designation"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "document_section": {
+                                                        "type": "string",
+                                                        "example": "Some document section"
+                                                    },
+                                                    "document_subsection": {
+                                                        "type": "string",
+                                                        "example": "Some document subsection"
+                                                    },
+                                                    "start_document_page": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    },
+                                                    "end_document_page": {
+                                                        "type": "integer",
+                                                        "example": 101
+                                                    },
+                                                    "actual_document_page": {
+                                                        "type": "integer",
+                                                        "example": 123
+                                                    },
+                                                    "document_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "sub_operations": {
+                                                        "type": "array",
+                                                        "items": {}
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -862,6 +1094,10 @@
                                             "verbal_name": {
                                                 "type": "string",
                                                 "example": "Some verbal name for edit"
+                                            },
+                                            "designation": {
+                                                "type": "string",
+                                                "example": "Some designation for edit"
                                             },
                                             "description": {
                                                 "type": "string",
@@ -921,6 +1157,10 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
+                                        },
+                                        "designation": {
+                                            "type": "string",
+                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",

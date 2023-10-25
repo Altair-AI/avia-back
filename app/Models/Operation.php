@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -15,12 +16,13 @@ use Illuminate\Support\Carbon;
  * @property string $code
  * @property string $imperative_name
  * @property string $verbal_name
+ * @property string|null $designation
  * @property string|null $description
  * @property string $document_section
  * @property string $document_subsection
  * @property int $start_document_page
- * @property int $end_document_page
- * @property int $actual_document_page
+ * @property int|null $end_document_page
+ * @property int|null $actual_document_page
  * @property int $document_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -40,6 +42,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Operation whereCode($value)
  * @method static Builder|Operation whereCreatedAt($value)
  * @method static Builder|Operation whereDescription($value)
+ * @method static Builder|Operation whereDesignation($value)
  * @method static Builder|Operation whereDocumentId($value)
  * @method static Builder|Operation whereDocumentSection($value)
  * @method static Builder|Operation whereDocumentSubSection($value)
@@ -54,6 +57,8 @@ use Illuminate\Support\Carbon;
 class Operation extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['pivot'];
 
     /**
      * The table associated with the model.
@@ -71,6 +76,7 @@ class Operation extends Model
         'code',
         'imperative_name',
         'verbal_name',
+        'designation',
         'description',
         'document_section',
         'document_subsection',
@@ -83,6 +89,20 @@ class Operation extends Model
     public function document()
     {
         return $this->belongsTo(Document::class);
+    }
+
+    public function technical_system_operations()
+    {
+        return $this->hasMany(TechnicalSystemOperation::class, 'operation_id');
+    }
+
+    /**
+     * Получить все технические системы на которые направлена данная работа (операция).
+     */
+    public function technical_systems()
+    {
+        return $this->belongsToMany(TechnicalSystem::class, 'technical_system_operation',
+            'operation_id', 'technical_system_id');
     }
 
     public function operation_instruments()
@@ -108,6 +128,23 @@ class Operation extends Model
     public function child_operations()
     {
         return $this->hasMany(OperationHierarchy::class, 'child_operation_id');
+    }
+
+    /**
+     * Получить все подработы (подопераций) для текущей работы.
+     */
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'operation_hierarchy',
+            'parent_operation_id', 'child_operation_id');
+    }
+
+    /**
+     * Возвращает всю иерархию подработ (подопераций) для текущей работы.
+     */
+    public function sub_operations()
+    {
+        return $this->operations()->with('sub_operations');
     }
 
     public function completed_operations()

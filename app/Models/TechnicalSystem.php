@@ -53,6 +53,8 @@ class TechnicalSystem extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['pivot'];
+
     /**
      * The table associated with the model.
      *
@@ -116,6 +118,20 @@ class TechnicalSystem extends Model
     public function technical_system_documents()
     {
         return $this->hasMany(TechnicalSystemDocument::class, 'technical_system_id');
+    }
+
+    public function technical_system_operations()
+    {
+        return $this->hasMany(TechnicalSystemOperation::class, 'technical_system_id');
+    }
+
+    /**
+     * Получить все работы (операции), относящиеся к данной технической системе.
+     */
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'technical_system_operation',
+            'technical_system_id', 'operation_id');
     }
 
     public function malfunction_codes()

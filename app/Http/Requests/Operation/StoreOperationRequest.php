@@ -24,9 +24,10 @@ class StoreOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:255|unique:operation',
+            'code' => 'required|string|max:255',
             'imperative_name' => 'nullable|string',
             'verbal_name' => 'required|string',
+            'designation' => 'nullable|string',
             'description' => 'nullable|string',
             'document_section' => 'required|string|max:255',
             'document_subsection' => 'required|string|max:255',
