@@ -32,8 +32,7 @@ class TechnicalSystemController extends Controller
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
             foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $item) {
                 $technical_system = $item->toArray();
-                $technical_system['grandchildren_technical_systems'] = TechnicalSystem::find(
-                    $item->id)->grandchildren_technical_systems;
+                $technical_system['grandchildren_technical_systems'] = $item->grandchildren_technical_systems;
                 array_push($technical_systems, $technical_system);
             }
         }
