@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TechnicalSystemController;
 use App\Http\Controllers\UserController;
@@ -26,6 +27,7 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 });
 
 Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], function () {
+    Route::apiResource('organizations', OrganizationController::class)->middleware('jwt.auth');
     Route::apiResource('users', UserController::class)->middleware('jwt.auth');
     Route::apiResource('technical-systems', TechnicalSystemController::class)
         ->middleware('jwt.auth');

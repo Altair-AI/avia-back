@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.0.1"
+        "version": "1.0.2"
     },
     "paths": {
         "/api/": {},
@@ -1223,6 +1223,626 @@
                         "name": "operation",
                         "in": "path",
                         "description": "id работы (операции)",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/organizations": {
+            "get": {
+                "tags": [
+                    "Организации"
+                ],
+                "summary": "Получить список всех организаций",
+                "description": "Возвращает список всех организаций, созданных в системе (только для супер-администратора).",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "actual_address": {
+                                                "type": "string",
+                                                "example": "Some actual address"
+                                            },
+                                            "legal_address": {
+                                                "type": "string",
+                                                "example": "Some legal address"
+                                            },
+                                            "tin": {
+                                                "type": "string",
+                                                "example": "Some tin"
+                                            },
+                                            "rboc": {
+                                                "type": "string",
+                                                "example": "Some rboc"
+                                            },
+                                            "psrn": {
+                                                "type": "string",
+                                                "example": "Some psrn"
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "Some phone"
+                                            },
+                                            "bank_account": {
+                                                "type": "string",
+                                                "example": "Some bank account"
+                                            },
+                                            "bank_name": {
+                                                "type": "string",
+                                                "example": "Some bank name"
+                                            },
+                                            "bik": {
+                                                "type": "string",
+                                                "example": "Some bik"
+                                            },
+                                            "correspondent_account": {
+                                                "type": "string",
+                                                "example": "Some correspondent account"
+                                            },
+                                            "full_director_name": {
+                                                "type": "string",
+                                                "example": "Some full director name"
+                                            },
+                                            "treaty_number": {
+                                                "type": "string",
+                                                "example": "Some treaty number"
+                                            },
+                                            "treaty_date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Организации"
+                ],
+                "summary": "Создание новой организации",
+                "description": "Создание новой организации доступно только супер-администратору.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "actual_address": {
+                                                "type": "string",
+                                                "example": "Some actual address"
+                                            },
+                                            "legal_address": {
+                                                "type": "string",
+                                                "example": "Some legal address"
+                                            },
+                                            "tin": {
+                                                "type": "string",
+                                                "example": "Some tin"
+                                            },
+                                            "rboc": {
+                                                "type": "string",
+                                                "example": "Some rboc"
+                                            },
+                                            "psrn": {
+                                                "type": "string",
+                                                "example": "Some psrn"
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "Some phone"
+                                            },
+                                            "bank_account": {
+                                                "type": "string",
+                                                "example": "Some bank account"
+                                            },
+                                            "bank_name": {
+                                                "type": "string",
+                                                "example": "Some bank name"
+                                            },
+                                            "bik": {
+                                                "type": "string",
+                                                "example": "Some bik"
+                                            },
+                                            "correspondent_account": {
+                                                "type": "string",
+                                                "example": "Some correspondent account"
+                                            },
+                                            "full_director_name": {
+                                                "type": "string",
+                                                "example": "Some full director name"
+                                            },
+                                            "treaty_number": {
+                                                "type": "string",
+                                                "example": "Some treaty number"
+                                            },
+                                            "treaty_date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "actual_address": {
+                                            "type": "string",
+                                            "example": "Some actual address"
+                                        },
+                                        "legal_address": {
+                                            "type": "string",
+                                            "example": "Some legal address"
+                                        },
+                                        "tin": {
+                                            "type": "string",
+                                            "example": "Some tin"
+                                        },
+                                        "rboc": {
+                                            "type": "string",
+                                            "example": "Some rboc"
+                                        },
+                                        "psrn": {
+                                            "type": "string",
+                                            "example": "Some psrn"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "Some phone"
+                                        },
+                                        "bank_account": {
+                                            "type": "string",
+                                            "example": "Some bank account"
+                                        },
+                                        "bank_name": {
+                                            "type": "string",
+                                            "example": "Some bank name"
+                                        },
+                                        "bik": {
+                                            "type": "string",
+                                            "example": "Some bik"
+                                        },
+                                        "correspondent_account": {
+                                            "type": "string",
+                                            "example": "Some correspondent account"
+                                        },
+                                        "full_director_name": {
+                                            "type": "string",
+                                            "example": "Some full director name"
+                                        },
+                                        "treaty_number": {
+                                            "type": "string",
+                                            "example": "Some treaty number"
+                                        },
+                                        "treaty_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/organizations/{organization}": {
+            "get": {
+                "tags": [
+                    "Организации"
+                ],
+                "summary": "Получить единичную организацию",
+                "description": "Для супер-администратора возвращает любую организацию, созданную в системе. Для администратора возвращает только ту организацию к которой принадлежит сам администратор.",
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "description": "id организации",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "actual_address": {
+                                            "type": "string",
+                                            "example": "Some actual address"
+                                        },
+                                        "legal_address": {
+                                            "type": "string",
+                                            "example": "Some legal address"
+                                        },
+                                        "tin": {
+                                            "type": "string",
+                                            "example": "Some tin"
+                                        },
+                                        "rboc": {
+                                            "type": "string",
+                                            "example": "Some rboc"
+                                        },
+                                        "psrn": {
+                                            "type": "string",
+                                            "example": "Some psrn"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "Some phone"
+                                        },
+                                        "bank_account": {
+                                            "type": "string",
+                                            "example": "Some bank account"
+                                        },
+                                        "bank_name": {
+                                            "type": "string",
+                                            "example": "Some bank name"
+                                        },
+                                        "bik": {
+                                            "type": "string",
+                                            "example": "Some bik"
+                                        },
+                                        "correspondent_account": {
+                                            "type": "string",
+                                            "example": "Some correspondent account"
+                                        },
+                                        "full_director_name": {
+                                            "type": "string",
+                                            "example": "Some full director name"
+                                        },
+                                        "treaty_number": {
+                                            "type": "string",
+                                            "example": "Some treaty number"
+                                        },
+                                        "treaty_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Организации"
+                ],
+                "summary": "Обновить организацию",
+                "description": "Обновление данных по организации доступно только супер-администратору.",
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "description": "id организации",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name for edit"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description for edit"
+                                            },
+                                            "actual_address": {
+                                                "type": "string",
+                                                "example": "Some actual address for edit"
+                                            },
+                                            "legal_address": {
+                                                "type": "string",
+                                                "example": "Some legal address for edit"
+                                            },
+                                            "tin": {
+                                                "type": "string",
+                                                "example": "Some tin for edit"
+                                            },
+                                            "rboc": {
+                                                "type": "string",
+                                                "example": "Some rboc for edit"
+                                            },
+                                            "psrn": {
+                                                "type": "string",
+                                                "example": "Some psrn for edit"
+                                            },
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "Some phone for edit"
+                                            },
+                                            "bank_account": {
+                                                "type": "string",
+                                                "example": "Some bank account for edit"
+                                            },
+                                            "bank_name": {
+                                                "type": "string",
+                                                "example": "Some bank name for edit"
+                                            },
+                                            "bik": {
+                                                "type": "string",
+                                                "example": "Some bik for edit"
+                                            },
+                                            "correspondent_account": {
+                                                "type": "string",
+                                                "example": "Some correspondent account for edit"
+                                            },
+                                            "full_director_name": {
+                                                "type": "string",
+                                                "example": "Some full director name for edit"
+                                            },
+                                            "treaty_number": {
+                                                "type": "string",
+                                                "example": "Some treaty number for edit"
+                                            },
+                                            "treaty_date": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-20"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "actual_address": {
+                                            "type": "string",
+                                            "example": "Some actual address"
+                                        },
+                                        "legal_address": {
+                                            "type": "string",
+                                            "example": "Some legal address"
+                                        },
+                                        "tin": {
+                                            "type": "string",
+                                            "example": "Some tin"
+                                        },
+                                        "rboc": {
+                                            "type": "string",
+                                            "example": "Some rboc"
+                                        },
+                                        "psrn": {
+                                            "type": "string",
+                                            "example": "Some psrn"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "Some phone"
+                                        },
+                                        "bank_account": {
+                                            "type": "string",
+                                            "example": "Some bank account"
+                                        },
+                                        "bank_name": {
+                                            "type": "string",
+                                            "example": "Some bank name"
+                                        },
+                                        "bik": {
+                                            "type": "string",
+                                            "example": "Some bik"
+                                        },
+                                        "correspondent_account": {
+                                            "type": "string",
+                                            "example": "Some correspondent account"
+                                        },
+                                        "full_director_name": {
+                                            "type": "string",
+                                            "example": "Some full director name"
+                                        },
+                                        "treaty_number": {
+                                            "type": "string",
+                                            "example": "Some treaty number"
+                                        },
+                                        "treaty_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-20T01:50:10.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Организации"
+                ],
+                "summary": "Удалить организацию",
+                "description": "Удаление организации доступно только супер-администратору.",
+                "parameters": [
+                    {
+                        "name": "organization",
+                        "in": "path",
+                        "description": "id организации",
                         "required": true,
                         "example": 1
                     }
