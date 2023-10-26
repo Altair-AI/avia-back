@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
 use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
 use App\Models\User;
@@ -13,6 +14,7 @@ class RuleBasedKnowledgeBaseSeeder extends Seeder
 {
     public function run()
     {
+        // Создание базы знаний правил для самолета по умолчанию
         DB::table('rule_based_knowledge_base')->insert([
             'name' => 'База знаний с правилами для самолета',
             'description' => 'Описание базы знаний с правилами для самолета',
@@ -20,6 +22,13 @@ class RuleBasedKnowledgeBaseSeeder extends Seeder
             'correctness' => RuleBasedKnowledgeBase::CORRECT_TYPE,
             'author' => User::first()->id,
             'technical_system_id' => TechnicalSystem::first()->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        // Создание связи базы знаний правил для самолета с тестовым проектом
+        DB::table('rule_based_knowledge_base_project')->insert([
+            'rule_based_knowledge_base_id' => RuleBasedKnowledgeBase::first()->id,
+            'project_id' => Project::first()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
