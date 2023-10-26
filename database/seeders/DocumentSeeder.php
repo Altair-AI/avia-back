@@ -24,8 +24,8 @@ class DocumentSeeder extends Seeder
         ]);
         // Создание связи документа с технической системой (самолетом)
         DB::table('technical_system_document')->insert([
-            'document_id' => Document::all()->first()->id,
-            'technical_system_id' => TechnicalSystem::all()->first()->id,
+            'document_id' => Document::first()->id,
+            'technical_system_id' => TechnicalSystem::first()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
