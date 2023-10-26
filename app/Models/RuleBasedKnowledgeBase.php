@@ -50,6 +50,8 @@ class RuleBasedKnowledgeBase extends Model
     const CORRECT_TYPE = 0;   // Корректная база знаний (проверена экспертом и может быть использована техниками)
     const INCORRECT_TYPE = 1; // Некорректная база знаний (не проверена экспертом и не может использоваться техниками)
 
+    protected $hidden = ['pivot'];
+
     /**
      * The table associated with the model.
      *
@@ -84,6 +86,15 @@ class RuleBasedKnowledgeBase extends Model
     public function rule_based_knowledge_base_projects()
     {
         return $this->hasMany(RuleBasedKnowledgeBaseProject::class, 'rule_based_knowledge_base_id');
+    }
+
+    /**
+     * Получить все проекты в которых используется данная база знаний с правилами.
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'rule_based_knowledge_base_project',
+            'rule_based_knowledge_base_id', 'project_id');
     }
 
     public function malfunction_cause_rules()

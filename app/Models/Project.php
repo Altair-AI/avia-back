@@ -49,6 +49,8 @@ class Project extends Model
     const READY_TO_USE_STATUS = 1;  // Готов к использованию (формирование проекта завершено и он готов к работе)
     const OUTDATED_STATUS = 2;      // Устаревший (неактуальный проект с устаревшими или некорректными данными)
 
+    protected $hidden = ['pivot'];
+
     /**
      * The table associated with the model.
      *
@@ -92,5 +94,14 @@ class Project extends Model
     public function rule_based_knowledge_base_projects()
     {
         return $this->hasMany(RuleBasedKnowledgeBaseProject::class, 'project_id');
+    }
+
+    /**
+     * Получить все базы знаний с правилами, доступных в рамках данного проекта.
+     */
+    public function rule_based_knowledge_bases()
+    {
+        return $this->belongsToMany(RuleBasedKnowledgeBase::class, 'rule_based_knowledge_base_project',
+            'project_id', 'rule_based_knowledge_base_id');
     }
 }
