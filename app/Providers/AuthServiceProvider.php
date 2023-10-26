@@ -6,12 +6,14 @@ use App\Models\Document;
 use App\Models\Operation;
 use App\Models\Organization;
 use App\Models\Project;
+use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
 use App\Models\User;
 use App\Policies\DocumentPolicy;
 use App\Policies\OperationPolicy;
 use App\Policies\OrganizationPolicy;
 use App\Policies\ProjectPolicy;
+use App\Policies\RuleBasedKnowledgeBasePolicy;
 use App\Policies\TechnicalSystemPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -28,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Organization::class => OrganizationPolicy::class,
         Operation::class => OperationPolicy::class,
         Project::class => ProjectPolicy::class,
+        RuleBasedKnowledgeBase::class => RuleBasedKnowledgeBasePolicy::class,
         TechnicalSystem::class => TechnicalSystemPolicy::class,
         User::class => UserPolicy::class,
     ];
