@@ -18,7 +18,7 @@ class UserPolicy
     {
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
-        if ($user->role === User::ADMIN_ROLE and $user->organization->id == $model->organization_id)
+        if ($user->role === User::ADMIN_ROLE and $user->organization_id === $model->organization_id)
             if ($model->role === User::ADMIN_ROLE or $model->role === User::TECHNICIAN_ROLE)
                 return true;
         return false;
@@ -54,7 +54,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role === User::SUPER_ADMIN_ROLE;
+        return $user->role === User::SUPER_ADMIN_ROLE or $user->role === User::ADMIN_ROLE;
     }
 
     /**

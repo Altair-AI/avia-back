@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\RegisterTechnicianRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
@@ -29,17 +28,13 @@ class UserController extends Controller
     public function index()
     {
         $users = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $users = User::with('organization')->get();
-        if (auth()->user()->role == User::ADMIN_ROLE) {
-            array_push($users, User::with('organization')->find(auth()->user()->id)->toArray());
-            $models = User::with('organization')->where([
-                ['role', User::TECHNICIAN_ROLE],
-                ['organization_id', auth()->user()->organization->id]
-            ])->get();
-            foreach ($models as $model)
-                array_push($users, $model->toArray());
-        }
+        if (auth()->user()->role === User::ADMIN_ROLE)
+            $users = User::with('organization')
+                ->whereIn('role', [User::ADMIN_ROLE, User::TECHNICIAN_ROLE])
+                ->where('organization_id', auth()->user()->organization->id)
+                ->get();
         return response()->json($users);
     }
 
@@ -51,9 +46,11 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $validated = $request->validated();
+        $validated = $request->safe()->except(['organization_id']);
+        $organization_id = $request->safe()->only(['organization_id']);
         $user = User::create(array_merge(
             $validated,
+            ['organization_id' => $organization_id ? $organization_id !== null : auth()->user()->organization_id],
             [
                 'last_login_date' => Carbon::now(),
                 'login_ip' => '127.0.0.1',
@@ -99,35 +96,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $user->delete();
-            return response()->json(['id' => $user->id], 200);
-        }
-        return null;
-    }
-
-    /**
-     * Register a new User (technician).
-     *
-     * @param RegisterTechnicianRequest $request
-     * @return JsonResponse
-     */
-    public function registerTechnician(RegisterTechnicianRequest $request) {
-        $validated = $request->validated();
-        $user = User::create(array_merge(
-            $validated,
-            [
-                'password' => bcrypt($request->password),
-                'role' => User::TECHNICIAN_ROLE,
-                'status' => User::ACTIVE_STATUS,
-                'organization_id' => auth()->user()->organization->id,
-                'last_login_date' => Carbon::now(),
-                'login_ip' => '127.0.0.1',
-            ],
-        ));
-        return response()->json([
-            'message' => 'New user (technician) successfully registered.',
-            'user' => array_merge($user->toArray(), ['organization' => $user->organization])
-        ], 201);
+        $user->delete();
+        return response()->json(['id' => $user->id], 200);
     }
 }

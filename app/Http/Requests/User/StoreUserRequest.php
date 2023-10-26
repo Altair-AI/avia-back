@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return (auth()->user()->role == User::SUPER_ADMIN_ROLE);
+        return (auth()->user()->role == User::SUPER_ADMIN_ROLE or auth()->user()->role == User::ADMIN_ROLE);
     }
 
     /**
@@ -23,13 +23,20 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $role_rule = 'required|integer|between:0,2';
+        $organization_id_rule = 'required|integer';
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            $role_rule = 'required|integer|between:1,2';
+            $organization_id_rule = 'integer|in:' . auth()->user()->organization_id;
+        }
+
         return [
             'name' => 'required|string|between:2,100',
             'email' => 'required|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
-            'role' => 'required|integer',
-            'status' => 'required|integer',
-            'organization_id' => 'required|integer'
+            'role' => $role_rule,
+            'status' => 'required|integer|between:0,2',
+            'organization_id' => $organization_id_rule
         ];
     }
 }
