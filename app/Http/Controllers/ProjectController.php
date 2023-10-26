@@ -30,7 +30,7 @@ class ProjectController extends Controller
     {
         $projects = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            $projects = Project::all();
+            $projects = Project::with('technical_system')->with('rule_based_knowledge_bases')->get();
         if (auth()->user()->role == User::ADMIN_ROLE)
             foreach (Organization::find(auth()->user()->organization->id)->licenses as $license)
                 array_push($projects, $license->project->toArray());
@@ -47,7 +47,7 @@ class ProjectController extends Controller
     {
         $validated = $request->validated();
         $project = Project::create($validated);
-        return response()->json($project);
+        return response()->json(array_merge($project->toArray(), ['technical_system' => $project->technical_system]));
     }
 
     /**
@@ -58,7 +58,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return response()->json($project);
+        return response()->json(array_merge($project->toArray(), [
+            'technical_system' => $project->technical_system,
+            'rule_based_knowledge_bases' => $project->rule_based_knowledge_bases
+        ]));
     }
 
     /**
@@ -73,7 +76,7 @@ class ProjectController extends Controller
         $validated = $request->validated();
         $project->fill($validated);
         $project->save();
-        return response()->json($project);
+        return response()->json(array_merge($project->toArray(), ['technical_system' => $project->technical_system]));
     }
 
     /**
@@ -84,10 +87,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $project->delete();
-            return response()->json(['id' => $project->id], 200);
-        }
-        return null;
+        $project->delete();
+        return response()->json(['id' => $project->id], 200);
     }
 }

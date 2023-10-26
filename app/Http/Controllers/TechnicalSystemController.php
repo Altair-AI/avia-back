@@ -55,12 +55,9 @@ class TechnicalSystemController extends Controller
      */
     public function store(StoreTechnicalSystemRequest $request)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $technical_system = TechnicalSystem::create($validated);
-            return response()->json($technical_system);
-        }
-        return null;
+        $validated = $request->validated();
+        $technical_system = TechnicalSystem::create($validated);
+        return response()->json($technical_system);
     }
 
     /**
@@ -71,7 +68,9 @@ class TechnicalSystemController extends Controller
      */
     public function show(TechnicalSystem $technical_system)
     {
-        return response()->json($technical_system);
+        return response()->json(array_merge($technical_system->toArray(), [
+            'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
+        ]));
     }
 
     /**
@@ -83,13 +82,10 @@ class TechnicalSystemController extends Controller
      */
     public function update(UpdateTechnicalSystemRequest $request, TechnicalSystem $technical_system)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $technical_system->fill($validated);
-            $technical_system->save();
-            return response()->json($technical_system);
-        }
-        return null;
+        $validated = $request->validated();
+        $technical_system->fill($validated);
+        $technical_system->save();
+        return response()->json($technical_system);
     }
 
     /**
@@ -100,10 +96,7 @@ class TechnicalSystemController extends Controller
      */
     public function destroy(TechnicalSystem $technical_system)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $technical_system->delete();
-            return response()->json(['id' => $technical_system->id], 200);
-        }
-        return null;
+        $technical_system->delete();
+        return response()->json(['id' => $technical_system->id], 200);
     }
 }

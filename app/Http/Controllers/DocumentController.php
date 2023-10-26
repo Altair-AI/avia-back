@@ -28,12 +28,10 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
             $documents = Document::all();
-        }
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role == User::ADMIN_ROLE)
             $documents = Document::all();
-        }
         return response()->json($documents);
     }
 
@@ -45,12 +43,9 @@ class DocumentController extends Controller
      */
     public function store(StoreDocumentRequest $request)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $document = Document::create($validated);
-            return response()->json($document);
-        }
-        return null;
+        $validated = $request->validated();
+        $document = Document::create($validated);
+        return response()->json($document);
     }
 
     /**
@@ -73,13 +68,10 @@ class DocumentController extends Controller
      */
     public function update(UpdateDocumentRequest $request, Document $document)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $document->fill($validated);
-            $document->save();
-            return response()->json($document);
-        }
-        return null;
+        $validated = $request->validated();
+        $document->fill($validated);
+        $document->save();
+        return response()->json($document);
     }
 
     /**
@@ -90,10 +82,7 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $document->delete();
-            return response()->json(['id' => $document->id], 200);
-        }
-        return null;
+        $document->delete();
+        return response()->json(['id' => $document->id], 200);
     }
 }
