@@ -30,7 +30,8 @@ class OperationController extends Controller
     {
         $operations = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            $operations = Operation::with('technical_systems')->with('sub_operations')->get();
+            $operations = Operation::with('technical_systems')->with('malfunction_codes')
+                ->with('sub_operations')->get();
         if (auth()->user()->role == User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
@@ -43,6 +44,7 @@ class OperationController extends Controller
                         if ($technical_system->code == $technical_system_code)
                             array_push($operations, array_merge($operation->toArray(), [
                                 'technical_systems' => $operation->technical_systems,
+                                'malfunction_codes' => $operation->malfunction_codes,
                                 'sub_operations' => $operation->sub_operations
                             ]));
         }
@@ -72,6 +74,7 @@ class OperationController extends Controller
     {
         return response()->json(array_merge($operation->toArray(), [
             'technical_systems' => $operation->technical_systems,
+            'malfunction_codes' => $operation->malfunction_codes,
             'sub_operations' => $operation->sub_operations
         ]));
     }

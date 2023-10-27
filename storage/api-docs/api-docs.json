@@ -705,6 +705,48 @@
                                                     "type": "object"
                                                 }
                                             },
+                                            "malfunction_codes": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "type": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "source": {
+                                                            "type": "string",
+                                                            "example": "Some source"
+                                                        },
+                                                        "alternative_name": {
+                                                            "type": "string",
+                                                            "example": "Some alternative name"
+                                                        },
+                                                        "technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
                                             "sub_operations": {
                                                 "type": "array",
                                                 "items": {
@@ -1020,6 +1062,48 @@
                                                     "parent_technical_system_id": {
                                                         "type": "integer",
                                                         "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "malfunction_codes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "type": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "source": {
+                                                        "type": "string",
+                                                        "example": "Some source"
+                                                    },
+                                                    "alternative_name": {
+                                                        "type": "string",
+                                                        "example": "Some alternative name"
+                                                    },
+                                                    "technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": 2
                                                     },
                                                     "created_at": {
                                                         "type": "string",
