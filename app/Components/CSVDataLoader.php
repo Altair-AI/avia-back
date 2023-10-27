@@ -322,4 +322,58 @@ class CSVDataLoader
         }
         return $encoding ? mb_convert_encoding($malfunction_codes, 'utf-8', 'windows-1251') : $malfunction_codes;
     }
+
+    /**
+     * Get source data on malfunction causes and store this data in database.
+     *
+     * @param int $knowledge_base_id - id target rule based knowledge base
+     * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
+     * @return array|false|string|string[]|null
+     */
+    public function create_malfunction_cause_rules(int $knowledge_base_id, bool $encoding = false) {
+        $malfunction_causes = [];
+        // Пусть к csv-файлу с причинами неисправностей
+        $file = resource_path() . '/csv/malfunction_causes.csv';
+        // Открываем файл с CSV-данными
+        $fh = fopen($file, "r");
+        // Делаем пропуск первой строки, смещая указатель на одну строку
+        fgetcsv($fh, 0, ';');
+        // Читаем построчно содержимое CSV-файла
+        while (($row = fgetcsv($fh, 0, ';')) !== false) {
+            list($operation_code, $cause) = $row;
+            array_push($malfunction_causes, [$operation_code, $cause]);
+
+            // Поиск работы (операции) по коду
+            $operation = Operation::where('code', $operation_code)->first();
+            // Если работа найдена
+            if ($operation) {
+                // Создание нового правила для базы знаний правил в БД
+                $malfunction_cause_rule_id = DB::table('malfunction_cause_rule')->insertGetId([
+                    'description' => null,
+                    'cause' => $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause,
+                    'document_id' => $operation->document_id,
+                    'rule_based_knowledge_base_id' => $knowledge_base_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                // Создание условий для правила (коды неисправности для правила)
+                foreach ($operation->malfunction_codes as $malfunction_code)
+                    DB::table('malfunction_cause_rule_if')->insert([
+                        'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
+                        'malfunction_code_id' => $malfunction_code->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                // Создание действий для правила (системы, которые соответствуют кодам неисправности для правила)
+                foreach ($operation->technical_systems as $technical_system)
+                    DB::table('malfunction_cause_rule_then')->insert([
+                        'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
+                        'technical_system_id' => $technical_system->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+            }
+        }
+        return $encoding ? mb_convert_encoding($malfunction_causes, 'utf-8', 'windows-1251') : $malfunction_causes;
+    }
 }
