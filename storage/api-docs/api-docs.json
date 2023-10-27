@@ -1923,42 +1923,39 @@
                                                 "example": "2023-09-15T01:52:11.000000Z"
                                             },
                                             "technical_system": {
-                                                "type": "array",
-                                                "items": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 1
-                                                        },
-                                                        "code": {
-                                                            "type": "string",
-                                                            "example": "Some code"
-                                                        },
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "Some name"
-                                                        },
-                                                        "description": {
-                                                            "type": "string",
-                                                            "example": "Some description"
-                                                        },
-                                                        "parent_technical_system_id": {
-                                                            "type": "integer",
-                                                            "example": null
-                                                        },
-                                                        "created_at": {
-                                                            "type": "string",
-                                                            "format": "date-time",
-                                                            "example": "2023-09-15T01:52:11.000000Z"
-                                                        },
-                                                        "updated_at": {
-                                                            "type": "string",
-                                                            "format": "date-time",
-                                                            "example": "2023-09-15T01:52:11.000000Z"
-                                                        }
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
                                                     },
-                                                    "type": "object"
-                                                }
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
                                             },
                                             "rule_based_knowledge_bases": {
                                                 "type": "array",
@@ -2102,42 +2099,39 @@
                                             "example": "2023-09-15T01:52:11.000000Z"
                                         },
                                         "technical_system": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "code": {
-                                                        "type": "string",
-                                                        "example": "Some code"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Some name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "Some description"
-                                                    },
-                                                    "parent_technical_system_id": {
-                                                        "type": "integer",
-                                                        "example": null
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    }
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
-                                                "type": "object"
-                                            }
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2211,42 +2205,39 @@
                                             "example": "2023-09-15T01:52:11.000000Z"
                                         },
                                         "technical_system": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "code": {
-                                                        "type": "string",
-                                                        "example": "Some code"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Some name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "Some description"
-                                                    },
-                                                    "parent_technical_system_id": {
-                                                        "type": "integer",
-                                                        "example": null
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    }
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
-                                                "type": "object"
-                                            }
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
                                         "rule_based_knowledge_bases": {
                                             "type": "array",
@@ -2398,42 +2389,39 @@
                                             "example": "2023-09-15T01:52:11.000000Z"
                                         },
                                         "technical_system": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "code": {
-                                                        "type": "string",
-                                                        "example": "Some code"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Some name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "Some description"
-                                                    },
-                                                    "parent_technical_system_id": {
-                                                        "type": "integer",
-                                                        "example": null
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    }
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
-                                                "type": "object"
-                                            }
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

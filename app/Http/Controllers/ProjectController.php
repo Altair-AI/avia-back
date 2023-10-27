@@ -32,8 +32,11 @@ class ProjectController extends Controller
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
             $projects = Project::with('technical_system')->with('rule_based_knowledge_bases')->get();
         if (auth()->user()->role == User::ADMIN_ROLE)
-            foreach (Organization::find(auth()->user()->organization->id)->licenses as $license)
-                array_push($projects, $license->project->toArray());
+            foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
+                array_push($projects, array_merge($project->toArray(), [
+                    'technical_system' => $project->technical_system,
+                    'rule_based_knowledge_bases' => $project->rule_based_knowledge_bases
+                ]));
         return response()->json($projects);
     }
 
