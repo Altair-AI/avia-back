@@ -629,10 +629,6 @@
                                                 "type": "string",
                                                 "example": "Some verbal name"
                                             },
-                                            "designation": {
-                                                "type": "string",
-                                                "example": "Some designation"
-                                            },
                                             "description": {
                                                 "type": "string",
                                                 "example": "Some description"
@@ -729,10 +725,6 @@
                                                             "type": "string",
                                                             "example": "Some verbal name"
                                                         },
-                                                        "designation": {
-                                                            "type": "string",
-                                                            "example": "Some designation"
-                                                        },
                                                         "description": {
                                                             "type": "string",
                                                             "example": "Some description"
@@ -817,10 +809,6 @@
                                                 "type": "string",
                                                 "example": "Some verbal name"
                                             },
-                                            "designation": {
-                                                "type": "string",
-                                                "example": "Some designation"
-                                            },
                                             "description": {
                                                 "type": "string",
                                                 "example": "Some description"
@@ -879,10 +867,6 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
-                                        },
-                                        "designation": {
-                                            "type": "string",
-                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
@@ -974,10 +958,6 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
-                                        },
-                                        "designation": {
-                                            "type": "string",
-                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
@@ -1075,10 +1055,6 @@
                                                         "type": "string",
                                                         "example": "Some verbal name"
                                                     },
-                                                    "designation": {
-                                                        "type": "string",
-                                                        "example": "Some designation"
-                                                    },
                                                     "description": {
                                                         "type": "string",
                                                         "example": "Some description"
@@ -1171,10 +1147,6 @@
                                                 "type": "string",
                                                 "example": "Some verbal name for edit"
                                             },
-                                            "designation": {
-                                                "type": "string",
-                                                "example": "Some designation for edit"
-                                            },
                                             "description": {
                                                 "type": "string",
                                                 "example": "Some description for edit"
@@ -1233,10 +1205,6 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
-                                        },
-                                        "designation": {
-                                            "type": "string",
-                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
