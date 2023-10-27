@@ -26,8 +26,8 @@ class TechnicalSystemPolicy
             // Получение id всех технических систем или объектов для вложенного массива (иерархии) технических систем
             $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
             // Поиск совпадения идентификаторов
-            foreach ($technical_system_ids as $id)
-                if ($technical_system->id == $id)
+            foreach ($technical_system_ids as $technical_system_id)
+                if ($technical_system->id == $technical_system_id)
                     return true;
         }
         return false;

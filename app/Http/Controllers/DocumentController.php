@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Helper;
 use App\Models\Document;
 use App\Http\Requests\Document\StoreDocumentRequest;
 use App\Http\Requests\Document\UpdateDocumentRequest;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -29,9 +31,21 @@ class DocumentController extends Controller
     {
         $documents = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            $documents = Document::all();
-        if (auth()->user()->role == User::ADMIN_ROLE)
-            $documents = Document::all();
+            $documents = Document::with('technical_systems')->get();
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+            // Получение всех id технических систем или объектов для вложенного массива (иерархии) технических систем
+            $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
+            // Получение списка технических систем для документов доступных администратору
+            foreach (Document::all() as $document)
+                foreach ($technical_system_ids as $technical_system_id)
+                    foreach ($document->technical_systems as $technical_system)
+                        if ($technical_system->id == $technical_system_id)
+                            array_push($documents, array_merge($document->toArray(), [
+                                'technical_systems' => $document->technical_systems
+                            ]));
+        }
         return response()->json($documents);
     }
 
@@ -56,7 +70,9 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        return response()->json($document);
+        return response()->json(array_merge($document->toArray(), [
+            'technical_systems' => $document->technical_systems
+        ]));
     }
 
     /**

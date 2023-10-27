@@ -29,21 +29,18 @@ class TechnicalSystemController extends Controller
     public function index()
     {
         $technical_systems = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $item) {
-                $technical_system = $item->toArray();
-                $technical_system['grandchildren_technical_systems'] = $item->grandchildren_technical_systems;
-                array_push($technical_systems, $technical_system);
-            }
-        }
-        if (auth()->user()->role == User::ADMIN_ROLE) {
-            foreach (Organization::find(auth()->user()->organization->id)->licenses as $license) {
-                $technical_system = $license->project->technical_system->toArray();
-                $technical_system['grandchildren_technical_systems'] = TechnicalSystem::find(
-                    $license->project->technical_system_id)->grandchildren_technical_systems;
-                array_push($technical_systems, $technical_system);
-            }
-        }
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+            foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $tech_sys)
+                array_push($technical_systems, array_merge($tech_sys->toArray(), [
+                    'documents' => $tech_sys->documents,
+                    'grandchildren_technical_systems' => $tech_sys->grandchildren_technical_systems
+                ]));
+        if (auth()->user()->role == User::ADMIN_ROLE)
+            foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
+                array_push($technical_systems, array_merge($project->technical_system->toArray(), [
+                    'documents' => $project->technical_system->documents,
+                    'grandchildren_technical_systems' => $project->technical_system->grandchildren_technical_systems
+                ]));
         return response()->json($technical_systems);
     }
 
@@ -69,6 +66,7 @@ class TechnicalSystemController extends Controller
     public function show(TechnicalSystem $technical_system)
     {
         return response()->json(array_merge($technical_system->toArray(), [
+            'documents' => $technical_system->documents,
             'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
         ]));
     }

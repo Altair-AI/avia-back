@@ -37,16 +37,14 @@ class OperationController extends Controller
             // Получение всех кодов технических систем или объектов для вложенного массива (иерархии) технических систем
             $technical_system_codes = Helper::get_technical_system_codes($technical_systems, []);
             // Получение списка иерархии работ (операций) для технических систем доступных администратору
-            foreach (Operation::all() as $item) {
-                foreach ($technical_system_codes as $code)
-                    foreach ($item->technical_systems as $technical_system)
-                        if ($technical_system->code == $code) {
-                            $operation = $item->toArray();
-                            $operation['technical_systems'] = $item->technical_systems;
-                            $operation['sub_operations'] = $item->sub_operations;
-                            array_push($operations, $operation);
-                        }
-            }
+            foreach (Operation::all() as $operation)
+                foreach ($technical_system_codes as $technical_system_code)
+                    foreach ($operation->technical_systems as $technical_system)
+                        if ($technical_system->code == $technical_system_code)
+                            array_push($operations, array_merge($operation->toArray(), [
+                                'technical_systems' => $operation->technical_systems,
+                                'sub_operations' => $operation->sub_operations
+                            ]));
         }
         return response()->json($operations);
     }

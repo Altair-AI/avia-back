@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Components\Helper;
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -20,7 +21,15 @@ class DocumentPolicy
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
         if ($user->role === User::ADMIN_ROLE) {
-            return true;
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+            // Получение всех id технических систем или объектов для вложенного массива (иерархии) технических систем
+            $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
+            // Поиск совпадения идентификаторов технических систем
+            foreach ($technical_system_ids as $technical_system_id)
+                foreach ($document->technical_systems as $technical_system)
+                    if ($technical_system->id == $technical_system_id)
+                        return true;
         }
         return false;
     }
