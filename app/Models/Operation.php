@@ -166,4 +166,18 @@ class Operation extends Model
     {
         return $this->hasMany(OperationRule::class, 'operation_id_then');
     }
+
+    public function operation_malfunction_codes()
+    {
+        return $this->hasMany(OperationMalfunctionCode::class, 'operation_id');
+    }
+
+    /**
+     * Получить все коды (признаки) неисправностей соответствующие данной работе (операции).
+     */
+    public function malfunction_codes()
+    {
+        return $this->belongsToMany(MalfunctionCode::class, 'operation_malfunction_code',
+            'operation_id', 'malfunction_code_id');
+    }
 }
