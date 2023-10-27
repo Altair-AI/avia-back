@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('technical_system_operation', function (Blueprint $table) {
             $table->id();
+            $table->string('designation')->nullable();
             $table->integer('operation_id')->unsigned();
             $table->foreign('operation_id')
                 ->references('id')

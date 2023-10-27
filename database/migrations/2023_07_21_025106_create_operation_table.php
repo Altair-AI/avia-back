@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('operation', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
+            $table->string('code')->unique();
             $table->text('imperative_name')->nullable();
             $table->text('verbal_name');
-            $table->string('designation')->nullable();
             $table->text('description')->nullable();
             $table->string('document_section');
             $table->string('document_subsection');
