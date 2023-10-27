@@ -78,7 +78,6 @@ class CSVDataLoader
                 'code' => $encoding ? mb_convert_encoding($operation_code, 'utf-8', 'windows-1251') : $operation_code,
                 'imperative_name' => null,
                 'verbal_name' => $encoding ? mb_convert_encoding($name, 'utf-8', 'windows-1251') : $name,
-                'designation' => null,
                 'description' => null,
                 'document_section' => $section,
                 'document_subsection' => $subsection,
@@ -125,10 +124,13 @@ class CSVDataLoader
                 $parent_operation_code, $verbal_name, $result, $condition]);
 
             if ($child_operation_code != "" and $parent_operation_code != "") {
+                $operation_id = null;
                 // Поиск родительской работы по коду
-                $operation = Operation::where('code', $parent_operation_code)->first();
-                // Если родительская работа с таким кодом есть в БД
-                if ($operation) {
+                $parent_operation = Operation::where('code', $parent_operation_code)->first();
+                // Поиск дочерней работы по коду
+                $child_operation = Operation::where('code', $child_operation_code)->first();
+                // Если родительская работа с таким кодом есть в БД, а дочерней работы нет
+                if ($parent_operation and !$child_operation) {
                     // Создание новой подработы (подоперации) в БД
                     $operation_id = DB::table('operation')->insertGetId([
                         'code' => $encoding ? mb_convert_encoding($child_operation_code, 'utf-8', 'windows-1251') :
@@ -137,29 +139,34 @@ class CSVDataLoader
                             $imperative_name,
                         'verbal_name' => $encoding ? mb_convert_encoding($verbal_name, 'utf-8', 'windows-1251') :
                             $verbal_name,
-                        'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
-                            $designation,
                         'description' => null,
-                        'document_section' => $operation->document_section,
-                        'document_subsection' => $operation->document_subsection,
-                        'start_document_page' => $operation->start_document_page,
-                        'end_document_page' => $operation->end_document_page,
-                        'actual_document_page' => $operation->actual_document_page,
-                        'document_id' => $operation->document_id,
+                        'document_section' => $parent_operation->document_section,
+                        'document_subsection' => $parent_operation->document_subsection,
+                        'start_document_page' => $parent_operation->start_document_page,
+                        'end_document_page' => $parent_operation->end_document_page,
+                        'actual_document_page' => $parent_operation->actual_document_page,
+                        'document_id' => $parent_operation->document_id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
                     // Создание новой связи подработы (подоперации) с техническими системами в БД
-                    foreach ($operation->technical_systems as $technical_system)
+                    foreach ($parent_operation->technical_systems as $technical_system)
                         DB::table('technical_system_operation')->insert([
                             'operation_id' => $operation_id,
                             'technical_system_id' => $technical_system->id,
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now(),
                         ]);
+                }
+                // Если дочерняя работа уже была добавлена в БД ранее, то запоминаем ее id
+                if ($child_operation)
+                    $operation_id = $child_operation->id;
+                if ($parent_operation and $operation_id) {
                     // Создание новой связи родительской и дочерней работы (подоперации) в БД
                     DB::table('operation_hierarchy')->insert([
-                        'parent_operation_id' => $operation->id,
+                        'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
+                            $designation,
+                        'parent_operation_id' => $parent_operation->id,
                         'child_operation_id' => $operation_id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
@@ -229,10 +236,7 @@ class CSVDataLoader
                 foreach ($operation->technical_systems as $technical_system)
                     $parent_technical_system_id = $technical_system->id;
 
-            // Поиск работ (операций) соответствующих коду
-            $operations = Operation::where('code', $operation_code)->get();
-
-            if ($emergency_msg != "") {
+            if ($operation and $emergency_msg != "") {
                 // Создание нового признака (кода) неисправности в БД - Аварийно‐сигнальное сообщение
                 $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                     'name' => $encoding ? mb_convert_encoding($emergency_msg, 'utf-8', 'windows-1251') : $emergency_msg,
@@ -243,17 +247,16 @@ class CSVDataLoader
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-                // Создание новой связи признака (кода) неисправности с работами (операциями)
-                foreach ($operations as $operation)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
+                // Создание новой связи признака (кода) неисправности с работой (операцией)
+                DB::table('operation_malfunction_code')->insert([
+                    'operation_id' => $operation->id,
+                    'malfunction_code_id' => $malfunction_code_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             }
 
-            if ($bsto_source != "" and $bsto_in != "" and $bsto_description != "") {
+            if ($operation and $bsto_source != "" and $bsto_in != "" and $bsto_description != "") {
                 // Создание нового признака (кода) неисправности в БД - Сообщение БСТО
                 $bsto = $bsto_source . " " . $bsto_in . " " . $bsto_description;
                 $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
@@ -265,17 +268,16 @@ class CSVDataLoader
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-                // Создание новой связи признака (кода) неисправности с работами (операциями)
-                foreach ($operations as $operation)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
+                // Создание новой связи признака (кода) неисправности с работой (операцией)
+                DB::table('operation_malfunction_code')->insert([
+                    'operation_id' => $operation->id,
+                    'malfunction_code_id' => $malfunction_code_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             }
 
-            if ($sei != "") {
+            if ($operation and $sei != "") {
                 // Создание нового признака (кода) неисправности в БД - Сигнализация СЭИ
                 $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                     'name' => $encoding ? mb_convert_encoding($sei, 'utf-8', 'windows-1251') : $sei,
@@ -287,17 +289,16 @@ class CSVDataLoader
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-                // Создание новой связи признака (кода) неисправности с работами (операциями)
-                foreach ($operations as $operation)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
+                // Создание новой связи признака (кода) неисправности с работой (операцией)
+                DB::table('operation_malfunction_code')->insert([
+                    'operation_id' => $operation->id,
+                    'malfunction_code_id' => $malfunction_code_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             }
 
-            if ($local != "") {
+            if ($operation and $local != "") {
                 // Создание нового признака (кода) неисправности в БД - Локальная сигнализация
                 $alternative_name = $encoding ? mb_convert_encoding($local_alternative, 'utf-8', 'windows-1251') :
                     $local_alternative;
@@ -310,14 +311,13 @@ class CSVDataLoader
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-                // Создание новой связи признака (кода) неисправности с работами (операциями)
-                foreach ($operations as $operation)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
+                // Создание новой связи признака (кода) неисправности с работой (операцией)
+                DB::table('operation_malfunction_code')->insert([
+                    'operation_id' => $operation->id,
+                    'malfunction_code_id' => $malfunction_code_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             }
         }
         return $encoding ? mb_convert_encoding($malfunction_codes, 'utf-8', 'windows-1251') : $malfunction_codes;
