@@ -11,7 +11,6 @@ use Illuminate\Support\Carbon;
  * App\Models\TechnicalSystemOperation
  *
  * @property int $id
- * @property string|null $designation
  * @property int $operation_id
  * @property int $technical_system_id
  * @property Carbon|null $created_at
@@ -22,7 +21,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|TechnicalSystemOperation newQuery()
  * @method static Builder|TechnicalSystemOperation query()
  * @method static Builder|TechnicalSystemOperation whereCreatedAt($value)
- * @method static Builder|TechnicalSystemOperation whereDesignation($value)
  * @method static Builder|TechnicalSystemOperation whereId($value)
  * @method static Builder|TechnicalSystemOperation whereOperationId($value)
  * @method static Builder|TechnicalSystemOperation whereTechnicalSystemId($value)
@@ -46,7 +44,6 @@ class TechnicalSystemOperation extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'designation',
         'operation_id',
         'technical_system_id',
     ];

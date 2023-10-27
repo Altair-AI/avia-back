@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('operation_hierarchy', function (Blueprint $table) {
             $table->id();
+            $table->string('designation')->nullable();
             $table->integer('parent_operation_id')->unsigned();
             $table->foreign('parent_operation_id')
                 ->references('id')
