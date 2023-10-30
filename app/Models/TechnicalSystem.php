@@ -120,6 +120,15 @@ class TechnicalSystem extends Model
         return $this->hasMany(TechnicalSystemDocument::class, 'technical_system_id');
     }
 
+    /**
+     * Получить все документы в которых описывается данная техническая система.
+     */
+    public function documents()
+    {
+        return $this->belongsToMany(Document::class, 'technical_system_document',
+            'technical_system_id', 'document_id');
+    }
+
     public function technical_system_operations()
     {
         return $this->hasMany(TechnicalSystemOperation::class, 'technical_system_id');

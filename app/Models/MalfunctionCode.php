@@ -43,6 +43,9 @@ class MalfunctionCode extends Model
     const BSTO_TYPE = 1;  // Сообщение БСТО
     const SEI_TYPE = 2;   // Сигнализация СЭИ
     const LOCAL_TYPE = 3; // Локальная сигнализация
+    const OBS_TYPE = 4;   // Наблюдаемые неисправности
+
+    protected $hidden = ['pivot'];
 
     /**
      * The table associated with the model.
@@ -82,5 +85,19 @@ class MalfunctionCode extends Model
     public function operation_rule_malfunction_codes()
     {
         return $this->hasMany(OperationRuleMalfunctionCode::class, 'malfunction_code_id');
+    }
+
+    public function operation_malfunction_codes()
+    {
+        return $this->hasMany(OperationMalfunctionCode::class, 'malfunction_code_id');
+    }
+
+    /**
+     * Получить все работы (операции) соответствующие данному коду (признаку) неисправности.
+     */
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'operation_malfunction_code',
+            'malfunction_code_id', 'operation_id');
     }
 }

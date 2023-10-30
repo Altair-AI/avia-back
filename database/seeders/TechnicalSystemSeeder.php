@@ -16,7 +16,7 @@ class TechnicalSystemSeeder extends Seeder
         $data_loader->create_technical_systems();
 
         // Создание тестовой технической системы (альтернативный самолет) и ее подсистем
-        $id = DB::table('technical_system')->insertGetId([
+        $technical_system_id = DB::table('technical_system')->insertGetId([
             'code' => 'Уникальный код технической системы (альтернативный самолет)',
             'name' => 'Название технической системы (альтернативный самолет)',
             'description' => 'Описание технической системы (альтернативный самолет)',
@@ -27,7 +27,7 @@ class TechnicalSystemSeeder extends Seeder
             'code' => 'Уникальный код подситемы 1 для самолета',
             'name' => 'Название подситемы 1 для самолета',
             'description' => 'Описание подситемы 1 для самолета',
-            'parent_technical_system_id' => $id,
+            'parent_technical_system_id' => $technical_system_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -35,7 +35,7 @@ class TechnicalSystemSeeder extends Seeder
             'code' => 'Уникальный код подситемы 2 для самолета',
             'name' => 'Название подситемы 2 для самолета',
             'description' => 'Описание подситемы 2 для самолета',
-            'parent_technical_system_id' => $id,
+            'parent_technical_system_id' => $technical_system_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

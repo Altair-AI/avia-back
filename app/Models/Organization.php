@@ -93,6 +93,15 @@ class Organization extends Model
         return $this->hasMany(License::class, 'organization_id');
     }
 
+    /**
+     * Получить все проекты, доступных организации.
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'license',
+            'organization_id', 'project_id');
+    }
+
     public function users()
     {
         return $this->hasMany(User::class, 'organization_id');

@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.0.2"
+        "version": "1.0.3"
     },
     "paths": {
         "/api/": {},
@@ -156,7 +156,7 @@
                     "Документы"
                 ],
                 "summary": "Получить список всех документов",
-                "description": "Для супер-администратора возвращает список всех документов, содержащихся в системе. Для администратора возвращает список только тех документов на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+                "description": "Для супер-администратора возвращает список всех документов вместе со списком соответствующих технических систем, содержащихся в системе. Для администратора возвращает список только тех документов (включая список соответствующих технических систем) на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -199,6 +199,44 @@
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "technical_systems": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "Some code"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "parent_technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": null
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
                                             }
                                         },
                                         "type": "object"
@@ -315,7 +353,7 @@
                     "Документы"
                 ],
                 "summary": "Получить единичный документ",
-                "description": "Для супер-администратора возвращает любой документ. Для администратора возвращает документ на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+                "description": "Для супер-администратора возвращает любой документ вместе со списком соответствующих технических систем. Для администратора возвращает документ (включая список соответствующих технических систем) на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
                 "parameters": [
                     {
                         "name": "document",
@@ -365,6 +403,44 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_systems": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -553,10 +629,6 @@
                                                 "type": "string",
                                                 "example": "Some verbal name"
                                             },
-                                            "designation": {
-                                                "type": "string",
-                                                "example": "Some designation"
-                                            },
                                             "description": {
                                                 "type": "string",
                                                 "example": "Some description"
@@ -633,6 +705,48 @@
                                                     "type": "object"
                                                 }
                                             },
+                                            "malfunction_codes": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "type": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "source": {
+                                                            "type": "string",
+                                                            "example": "Some source"
+                                                        },
+                                                        "alternative_name": {
+                                                            "type": "string",
+                                                            "example": "Some alternative name"
+                                                        },
+                                                        "technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
                                             "sub_operations": {
                                                 "type": "array",
                                                 "items": {
@@ -652,10 +766,6 @@
                                                         "verbal_name": {
                                                             "type": "string",
                                                             "example": "Some verbal name"
-                                                        },
-                                                        "designation": {
-                                                            "type": "string",
-                                                            "example": "Some designation"
                                                         },
                                                         "description": {
                                                             "type": "string",
@@ -741,10 +851,6 @@
                                                 "type": "string",
                                                 "example": "Some verbal name"
                                             },
-                                            "designation": {
-                                                "type": "string",
-                                                "example": "Some designation"
-                                            },
                                             "description": {
                                                 "type": "string",
                                                 "example": "Some description"
@@ -803,10 +909,6 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
-                                        },
-                                        "designation": {
-                                            "type": "string",
-                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
@@ -899,10 +1001,6 @@
                                             "type": "string",
                                             "example": "Some verbal name"
                                         },
-                                        "designation": {
-                                            "type": "string",
-                                            "example": "Some designation"
-                                        },
                                         "description": {
                                             "type": "string",
                                             "example": "Some description"
@@ -979,6 +1077,48 @@
                                                 "type": "object"
                                             }
                                         },
+                                        "malfunction_codes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "type": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "source": {
+                                                        "type": "string",
+                                                        "example": "Some source"
+                                                    },
+                                                    "alternative_name": {
+                                                        "type": "string",
+                                                        "example": "Some alternative name"
+                                                    },
+                                                    "technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
                                         "sub_operations": {
                                             "type": "array",
                                             "items": {
@@ -998,10 +1138,6 @@
                                                     "verbal_name": {
                                                         "type": "string",
                                                         "example": "Some verbal name"
-                                                    },
-                                                    "designation": {
-                                                        "type": "string",
-                                                        "example": "Some designation"
                                                     },
                                                     "description": {
                                                         "type": "string",
@@ -1095,10 +1231,6 @@
                                                 "type": "string",
                                                 "example": "Some verbal name for edit"
                                             },
-                                            "designation": {
-                                                "type": "string",
-                                                "example": "Some designation for edit"
-                                            },
                                             "description": {
                                                 "type": "string",
                                                 "example": "Some description for edit"
@@ -1157,10 +1289,6 @@
                                         "verbal_name": {
                                             "type": "string",
                                             "example": "Some verbal name"
-                                        },
-                                        "designation": {
-                                            "type": "string",
-                                            "example": "Some designation"
                                         },
                                         "description": {
                                             "type": "string",
@@ -1878,7 +2006,7 @@
                     "Проекты"
                 ],
                 "summary": "Получить список всех проектов",
-                "description": "Для супер-администратора возвращает список всех проектов, созданных в системе. Для администратора возвращает все проекты, которые доступны по лицензии для организации к которой принадлежит администратор.",
+                "description": "Для супер-администратора возвращает список всех проектов вместе с доступными базами знаний с правилами, созданных в системе. Для администратора возвращает все проекты вместе с доступными базами знаний с правилами, которые доступны по лицензии для организации к которой принадлежит администратор.",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -1921,6 +2049,87 @@
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "technical_system": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "rule_based_knowledge_bases": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "status": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "correctness": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "author": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
                                             }
                                         },
                                         "type": "object"
@@ -2016,6 +2225,41 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2037,7 +2281,7 @@
                     "Проекты"
                 ],
                 "summary": "Получить единичный проект",
-                "description": "Для супер-администратора возвращает любой проект, созданный в системе. Для администратора возвращает только тот проект, который доступен по лицензии для организации к которой принадлежит администратор.",
+                "description": "Для супер-администратора возвращает любой проект вместе с доступными базами знаний с правилами, созданный в системе. Для администратора возвращает только тот проект вместе с доступными базами знаний с правилами, который доступен по лицензии для организации к которой принадлежит администратор.",
                 "parameters": [
                     {
                         "name": "project",
@@ -2087,6 +2331,87 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "rule_based_knowledge_bases": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "correctness": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "author": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -2190,6 +2515,41 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -2214,6 +2574,533 @@
                         "name": "project",
                         "in": "path",
                         "description": "id проекта",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/rule-based-knowledge-bases": {
+            "get": {
+                "tags": [
+                    "Базы знаний правил"
+                ],
+                "summary": "Получить список всех баз знаний правил",
+                "description": "Для супер-администратора возвращает список всех баз знаний с правилами, созданных в системе. Для администратора возвращает базы знаний с правилами для технических систем с проектами, которые доступны по лицензии для организации к которой принадлежит администратор.",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "status": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "correctness": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "author": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "technical_system_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "technical_system": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Базы знаний правил"
+                ],
+                "summary": "Создание новой базы знаний правил",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "status": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "correctness": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "technical_system_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "correctness": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "author": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "technical_system_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}": {
+            "get": {
+                "tags": [
+                    "Базы знаний правил"
+                ],
+                "summary": "Получить единичную базу знаний правил",
+                "description": "Для супер-администратора возвращает любую базу знаний с правилами, созданную в системе. Для администратора возвращает базу знаний с правилами для технической системы с проектом, который доступен по лицензии для организации к которой принадлежит администратор.",
+                "parameters": [
+                    {
+                        "name": "rule-based-knowledge-base",
+                        "in": "path",
+                        "description": "id базы знаний правил",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "correctness": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "author": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "technical_system_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Базы знаний правил"
+                ],
+                "summary": "Обновить базу знаний правил",
+                "parameters": [
+                    {
+                        "name": "rule-based-knowledge-base",
+                        "in": "path",
+                        "description": "id базы знаний правил",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name for edit"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Some description for edit"
+                                            },
+                                            "status": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "correctness": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "technical_system_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "correctness": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "author": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "technical_system_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Базы знаний правил"
+                ],
+                "summary": "Удалить базу знаний правил",
+                "parameters": [
+                    {
+                        "name": "rule-based-knowledge-base",
+                        "in": "path",
+                        "description": "id базы знаний правил",
                         "required": true,
                         "example": 1
                     }
@@ -2288,6 +3175,48 @@
                                                 "type": "string",
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "documents": {
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "Some code"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "type": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "version": {
+                                                            "type": "string",
+                                                            "example": "Some version"
+                                                        },
+                                                        "file": {
+                                                            "type": "string",
+                                                            "example": "Some path to file"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
                                             },
                                             "grandchildren_technical_systems": {
                                                 "type": "array",
@@ -2484,6 +3413,90 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "documents": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "type": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "version": {
+                                                        "type": "string",
+                                                        "example": "Some version"
+                                                    },
+                                                    "file": {
+                                                        "type": "string",
+                                                        "example": "Some path to file"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "grandchildren_technical_systems": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "grandchildren_technical_systems": {
+                                                        "type": "array",
+                                                        "items": {}
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"

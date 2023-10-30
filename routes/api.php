@@ -4,6 +4,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RuleBasedKnowledgeBaseController;
 use App\Http\Controllers\TechnicalSystemController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -34,4 +35,6 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], functio
     Route::apiResource('projects', ProjectController::class)->middleware('jwt.auth');
     Route::apiResource('documents', DocumentController::class)->middleware('jwt.auth');
     Route::apiResource('operations', OperationController::class)->middleware('jwt.auth');
+    Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class)
+        ->middleware('jwt.auth');
 });

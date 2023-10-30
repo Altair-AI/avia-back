@@ -25,10 +25,10 @@ class OperationPolicy
             $technical_systems = Helper::get_technical_system_hierarchy($user->organization->id);
             // Получение всех кодов технических систем или объектов для вложенного массива (иерархии) технических систем
             $technical_system_codes = Helper::get_technical_system_codes($technical_systems, []);
-            // Поиск совпадения идентификаторов кодов технических систем
-            foreach ($technical_system_codes as $code)
+            // Поиск совпадения кодов технических систем
+            foreach ($technical_system_codes as $technical_system_code)
                 foreach ($operation->technical_systems as $technical_system)
-                    if ($technical_system->code == $code)
+                    if ($technical_system->code == $technical_system_code)
                         return true;
         }
         return false;

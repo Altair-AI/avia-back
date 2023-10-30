@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('operation_hierarchy', function (Blueprint $table) {
+        Schema::create('operation_malfunction_code', function (Blueprint $table) {
             $table->id();
-            $table->string('designation')->nullable();
-            $table->integer('parent_operation_id')->unsigned();
-            $table->foreign('parent_operation_id')
+            $table->integer('operation_id')->unsigned();
+            $table->foreign('operation_id')
                 ->references('id')
                 ->on('operation')
                 ->onDelete('cascade');
-            $table->integer('child_operation_id')->unsigned();
-            $table->foreign('child_operation_id')
+            $table->integer('malfunction_code_id')->unsigned();
+            $table->foreign('malfunction_code_id')
                 ->references('id')
-                ->on('operation')
+                ->on('malfunction_code')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operation_hierarchy');
+        Schema::dropIfExists('operation_malfunction_code');
     }
 };

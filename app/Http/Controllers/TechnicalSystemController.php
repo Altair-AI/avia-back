@@ -29,21 +29,18 @@ class TechnicalSystemController extends Controller
     public function index()
     {
         $technical_systems = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $item) {
-                $technical_system = $item->toArray();
-                $technical_system['grandchildren_technical_systems'] = $item->grandchildren_technical_systems;
-                array_push($technical_systems, $technical_system);
-            }
-        }
-        if (auth()->user()->role == User::ADMIN_ROLE) {
-            foreach (Organization::find(auth()->user()->organization->id)->licenses as $license) {
-                $technical_system = $license->project->technical_system->toArray();
-                $technical_system['grandchildren_technical_systems'] = TechnicalSystem::find(
-                    $license->project->technical_system_id)->grandchildren_technical_systems;
-                array_push($technical_systems, $technical_system);
-            }
-        }
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+            foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $tech_sys)
+                array_push($technical_systems, array_merge($tech_sys->toArray(), [
+                    'documents' => $tech_sys->documents,
+                    'grandchildren_technical_systems' => $tech_sys->grandchildren_technical_systems
+                ]));
+        if (auth()->user()->role == User::ADMIN_ROLE)
+            foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
+                array_push($technical_systems, array_merge($project->technical_system->toArray(), [
+                    'documents' => $project->technical_system->documents,
+                    'grandchildren_technical_systems' => $project->technical_system->grandchildren_technical_systems
+                ]));
         return response()->json($technical_systems);
     }
 
@@ -55,12 +52,9 @@ class TechnicalSystemController extends Controller
      */
     public function store(StoreTechnicalSystemRequest $request)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $technical_system = TechnicalSystem::create($validated);
-            return response()->json($technical_system);
-        }
-        return null;
+        $validated = $request->validated();
+        $technical_system = TechnicalSystem::create($validated);
+        return response()->json($technical_system);
     }
 
     /**
@@ -71,7 +65,10 @@ class TechnicalSystemController extends Controller
      */
     public function show(TechnicalSystem $technical_system)
     {
-        return response()->json($technical_system);
+        return response()->json(array_merge($technical_system->toArray(), [
+            'documents' => $technical_system->documents,
+            'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
+        ]));
     }
 
     /**
@@ -83,13 +80,10 @@ class TechnicalSystemController extends Controller
      */
     public function update(UpdateTechnicalSystemRequest $request, TechnicalSystem $technical_system)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $technical_system->fill($validated);
-            $technical_system->save();
-            return response()->json($technical_system);
-        }
-        return null;
+        $validated = $request->validated();
+        $technical_system->fill($validated);
+        $technical_system->save();
+        return response()->json($technical_system);
     }
 
     /**
@@ -100,10 +94,7 @@ class TechnicalSystemController extends Controller
      */
     public function destroy(TechnicalSystem $technical_system)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $technical_system->delete();
-            return response()->json(['id' => $technical_system->id], 200);
-        }
-        return null;
+        $technical_system->delete();
+        return response()->json(['id' => $technical_system->id], 200);
     }
 }

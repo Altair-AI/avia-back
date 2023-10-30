@@ -16,7 +16,6 @@ use Illuminate\Support\Carbon;
  * @property string $code
  * @property string $imperative_name
  * @property string $verbal_name
- * @property string|null $designation
  * @property string|null $description
  * @property string $document_section
  * @property string $document_subsection
@@ -42,7 +41,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Operation whereCode($value)
  * @method static Builder|Operation whereCreatedAt($value)
  * @method static Builder|Operation whereDescription($value)
- * @method static Builder|Operation whereDesignation($value)
  * @method static Builder|Operation whereDocumentId($value)
  * @method static Builder|Operation whereDocumentSection($value)
  * @method static Builder|Operation whereDocumentSubSection($value)
@@ -76,7 +74,6 @@ class Operation extends Model
         'code',
         'imperative_name',
         'verbal_name',
-        'designation',
         'description',
         'document_section',
         'document_subsection',
@@ -165,5 +162,19 @@ class Operation extends Model
     public function operation_rules_then()
     {
         return $this->hasMany(OperationRule::class, 'operation_id_then');
+    }
+
+    public function operation_malfunction_codes()
+    {
+        return $this->hasMany(OperationMalfunctionCode::class, 'operation_id');
+    }
+
+    /**
+     * Получить все коды (признаки) неисправностей соответствующие данной работе (операции).
+     */
+    public function malfunction_codes()
+    {
+        return $this->belongsToMany(MalfunctionCode::class, 'operation_malfunction_code',
+            'operation_id', 'malfunction_code_id');
     }
 }

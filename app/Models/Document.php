@@ -39,6 +39,8 @@ class Document extends Model
     const TROUBLESHOOTING_GUIDE_TYPE = 0; // РУН (руководство по устранению неисправности)
     const MAINTENANCE_GUIDE_TYPE = 1;     // РЭ (руководство по эксплуатации)
 
+    protected $hidden = ['pivot'];
+
     /**
      * The table associated with the model.
      *
@@ -62,6 +64,15 @@ class Document extends Model
     public function technical_system_documents()
     {
         return $this->hasMany(TechnicalSystemDocument::class, 'document_id');
+    }
+
+    /**
+     * Получить все технические системы к которым относится данный документ.
+     */
+    public function technical_systems()
+    {
+        return $this->belongsToMany(TechnicalSystem::class, 'technical_system_document',
+            'document_id', 'technical_system_id');
     }
 
     public function operations()

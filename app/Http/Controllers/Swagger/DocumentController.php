@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
  *     summary="Получить список всех документов",
  *     tags={"Документы"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает список всех документов, содержащихся в системе. Для администратора возвращает список только тех документов на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает список всех документов вместе со списком соответствующих технических систем, содержащихся в системе. Для администратора возвращает список только тех документов (включая список соответствующих технических систем) на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
  *
  *     @OA\Response(
  *         response=200,
@@ -23,7 +23,16 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="version", type="string", example="Some version"),
  *             @OA\Property(property="file", type="string", example="Some path to file"),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             ))
  *         ))
  *     )
  * ),
@@ -69,7 +78,7 @@ use App\Http\Controllers\Controller;
  *     summary="Получить единичный документ",
  *     tags={"Документы"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает любой документ. Для администратора возвращает документ на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает любой документ вместе со списком соответствующих технических систем. Для администратора возвращает документ (включая список соответствующих технических систем) на технические системы, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
  *
  *     @OA\Parameter(
  *         description="id документа",
@@ -90,7 +99,16 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="version", type="string", example="Some version"),
  *             @OA\Property(property="file", type="string", example="Some path to file"),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *             @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             ))
  *         )
  *     )
  * ),

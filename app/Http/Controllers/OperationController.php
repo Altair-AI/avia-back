@@ -29,30 +29,24 @@ class OperationController extends Controller
     public function index()
     {
         $operations = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            foreach (Operation::all() as $item) {
-                $operation = $item->toArray();
-                $operation['technical_systems'] = $item->technical_systems;
-                $operation['sub_operations'] = $item->sub_operations;
-                array_push($operations, $operation);
-            }
-        }
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+            $operations = Operation::with('technical_systems')->with('malfunction_codes')
+                ->with('sub_operations')->get();
         if (auth()->user()->role == User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
             // Получение всех кодов технических систем или объектов для вложенного массива (иерархии) технических систем
             $technical_system_codes = Helper::get_technical_system_codes($technical_systems, []);
             // Получение списка иерархии работ (операций) для технических систем доступных администратору
-            foreach (Operation::all() as $item) {
-                foreach ($technical_system_codes as $code)
-                    foreach ($item->technical_systems as $technical_system)
-                        if ($technical_system->code == $code) {
-                            $operation = $item->toArray();
-                            $operation['technical_systems'] = $item->technical_systems;
-                            $operation['sub_operations'] = $item->sub_operations;
-                            array_push($operations, $operation);
-                        }
-            }
+            foreach (Operation::all() as $operation)
+                foreach ($technical_system_codes as $technical_system_code)
+                    foreach ($operation->technical_systems as $technical_system)
+                        if ($technical_system->code == $technical_system_code)
+                            array_push($operations, array_merge($operation->toArray(), [
+                                'technical_systems' => $operation->technical_systems,
+                                'malfunction_codes' => $operation->malfunction_codes,
+                                'sub_operations' => $operation->sub_operations
+                            ]));
         }
         return response()->json($operations);
     }
@@ -65,12 +59,9 @@ class OperationController extends Controller
      */
     public function store(StoreOperationRequest $request)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $operation = Operation::create($validated);
-            return response()->json($operation);
-        }
-        return null;
+        $validated = $request->validated();
+        $operation = Operation::create($validated);
+        return response()->json($operation);
     }
 
     /**
@@ -81,7 +72,11 @@ class OperationController extends Controller
      */
     public function show(Operation $operation)
     {
-        return response()->json(array_merge($operation->toArray(), ['sub_operations' => $operation->sub_operations]));
+        return response()->json(array_merge($operation->toArray(), [
+            'technical_systems' => $operation->technical_systems,
+            'malfunction_codes' => $operation->malfunction_codes,
+            'sub_operations' => $operation->sub_operations
+        ]));
     }
 
     /**
@@ -93,13 +88,10 @@ class OperationController extends Controller
      */
     public function update(UpdateOperationRequest $request, Operation $operation)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $validated = $request->validated();
-            $operation->fill($validated);
-            $operation->save();
-            return response()->json($operation);
-        }
-        return null;
+        $validated = $request->validated();
+        $operation->fill($validated);
+        $operation->save();
+        return response()->json($operation);
     }
 
     /**
@@ -110,10 +102,7 @@ class OperationController extends Controller
      */
     public function destroy(Operation $operation)
     {
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
-            $operation->delete();
-            return response()->json(['id' => $operation->id], 200);
-        }
-        return null;
+        $operation->delete();
+        return response()->json(['id' => $operation->id], 200);
     }
 }

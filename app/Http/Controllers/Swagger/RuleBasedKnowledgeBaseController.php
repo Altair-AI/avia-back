@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Get(
- *     path="/api/v1/admin/projects",
- *     summary="Получить список всех проектов",
- *     tags={"Проекты"},
+ *     path="/api/v1/admin/rule-based-knowledge-bases",
+ *     summary="Получить список всех баз знаний правил",
+ *     tags={"Базы знаний правил"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает список всех проектов вместе с доступными базами знаний с правилами, созданных в системе. Для администратора возвращает все проекты вместе с доступными базами знаний с правилами, которые доступны по лицензии для организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает список всех баз знаний с правилами, созданных в системе. Для администратора возвращает базы знаний с правилами для технических систем с проектами, которые доступны по лицензии для организации к которой принадлежит администратор.",
  *
  *     @OA\Response(
  *         response=200,
@@ -19,8 +19,9 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="name", type="string", example="Some name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="status", type="integer", example=0),
+ *             @OA\Property(property="correctness", type="integer", example=0),
+ *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -32,26 +33,15 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             ),
- *             @OA\Property(property="rule_based_knowledge_bases", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="status", type="integer", example=0),
- *                 @OA\Property(property="correctness", type="integer", example=0),
- *                 @OA\Property(property="author", type="integer", example=1),
- *                 @OA\Property(property="technical_system_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             ))
+ *             )
  *         ))
  *     )
  * ),
  *
  * @OA\Post(
- *     path="/api/v1/admin/projects",
- *     summary="Создание нового проекта",
- *     tags={"Проекты"},
+ *     path="/api/v1/admin/rule-based-knowledge-bases",
+ *     summary="Создание новой базы знаний правил",
+ *     tags={"Базы знаний правил"},
  *     security={{ "bearerAuth": {} }},
  *
  *     @OA\RequestBody(
@@ -60,8 +50,8 @@ use App\Http\Controllers\Controller;
  *                 @OA\Schema(
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="type", type="integer", example=0),
  *                     @OA\Property(property="status", type="integer", example=0),
+ *                     @OA\Property(property="correctness", type="integer", example=0),
  *                     @OA\Property(property="technical_system_id", type="integer", example=1)
  *                 )
  *             }
@@ -75,8 +65,9 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="name", type="string", example="Some name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="status", type="integer", example=0),
+ *             @OA\Property(property="correctness", type="integer", example=0),
+ *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -94,16 +85,16 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Get(
- *     path="/api/v1/admin/projects/{project}",
- *     summary="Получить единичный проект",
- *     tags={"Проекты"},
+ *     path="/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}",
+ *     summary="Получить единичную базу знаний правил",
+ *     tags={"Базы знаний правил"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает любой проект вместе с доступными базами знаний с правилами, созданный в системе. Для администратора возвращает только тот проект вместе с доступными базами знаний с правилами, который доступен по лицензии для организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает любую базу знаний с правилами, созданную в системе. Для администратора возвращает базу знаний с правилами для технической системы с проектом, который доступен по лицензии для организации к которой принадлежит администратор.",
  *
  *     @OA\Parameter(
- *         description="id проекта",
+ *         description="id базы знаний правил",
  *         in="path",
- *         name="project",
+ *         name="rule-based-knowledge-base",
  *         required=true,
  *         example=1
  *     ),
@@ -115,8 +106,9 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="name", type="string", example="Some name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="status", type="integer", example=0),
+ *             @OA\Property(property="correctness", type="integer", example=0),
+ *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -128,32 +120,21 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             ),
- *             @OA\Property(property="rule_based_knowledge_bases", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="status", type="integer", example=0),
- *                 @OA\Property(property="correctness", type="integer", example=0),
- *                 @OA\Property(property="author", type="integer", example=1),
- *                 @OA\Property(property="technical_system_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             ))
+ *             )
  *         )
  *     )
  * ),
  *
  * @OA\Put(
- *     path="/api/v1/admin/projects/{project}",
- *     summary="Обновить проект",
- *     tags={"Проекты"},
+ *     path="/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}",
+ *     summary="Обновить базу знаний правил",
+ *     tags={"Базы знаний правил"},
  *     security={{ "bearerAuth": {} }},
  *
  *     @OA\Parameter(
- *         description="id проекта",
+ *         description="id базы знаний правил",
  *         in="path",
- *         name="project",
+ *         name="rule-based-knowledge-base",
  *         required=true,
  *         example=1
  *     ),
@@ -164,8 +145,8 @@ use App\Http\Controllers\Controller;
  *                 @OA\Schema(
  *                     @OA\Property(property="name", type="string", example="Some name for edit"),
  *                     @OA\Property(property="description", type="string", example="Some description for edit"),
- *                     @OA\Property(property="type", type="integer", example=0),
  *                     @OA\Property(property="status", type="integer", example=0),
+ *                     @OA\Property(property="correctness", type="integer", example=0),
  *                     @OA\Property(property="technical_system_id", type="integer", example=1)
  *                 )
  *             }
@@ -179,8 +160,9 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="name", type="string", example="Some name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="status", type="integer", example=0),
+ *             @OA\Property(property="correctness", type="integer", example=0),
+ *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -198,15 +180,15 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Delete(
- *     path="/api/v1/admin/projects/{project}",
- *     summary="Удалить проект",
- *     tags={"Проекты"},
+ *     path="/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}",
+ *     summary="Удалить базу знаний правил",
+ *     tags={"Базы знаний правил"},
  *     security={{ "bearerAuth": {} }},
  *
  *     @OA\Parameter(
- *         description="id проекта",
+ *         description="id базы знаний правил",
  *         in="path",
- *         name="project",
+ *         name="rule-based-knowledge-base",
  *         required=true,
  *         example=1
  *     ),
@@ -220,7 +202,7 @@ use App\Http\Controllers\Controller;
  *     )
  * )
  */
-class ProjectController extends Controller
+class RuleBasedKnowledgeBaseController extends Controller
 {
     //
 }

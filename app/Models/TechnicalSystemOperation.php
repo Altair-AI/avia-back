@@ -17,14 +17,14 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Operation $operation
  * @property-read TechnicalSystem $technical_system
- * @method static Builder|TechnicalSystemDocument newModelQuery()
- * @method static Builder|TechnicalSystemDocument newQuery()
- * @method static Builder|TechnicalSystemDocument query()
- * @method static Builder|TechnicalSystemDocument whereCreatedAt($value)
- * @method static Builder|TechnicalSystemDocument whereId($value)
- * @method static Builder|TechnicalSystemDocument whereOperationId($value)
- * @method static Builder|TechnicalSystemDocument whereTechnicalSystemId($value)
- * @method static Builder|TechnicalSystemDocument whereUpdatedAt($value)
+ * @method static Builder|TechnicalSystemOperation newModelQuery()
+ * @method static Builder|TechnicalSystemOperation newQuery()
+ * @method static Builder|TechnicalSystemOperation query()
+ * @method static Builder|TechnicalSystemOperation whereCreatedAt($value)
+ * @method static Builder|TechnicalSystemOperation whereId($value)
+ * @method static Builder|TechnicalSystemOperation whereOperationId($value)
+ * @method static Builder|TechnicalSystemOperation whereTechnicalSystemId($value)
+ * @method static Builder|TechnicalSystemOperation whereUpdatedAt($value)
  * @mixin Builder
  */
 class TechnicalSystemOperation extends Model

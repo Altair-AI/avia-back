@@ -13,7 +13,7 @@ class DocumentSeeder extends Seeder
     public function run()
     {
         // Создание документа
-        DB::table('document')->insert([
+        $document_id = DB::table('document')->insertGetId([
             'code' => 'Уникальный код документа',
             'name' => 'Название документа',
             'type' => Document::TROUBLESHOOTING_GUIDE_TYPE,
@@ -24,7 +24,7 @@ class DocumentSeeder extends Seeder
         ]);
         // Создание связи документа с технической системой (самолетом)
         DB::table('technical_system_document')->insert([
-            'document_id' => Document::first()->id,
+            'document_id' => $document_id,
             'technical_system_id' => TechnicalSystem::first()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
