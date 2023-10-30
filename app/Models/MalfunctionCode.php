@@ -43,6 +43,7 @@ class MalfunctionCode extends Model
     const BSTO_TYPE = 1;  // Сообщение БСТО
     const SEI_TYPE = 2;   // Сигнализация СЭИ
     const LOCAL_TYPE = 3; // Локальная сигнализация
+    const OBS_TYPE = 4;   // Наблюдаемые неисправности
 
     protected $hidden = ['pivot'];
 

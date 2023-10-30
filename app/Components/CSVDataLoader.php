@@ -319,6 +319,27 @@ class CSVDataLoader
                     'updated_at' => Carbon::now(),
                 ]);
             }
+
+            if ($operation and $observed_faults != "") {
+                // Создание нового признака (кода) неисправности в БД - Наблюдаемые неисправности
+                $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
+                    'name' => $encoding ? mb_convert_encoding($observed_faults, 'utf-8', 'windows-1251') :
+                        $observed_faults,
+                    'type' => MalfunctionCode::OBS_TYPE,
+                    'source' => null,
+                    'alternative_name' => null,
+                    'technical_system_id' => $parent_technical_system_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                // Создание новой связи признака (кода) неисправности с работой (операцией)
+                DB::table('operation_malfunction_code')->insert([
+                    'operation_id' => $operation->id,
+                    'malfunction_code_id' => $malfunction_code_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
         }
         return $encoding ? mb_convert_encoding($malfunction_codes, 'utf-8', 'windows-1251') : $malfunction_codes;
     }
