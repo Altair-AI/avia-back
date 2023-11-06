@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Components\Helper;
 use App\Http\Filters\TechnicalSystemFilter;
 use App\Http\Requests\TechnicalSystem\IndexTechnicalSystemRequest;
-use App\Models\Organization;
 use App\Models\TechnicalSystem;
 use App\Http\Requests\TechnicalSystem\StoreTechnicalSystemRequest;
 use App\Http\Requests\TechnicalSystem\UpdateTechnicalSystemRequest;
 use App\Models\User;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\JsonResponse;
 
 class TechnicalSystemController extends Controller
@@ -29,6 +29,7 @@ class TechnicalSystemController extends Controller
      *
      * @param IndexTechnicalSystemRequest $request
      * @return JsonResponse
+     * @throws BindingResolutionException
      */
     public function index(IndexTechnicalSystemRequest $request)
     {

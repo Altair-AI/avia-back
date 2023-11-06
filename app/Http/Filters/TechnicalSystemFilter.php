@@ -21,16 +21,16 @@ class TechnicalSystemFilter extends AbstractFilter
 
     public function code(Builder $builder, $value)
     {
-        $builder->where('code', $value);
+        $builder->where(self::CODE, $value);
     }
 
     public function name(Builder $builder, $value)
     {
-        $builder->where('name', 'like', "%{$value}%");
+        $builder->where(self::NAME, 'like', "%{$value}%");
     }
 
     public function parentTechnicalSystemId(Builder $builder, $value)
     {
-        $builder->where('parent_technical_system_id', $value);
+        $builder->where(self::PARENT_TECHNICAL_SYSTEM_ID, $value);
     }
 }
