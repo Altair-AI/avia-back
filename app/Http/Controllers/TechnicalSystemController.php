@@ -40,26 +40,29 @@ class TechnicalSystemController extends Controller
         if (isset($request['pageSize']))
             $pageSize = $request['pageSize'];
 
+        $result = [];
         $technical_systems = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            foreach (TechnicalSystem::filter($filter)->paginate($pageSize) as $tech_sys)
-                array_push($technical_systems, array_merge($tech_sys->toArray(), [
-                    'documents' => $tech_sys->documents,
-                    'grandchildren_technical_systems' => $tech_sys->grandchildren_technical_systems
-                ]));
+            $technical_systems = TechnicalSystem::filter($filter)->paginate($pageSize);
         if (auth()->user()->role == User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $items = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
             // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
             $tech_sys_ids = Helper::get_technical_system_ids($items, []);
-            // Формирование массива с техническими системами
-            foreach (TechnicalSystem::filter($filter)->whereIn('id', $tech_sys_ids)->paginate($pageSize) as $tech_sys)
-                array_push($technical_systems, array_merge($tech_sys->toArray(), [
-                    'documents' => $tech_sys->documents,
-                    'grandchildren_technical_systems' => $tech_sys->grandchildren_technical_systems
-                ]));
+            // Поиск всех технических систем удовлетворяющих фильтру и совпадающих с массивом идентификаторов
+            $technical_systems = TechnicalSystem::filter($filter)->whereIn('id', $tech_sys_ids)->paginate($pageSize);
         }
-        return response()->json($technical_systems);
+        $data = [];
+        foreach ($technical_systems as $technical_system)
+            array_push($data, array_merge($technical_system->toArray(), [
+                'documents' => $technical_system->documents,
+                'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
+            ]));
+        $result['data'] = $data;
+        $result['page_current'] = !is_array($technical_systems) ? $technical_systems->currentPage() : null;
+        $result['page_total'] = !is_array($technical_systems) ? $technical_systems->lastPage() : null;
+        $result['page_size'] = !is_array($technical_systems) ? $technical_systems->perPage() : null;
+        return response()->json($result);
     }
 
     /**

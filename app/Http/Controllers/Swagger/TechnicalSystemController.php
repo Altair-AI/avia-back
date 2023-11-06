@@ -46,35 +46,40 @@ use App\Http\Controllers\Controller;
  *     @OA\Response(
  *         response=200,
  *         description="successful operation",
- *         @OA\JsonContent(type="array", @OA\Items(
- *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="code", type="string", example="Some code"),
- *             @OA\Property(property="name", type="string", example="Some name"),
- *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="parent_technical_system_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="documents", type="array", @OA\Items(
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="type", type="integer", example=0),
- *                 @OA\Property(property="version", type="string", example="Some version"),
- *                 @OA\Property(property="file", type="string", example="Some path to file"),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             )),
- *             @OA\Property(property="grandchildren_technical_systems", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
  *                 @OA\Property(property="parent_technical_system_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="grandchildren_technical_systems", type="array", @OA\Items())
- *             ))
- *         ))
+ *                 @OA\Property(property="documents", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="type", type="integer", example=0),
+ *                     @OA\Property(property="version", type="string", example="Some version"),
+ *                     @OA\Property(property="file", type="string", example="Some path to file"),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )),
+ *                 @OA\Property(property="grandchildren_technical_systems", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=2),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="grandchildren_technical_systems", type="array", @OA\Items())
+ *                 ))
+ *             )),
+ *             @OA\Property(property="page_current", type="integer", example=1),
+ *             @OA\Property(property="page_total", type="integer", example=20),
+ *             @OA\Property(property="page_size", type="integer", example=10)
+ *         )
  *     )
  * ),
  *
