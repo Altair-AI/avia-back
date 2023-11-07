@@ -21,6 +21,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, MalfunctionCauseRuleIf> $malfunction_cause_rules_if
  * @property-read int|null $malfunction_cause_rules_if_count
+ * @property-read MalfunctionCauseRule $malfunction_cause_rules
+ * @property-read Operation $operations
+ * @property-read TechnicalSystem $technical_system
  * @method static Builder|MalfunctionCode newModelQuery()
  * @method static Builder|MalfunctionCode newQuery()
  * @method static Builder|MalfunctionCode query()

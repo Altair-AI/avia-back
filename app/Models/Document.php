@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $file
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read TechnicalSystem $technical_systems
  * @method static Builder|Document newModelQuery()
  * @method static Builder|Document newQuery()
  * @method static Builder|Document query()

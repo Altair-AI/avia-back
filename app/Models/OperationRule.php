@@ -27,9 +27,12 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Document $document
+ * @property-read RuleBasedKnowledgeBase $rule_based_knowledge_base
  * @property-read Operation|null $operation_if
  * @property-read OperationResult $operation_result
  * @property-read Operation|null $operation_then
+ * @property-read TechnicalSystem $malfunction_system
+ * @property-read TechnicalSystem $cause_system
  * @method static Builder|OperationRule newModelQuery()
  * @method static Builder|OperationRule newQuery()
  * @method static Builder|OperationRule query()

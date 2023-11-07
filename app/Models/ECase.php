@@ -22,6 +22,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read CaseBasedKnowledgeBase $case_based_knowledge_base
  * @property-read CompletedOperation|null $initial_completed_operation
+ * @property-read MalfunctionDetectionStage $malfunction_detection_stage
+ * @property-read RealTimeTechnicalSystem $malfunction_system
+ * @property-read RealTimeTechnicalSystem $system_for_repair
  * @method static Builder|ECase newModelQuery()
  * @method static Builder|ECase newQuery()
  * @method static Builder|ECase query()

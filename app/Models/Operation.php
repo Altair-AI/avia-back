@@ -35,6 +35,10 @@ use Illuminate\Support\Carbon;
  * @property-read Document $document
  * @property-read Collection<int, CompletedOperation> $previous_completed_operations
  * @property-read int|null $previous_completed_operations_count
+ * @property-read MalfunctionCode malfunction_codes
+ * @property-read Operation $operations
+ * @property-read Operation $sub_operations
+ * @property-read TechnicalSystem $technical_systems
  * @method static Builder|Operation newModelQuery()
  * @method static Builder|Operation newQuery()
  * @method static Builder|Operation query()

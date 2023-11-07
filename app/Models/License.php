@@ -21,6 +21,8 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Organization $organization
+ * @property-read Project $project
  * @method static Builder|License newModelQuery()
  * @method static Builder|License newQuery()
  * @method static Builder|License query()

@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read MalfunctionCauseRule $malfunction_cause_rule
+ * @property-read MalfunctionCode $malfunction_code
  * @method static Builder|MalfunctionCauseRuleIf newModelQuery()
  * @method static Builder|MalfunctionCauseRuleIf newQuery()
  * @method static Builder|MalfunctionCauseRuleIf query()

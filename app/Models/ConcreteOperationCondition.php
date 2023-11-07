@@ -15,6 +15,8 @@ use Illuminate\Support\Carbon;
  * @property int $operation_condition_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Operation $operation
+ * @property-read OperationCondition $operation_condition
  * @method static Builder|ConcreteOperationCondition newModelQuery()
  * @method static Builder|ConcreteOperationCondition newQuery()
  * @method static Builder|ConcreteOperationCondition query()

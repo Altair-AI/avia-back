@@ -18,6 +18,10 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Operation $operation
+ * @property-read OperationResult $operation_result
+ * @property-read Operation $previous_operation
+ * @property-read User $user
  * @method static Builder|CompletedOperation newModelQuery()
  * @method static Builder|CompletedOperation newQuery()
  * @method static Builder|CompletedOperation query()

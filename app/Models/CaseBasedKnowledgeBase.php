@@ -20,6 +20,9 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Project $project
+ * @property-read RealTimeTechnicalSystem $real_time_technical_system
+ * @property-read User $user
  * @method static Builder|CaseBasedKnowledgeBase newModelQuery()
  * @method static Builder|CaseBasedKnowledgeBase newQuery()
  * @method static Builder|CaseBasedKnowledgeBase query()
@@ -69,7 +72,7 @@ class CaseBasedKnowledgeBase extends Model
         'project_id',
     ];
 
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
