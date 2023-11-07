@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Organization;
+use App\Components\Helper;
+use App\Http\Filters\TechnicalSystemFilter;
+use App\Http\Requests\TechnicalSystem\IndexTechnicalSystemRequest;
 use App\Models\TechnicalSystem;
 use App\Http\Requests\TechnicalSystem\StoreTechnicalSystemRequest;
 use App\Http\Requests\TechnicalSystem\UpdateTechnicalSystemRequest;
 use App\Models\User;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\JsonResponse;
 
 class TechnicalSystemController extends Controller
@@ -24,24 +27,42 @@ class TechnicalSystemController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param IndexTechnicalSystemRequest $request
      * @return JsonResponse
+     * @throws BindingResolutionException
      */
-    public function index()
+    public function index(IndexTechnicalSystemRequest $request)
     {
+        $validated = $request->validated();
+        $filter = app()->make(TechnicalSystemFilter::class, ['queryParams' => array_filter($validated)]);
+
+        $pageSize = 10;
+        if (isset($request['pageSize']))
+            $pageSize = $request['pageSize'];
+
+        $result = [];
         $technical_systems = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            foreach (TechnicalSystem::where('parent_technical_system_id', null)->get() as $tech_sys)
-                array_push($technical_systems, array_merge($tech_sys->toArray(), [
-                    'documents' => $tech_sys->documents,
-                    'grandchildren_technical_systems' => $tech_sys->grandchildren_technical_systems
-                ]));
-        if (auth()->user()->role == User::ADMIN_ROLE)
-            foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
-                array_push($technical_systems, array_merge($project->technical_system->toArray(), [
-                    'documents' => $project->technical_system->documents,
-                    'grandchildren_technical_systems' => $project->technical_system->grandchildren_technical_systems
-                ]));
-        return response()->json($technical_systems);
+            $technical_systems = TechnicalSystem::filter($filter)->paginate($pageSize);
+        if (auth()->user()->role == User::ADMIN_ROLE) {
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $items = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+            // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
+            $tech_sys_ids = Helper::get_technical_system_ids($items, []);
+            // Поиск всех технических систем удовлетворяющих фильтру и совпадающих с массивом идентификаторов
+            $technical_systems = TechnicalSystem::filter($filter)->whereIn('id', $tech_sys_ids)->paginate($pageSize);
+        }
+        $data = [];
+        foreach ($technical_systems as $technical_system)
+            array_push($data, array_merge($technical_system->toArray(), [
+                'documents' => $technical_system->documents,
+                'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
+            ]));
+        $result['data'] = $data;
+        $result['page_current'] = !is_array($technical_systems) ? $technical_systems->currentPage() : null;
+        $result['page_total'] = !is_array($technical_systems) ? $technical_systems->lastPage() : null;
+        $result['page_size'] = !is_array($technical_systems) ? $technical_systems->perPage() : null;
+        return response()->json($result);
     }
 
     /**
