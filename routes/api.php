@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\MalfunctionCauseRuleController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProjectController;
@@ -36,5 +37,7 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], functio
     Route::apiResource('documents', DocumentController::class)->middleware('jwt.auth');
     Route::apiResource('operations', OperationController::class)->middleware('jwt.auth');
     Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class)
+        ->middleware('jwt.auth');
+    Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class)
         ->middleware('jwt.auth');
 });

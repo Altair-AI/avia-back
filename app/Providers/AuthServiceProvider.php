@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Document;
+use App\Models\MalfunctionCauseRule;
 use App\Models\Operation;
 use App\Models\Organization;
 use App\Models\Project;
@@ -10,6 +11,7 @@ use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
 use App\Models\User;
 use App\Policies\DocumentPolicy;
+use App\Policies\MalfunctionCauseRulePolicy;
 use App\Policies\OperationPolicy;
 use App\Policies\OrganizationPolicy;
 use App\Policies\ProjectPolicy;
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Document::class => DocumentPolicy::class,
+        MalfunctionCauseRule::class => MalfunctionCauseRulePolicy::class,
         Organization::class => OrganizationPolicy::class,
         Operation::class => OperationPolicy::class,
         Project::class => ProjectPolicy::class,
