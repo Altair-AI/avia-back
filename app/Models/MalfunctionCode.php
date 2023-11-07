@@ -82,6 +82,15 @@ class MalfunctionCode extends Model
         return $this->hasMany(MalfunctionCauseRuleIf::class, 'malfunction_code_id');
     }
 
+    /**
+     * Получить все правила определения причины неисправности соответствующие данному коду (признаку) неисправности.
+     */
+    public function malfunction_cause_rules()
+    {
+        return $this->belongsToMany(MalfunctionCauseRule::class, 'malfunction_cause_rule_if',
+            'malfunction_code_id', 'malfunction_cause_rule_id');
+    }
+
     public function operation_rule_malfunction_codes()
     {
         return $this->hasMany(OperationRuleMalfunctionCode::class, 'malfunction_code_id');

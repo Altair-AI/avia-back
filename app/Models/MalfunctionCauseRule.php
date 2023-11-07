@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Document $document
+ * @property-read MalfunctionCode $malfunction_codes
+ * @property-read RuleBasedKnowledgeBase $rule_based_knowledge_base
+ * @property-read TechnicalSystem $technical_systems
  * @method static Builder|MalfunctionCauseRule newModelQuery()
  * @method static Builder|MalfunctionCauseRule newQuery()
  * @method static Builder|MalfunctionCauseRule query()
@@ -33,6 +37,9 @@ use Illuminate\Support\Carbon;
 class MalfunctionCauseRule extends Model
 {
     use HasFactory;
+    use Filterable;
+
+    protected $hidden = ['pivot'];
 
     /**
      * The table associated with the model.
@@ -68,8 +75,26 @@ class MalfunctionCauseRule extends Model
         return $this->hasMany(MalfunctionCauseRuleIf::class, 'malfunction_cause_rule_id');
     }
 
+    /**
+     * Получить все коды (признаки) неисправности (условия) входящие в данное правило.
+     */
+    public function malfunction_codes()
+    {
+        return $this->belongsToMany(MalfunctionCode::class, 'malfunction_cause_rule_if',
+            'malfunction_cause_rule_id', 'malfunction_code_id');
+    }
+
     public function malfunction_cause_rules_then()
     {
         return $this->hasMany(MalfunctionCauseRuleThen::class, 'malfunction_cause_rule_id');
+    }
+
+    /**
+     * Получить все технические системы или объекты, которые отказали (действия), входящие в данное правило.
+     */
+    public function technical_systems()
+    {
+        return $this->belongsToMany(TechnicalSystem::class, 'malfunction_cause_rule_then',
+            'malfunction_cause_rule_id', 'technical_system_id');
     }
 }

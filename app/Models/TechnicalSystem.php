@@ -160,6 +160,15 @@ class TechnicalSystem extends Model
         return $this->hasMany(MalfunctionCauseRuleThen::class, 'technical_system_id');
     }
 
+    /**
+     * Получить все правила определения причины неисправности соответствующие данной технической системе.
+     */
+    public function malfunction_cause_rules()
+    {
+        return $this->belongsToMany(MalfunctionCauseRule::class, 'malfunction_cause_rule_then',
+            'technical_system_id', 'malfunction_cause_rule_id');
+    }
+
     public function operation_rules_for_malfunction_system()
     {
         return $this->hasMany(OperationRule::class, 'malfunction_system_id');
