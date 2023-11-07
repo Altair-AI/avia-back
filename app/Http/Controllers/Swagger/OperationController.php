@@ -7,49 +7,84 @@ use App\Http\Controllers\Controller;
 /**
  * @OA\Get(
  *     path="/api/v1/admin/operations",
- *     summary="Получить список всех работ",
+ *     summary="Получить список работ",
  *     tags={"Работы (операции)"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает список всех работ (операций) РУН вместе с иерархией их под-работ, созданных в системе. Для администратора возвращает список только тех работ (операций) РУН вместе с иерархией их под-работ, принадлежащих определенным техническим системам, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает список всех работ (операций) РУН вместе с иерархией их под-работ, созданных в системе. Для администратора возвращает список только тех работ (операций) РУН вместе с иерархией их под-работ, принадлежащих определенным техническим системам, которые доступны в рамках проекта для той организации к которой принадлежит администратор. Список может быть отфильтрован по различным параметрам.",
+ *
+ *     @OA\Parameter(
+ *         description="Код работы (операции)",
+ *         in="query",
+ *         name="code",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Название или часть названия работы в повелительном наклонении",
+ *         in="query",
+ *         name="imperative_name",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Название или часть названия работы (отглагольное существительное)",
+ *         in="query",
+ *         name="verbal_name",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер раздела в документе",
+ *         in="query",
+ *         name="document_section",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер подраздела в документе",
+ *         in="query",
+ *         name="document_subsection",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер начальной страницы в документе",
+ *         in="query",
+ *         name="start_document_page",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер завершающей страницы в документе",
+ *         in="query",
+ *         name="end_document_page",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер фактической страницы в файле документа",
+ *         in="query",
+ *         name="actual_document_page",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="id документа",
+ *         in="query",
+ *         name="document_id",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Размер страницы пагинации",
+ *         in="query",
+ *         name="pageSize",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер страницы пагинации",
+ *         in="query",
+ *         name="page",
+ *         required=false
+ *     ),
  *
  *     @OA\Response(
  *         response=200,
  *         description="successful operation",
- *         @OA\JsonContent(type="array", @OA\Items(
- *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="code", type="string", example="Some code"),
- *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
- *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
- *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="document_section", type="string", example="Some document section"),
- *             @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
- *             @OA\Property(property="start_document_page", type="integer", example=100),
- *             @OA\Property(property="end_document_page", type="integer", example=101),
- *             @OA\Property(property="actual_document_page", type="integer", example=123),
- *             @OA\Property(property="document_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="technical_systems", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=2),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             )),
- *             @OA\Property(property="malfunction_codes", type="array", @OA\Items(
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="type", type="integer", example=0),
- *                 @OA\Property(property="source", type="string", example="Some source"),
- *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
- *                 @OA\Property(property="technical_system_id", type="integer", example=2),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             )),
- *             @OA\Property(property="sub_operations", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
@@ -62,9 +97,46 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="document_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="sub_operations", type="array", @OA\Items())
- *             ))
- *         ))
+ *                 @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=2),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )),
+ *                 @OA\Property(property="malfunction_codes", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="type", type="integer", example=0),
+ *                     @OA\Property(property="source", type="string", example="Some source"),
+ *                     @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                     @OA\Property(property="technical_system_id", type="integer", example=2),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )),
+ *                 @OA\Property(property="sub_operations", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=2),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
+ *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="document_section", type="string", example="Some document section"),
+ *                     @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
+ *                     @OA\Property(property="start_document_page", type="integer", example=100),
+ *                     @OA\Property(property="end_document_page", type="integer", example=101),
+ *                     @OA\Property(property="actual_document_page", type="integer", example=123),
+ *                     @OA\Property(property="document_id", type="integer", example=1),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="sub_operations", type="array", @OA\Items())
+ *                 ))
+ *             )),
+ *             @OA\Property(property="page_current", type="integer", example=1),
+ *             @OA\Property(property="page_total", type="integer", example=20),
+ *             @OA\Property(property="page_size", type="integer", example=10)
+ *         )
  *     )
  * ),
  *
