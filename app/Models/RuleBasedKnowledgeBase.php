@@ -24,6 +24,9 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $malfunction_cause_rules_count
  * @property-read Collection<int, OperationRule> $operation_rules
  * @property-read int|null $operation_rules_count
+ * @property-read Project $projects
+ * @property-read TechnicalSystem $technical_system
+ * @property-read User $user
  * @method static Builder|RuleBasedKnowledgeBase newModelQuery()
  * @method static Builder|RuleBasedKnowledgeBase newQuery()
  * @method static Builder|RuleBasedKnowledgeBase query()
@@ -73,7 +76,7 @@ class RuleBasedKnowledgeBase extends Model
         'technical_system_id',
     ];
 
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

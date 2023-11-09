@@ -31,6 +31,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, License> $licenses
  * @property-read int|null $licenses_count
+ * @property-read Project $projects
  * @method static Builder|Organization newModelQuery()
  * @method static Builder|Organization newQuery()
  * @method static Builder|Organization query()

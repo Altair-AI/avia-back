@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read RealTimeTechnicalSystem $real_time_technical_system
+ * @property-read User $user
  * @method static Builder|RealTimeTechnicalSystemUser newModelQuery()
  * @method static Builder|RealTimeTechnicalSystemUser newQuery()
  * @method static Builder|RealTimeTechnicalSystemUser query()

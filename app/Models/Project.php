@@ -23,6 +23,8 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $case_based_knowledge_bases_count
  * @property-read Collection<int, License> $licenses
  * @property-read int|null $licenses_count
+ * @property-read RuleBasedKnowledgeBase $rule_based_knowledge_bases
+ * @property-read TechnicalSystem $technical_system
  * @method static Builder|Project newModelQuery()
  * @method static Builder|Project newQuery()
  * @method static Builder|Project query()

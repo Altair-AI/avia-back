@@ -21,6 +21,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, MalfunctionCauseRuleIf> $malfunction_cause_rules_if
  * @property-read int|null $malfunction_cause_rules_if_count
+ * @property-read MalfunctionCauseRule $malfunction_cause_rules
+ * @property-read Operation $operations
+ * @property-read TechnicalSystem $technical_system
  * @method static Builder|MalfunctionCode newModelQuery()
  * @method static Builder|MalfunctionCode newQuery()
  * @method static Builder|MalfunctionCode query()
@@ -80,6 +83,15 @@ class MalfunctionCode extends Model
     public function malfunction_cause_rules_if()
     {
         return $this->hasMany(MalfunctionCauseRuleIf::class, 'malfunction_code_id');
+    }
+
+    /**
+     * Получить все правила определения причины неисправности соответствующие данному коду (признаку) неисправности.
+     */
+    public function malfunction_cause_rules()
+    {
+        return $this->belongsToMany(MalfunctionCauseRule::class, 'malfunction_cause_rule_if',
+            'malfunction_code_id', 'malfunction_cause_rule_id');
     }
 
     public function operation_rule_malfunction_codes()

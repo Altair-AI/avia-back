@@ -27,6 +27,7 @@ use Illuminate\Support\Carbon;
  * @property-read Project $project
  * @property-read Collection<int, ECase> $system_for_repair_cases
  * @property-read int|null $system_for_repair_cases_count
+ * @property-read TechnicalSystem $technical_system
  * @method static Builder|RealTimeTechnicalSystem newModelQuery()
  * @method static Builder|RealTimeTechnicalSystem newQuery()
  * @method static Builder|RealTimeTechnicalSystem query()

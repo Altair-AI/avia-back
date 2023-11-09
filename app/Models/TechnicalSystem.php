@@ -38,6 +38,10 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $real_time_technical_systems_count
  * @property-read Collection<int, RuleBasedKnowledgeBase> $rule_based_knowledge_bases
  * @property-read int|null $rule_based_knowledge_bases_count
+ * @property-read Document $documents
+ * @property-read Operation $operations
+ * @property-read TechnicalSystem $grandchildren_technical_systems
+ * @property-read MalfunctionCauseRule $malfunction_cause_rules
  * @method static Builder|TechnicalSystem newModelQuery()
  * @method static Builder|TechnicalSystem newQuery()
  * @method static Builder|TechnicalSystem query()
@@ -158,6 +162,15 @@ class TechnicalSystem extends Model
     public function malfunction_cause_rules_then()
     {
         return $this->hasMany(MalfunctionCauseRuleThen::class, 'technical_system_id');
+    }
+
+    /**
+     * Получить все правила определения причины неисправности соответствующие данной технической системе.
+     */
+    public function malfunction_cause_rules()
+    {
+        return $this->belongsToMany(MalfunctionCauseRule::class, 'malfunction_cause_rule_then',
+            'technical_system_id', 'malfunction_cause_rule_id');
     }
 
     public function operation_rules_for_malfunction_system()
