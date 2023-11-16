@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,19 +12,20 @@ use Illuminate\Support\Carbon;
  * App\Models\OperationRule
  *
  * @property int $id
+ * @property string $context
  * @property string|null $description
- * @property int $type
- * @property int $status
- * @property int $rule_based_knowledge_base_id
+ * @property int $document_id
+ * @property int $malfunction_cause_id
+ * @property int $malfunction_system_id
  * @property int $operation_id_if
  * @property int $operation_status_if
  * @property int $operation_result_id
  * @property int $operation_id_then
  * @property int $operation_status_then
  * @property int $priority
- * @property int $malfunction_system_id
- * @property int $cause_system_id
- * @property int $document_id
+ * @property int $repeat_voice
+ * @property int $rule_based_knowledge_base_id
+ * @property int $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Document $document
@@ -32,15 +34,16 @@ use Illuminate\Support\Carbon;
  * @property-read OperationResult $operation_result
  * @property-read Operation|null $operation_then
  * @property-read TechnicalSystem $malfunction_system
- * @property-read TechnicalSystem $cause_system
+ * @property-read MalfunctionCause $malfunction_cause
  * @method static Builder|OperationRule newModelQuery()
  * @method static Builder|OperationRule newQuery()
  * @method static Builder|OperationRule query()
- * @method static Builder|OperationRule whereCauseSystemId($value)
+ * @method static Builder|OperationRule whereContext($value)
  * @method static Builder|OperationRule whereCreatedAt($value)
  * @method static Builder|OperationRule whereDescription($value)
  * @method static Builder|OperationRule whereDocumentId($value)
  * @method static Builder|OperationRule whereId($value)
+ * @method static Builder|OperationRule whereMalfunctionCauseId($value)
  * @method static Builder|OperationRule whereMalfunctionSystemId($value)
  * @method static Builder|OperationRule whereOperationIdIf($value)
  * @method static Builder|OperationRule whereOperationIdThen($value)
@@ -48,8 +51,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|OperationRule whereOperationStatusIf($value)
  * @method static Builder|OperationRule whereOperationStatusThen($value)
  * @method static Builder|OperationRule wherePriority($value)
+ * @method static Builder|OperationRule whereRepeatVoice($value)
  * @method static Builder|OperationRule whereRuleBasedKnowledgeBaseId($value)
- * @method static Builder|OperationRule whereStatus($value)
  * @method static Builder|OperationRule whereType($value)
  * @method static Builder|OperationRule whereUpdatedAt($value)
  * @mixin Builder
@@ -57,14 +60,11 @@ use Illuminate\Support\Carbon;
 class OperationRule extends Model
 {
     use HasFactory;
+    use Filterable;
 
     // Типы правил
     const DISPOSABLE_TYPE = 0; // Одноразовое правило
     const REUSABLE_TYPE = 1;   // Многоразовое правило
-
-    // Статусы правил
-    const COMPLETED_RULE_STATUS = 0;     // Правило выполнено
-    const NOT_COMPLETED_RULE_STATUS = 1; // Правило не выполнено
 
     // Статусы операций (условия)
     const COMPLETED_OPERATION_IF_STATUS = 0;     // Работа выполнена
@@ -91,16 +91,17 @@ class OperationRule extends Model
     protected $fillable = [
         'description',
         'type',
-        'status',
+        'priority',
+        'repeat_voice',
+        'context',
         'rule_based_knowledge_base_id',
         'operation_id_if',
         'operation_status_if',
         'operation_result_id',
         'operation_id_then',
         'operation_status_then',
-        'priority',
+        'malfunction_cause_id',
         'malfunction_system_id',
-        'cause_system_id',
         'document_id',
     ];
 
@@ -129,14 +130,14 @@ class OperationRule extends Model
         return $this->belongsTo(TechnicalSystem::class);
     }
 
-    public function cause_system()
-    {
-        return $this->belongsTo(TechnicalSystem::class);
-    }
-
     public function document()
     {
         return $this->belongsTo(Document::class);
+    }
+
+    public function malfunction_cause()
+    {
+        return $this->belongsTo(MalfunctionCause::class);
     }
 
     public function operation_rule_malfunction_codes()
