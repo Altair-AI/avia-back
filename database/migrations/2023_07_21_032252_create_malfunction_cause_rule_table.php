@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('malfunction_cause_rule', function (Blueprint $table) {
             $table->id();
             $table->text('description')->nullable();
-            $table->text('cause');
             $table->integer('document_id')->unsigned();
             $table->foreign('document_id')
                 ->references('id')
