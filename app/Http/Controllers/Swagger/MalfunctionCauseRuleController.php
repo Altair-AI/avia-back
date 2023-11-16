@@ -11,13 +11,7 @@ use App\Http\Controllers\Controller;
  *     tags={"Правила определения причины неисправности"},
  *     security={{ "bearerAuth": {} }},
  *     description="Для супер-администратора возвращает список правил определения причины неисправности. Для администратора возвращает список только тех правил определения причины неисправности, принадлежащих базе знаний правил, которая доступна в рамках проекта для той организации к которой принадлежит администратор. Список может быть отфильтрован по различным параметрам.",
- *
- *     @OA\Parameter(
- *         description="Название или часть названия причины отказа (система, которая является причиной отказа)",
- *         in="query",
- *         name="cause",
- *         required=false
- *     ),
+
  *     @OA\Parameter(
  *         description="id документа",
  *         in="query",
@@ -50,7 +44,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="cause", type="string", example="Some cause"),
  *                 @OA\Property(property="document_id", type="integer", example=1),
  *                 @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -76,7 +69,13 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *                 ),
- *                 @OA\Property(property="conditions (malfunction_codes)", type="array", @OA\Items(
+ *                 @OA\Property(property="malfunction_causes", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )),
+ *                 @OA\Property(property="malfunction_codes", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="type", type="integer", example=0),
@@ -86,15 +85,32 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *                 )),
- *                 @OA\Property(property="actions (technical_systems)", type="array", @OA\Items(
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="code", type="string", example="Some code"),
- *                     @OA\Property(property="name", type="string", example="Some name"),
- *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *                 ))
+ *                 @OA\Property(property="actions", type="object",
+ *                     @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                         @OA\Property(property="id", type="integer", example=1),
+ *                         @OA\Property(property="code", type="string", example="Some code"),
+ *                         @OA\Property(property="name", type="string", example="Some name"),
+ *                         @OA\Property(property="description", type="string", example="Some description"),
+ *                         @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *                         @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                         @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     )),
+ *                     @OA\Property(property="operations", type="array", @OA\Items(
+ *                         @OA\Property(property="id", type="integer", example=1),
+ *                         @OA\Property(property="code", type="string", example="Some code"),
+ *                         @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
+ *                         @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *                         @OA\Property(property="description", type="string", example="Some description"),
+ *                         @OA\Property(property="document_section", type="string", example="Some document section"),
+ *                         @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
+ *                         @OA\Property(property="start_document_page", type="integer", example=100),
+ *                         @OA\Property(property="end_document_page", type="integer", example=101),
+ *                         @OA\Property(property="actual_document_page", type="integer", example=123),
+ *                         @OA\Property(property="document_id", type="integer", example=1),
+ *                         @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                         @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     ))
+ *                 )
  *             )),
  *             @OA\Property(property="page_current", type="integer", example=1),
  *             @OA\Property(property="page_total", type="integer", example=20),
@@ -114,7 +130,6 @@ use App\Http\Controllers\Controller;
  *             allOf={
  *                 @OA\Schema(
  *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="cause", type="string", example="Some cause"),
  *                     @OA\Property(property="document_id", type="integer", example=1),
  *                     @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1)
  *                 )
@@ -128,7 +143,6 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="cause", type="string", example="Some cause"),
  *             @OA\Property(property="document_id", type="integer", example=1),
  *             @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -158,7 +172,6 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="cause", type="string", example="Some cause"),
  *             @OA\Property(property="document_id", type="integer", example=1),
  *             @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
@@ -184,7 +197,13 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             ),
- *             @OA\Property(property="conditions (malfunction_codes)", type="array", @OA\Items(
+ *             @OA\Property(property="malfunction_causes", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             )),
+ *             @OA\Property(property="malfunction_codes", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="type", type="integer", example=0),
@@ -194,15 +213,32 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             )),
- *             @OA\Property(property="actions (technical_systems)", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             ))
+ *             @OA\Property(property="actions", type="object",
+ *                 @OA\Property(property="technical_systems", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 )),
+ *                 @OA\Property(property="operations", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
+ *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *                     @OA\Property(property="description", type="string", example="Some description"),
+ *                     @OA\Property(property="document_section", type="string", example="Some document section"),
+ *                     @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
+ *                     @OA\Property(property="start_document_page", type="integer", example=100),
+ *                     @OA\Property(property="end_document_page", type="integer", example=101),
+ *                     @OA\Property(property="actual_document_page", type="integer", example=123),
+ *                     @OA\Property(property="document_id", type="integer", example=1),
+ *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 ))
+ *             )
  *         )
  *     )
  * ),
@@ -226,7 +262,6 @@ use App\Http\Controllers\Controller;
  *             allOf={
  *                 @OA\Schema(
  *                     @OA\Property(property="description", type="string", example="Some description for edit"),
- *                     @OA\Property(property="cause", type="string", example="Some cause for edit"),
  *                     @OA\Property(property="document_id", type="integer", example=2),
  *                     @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=2)
  *                 )
@@ -240,7 +275,6 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="cause", type="string", example="Some cause"),
  *             @OA\Property(property="document_id", type="integer", example=2),
  *             @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=2),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
