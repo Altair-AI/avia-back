@@ -34,8 +34,11 @@ class RuleBasedKnowledgeBaseSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        // Загрузка реальных данных по причинам неисправностей РУН (создание правил для базы знаний)
+        // Создание правил для базы знаний правил
         $data_loader = new CSVDataLoader;
+        // Загрузка реальных данных по причинам неисправностей РУН
         $data_loader->create_malfunction_cause_rules($knowledge_base_id);
+        // Загрузка реальных данных по правилам последовательности работ (операций)
+        $data_loader->create_operation_rules($knowledge_base_id);
     }
 }
