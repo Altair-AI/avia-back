@@ -29,7 +29,7 @@ return new class extends Migration
                 ->on('operation')
                 ->onDelete('cascade');
             $table->smallInteger('operation_status_if');
-            $table->integer('operation_result_id')->unsigned();
+            $table->integer('operation_result_id')->unsigned()->nullable();
             $table->foreign('operation_result_id')
                 ->references('id')
                 ->on('operation_result')
@@ -40,7 +40,7 @@ return new class extends Migration
                 ->on('operation')
                 ->onDelete('cascade');
             $table->smallInteger('operation_status_then');
-            $table->integer('malfunction_cause_id')->unsigned();
+            $table->integer('malfunction_cause_id')->unsigned()->nullable();
             $table->foreign('malfunction_cause_id')
                 ->references('id')
                 ->on('malfunction_cause')
