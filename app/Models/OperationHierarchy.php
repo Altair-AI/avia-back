@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string|null $designation
+ * @property int|null $sequence_number
  * @property int $parent_operation_id
  * @property int $child_operation_id
  * @property Carbon|null $created_at
@@ -24,7 +25,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|OperationHierarchy whereChildOperationId($value)
  * @method static Builder|OperationHierarchy whereCreatedAt($value)
  * @method static Builder|OperationHierarchy whereDesignation($value)
+ * @method static Builder|OperationHierarchy whereId($value)
  * @method static Builder|OperationHierarchy whereParentOperationId($value)
+ * @method static Builder|OperationHierarchy whereSequenceNumber($value)
  * @method static Builder|OperationHierarchy whereUpdatedAt($value)
  * @mixin Builder
  */
@@ -46,6 +49,7 @@ class OperationHierarchy extends Model
      */
     protected $fillable = [
         'designation',
+        'sequence_number',
         'parent_operation_id',
         'child_operation_id',
     ];

@@ -46,6 +46,7 @@ class MalfunctionCauseRuleController extends Controller
             $malfunction_cause_rules = MalfunctionCauseRule::filter($filter)
                 ->with('document')
                 ->with('rule_based_knowledge_base')
+                ->with('malfunction_causes')
                 ->paginate($pageSize);
         if (auth()->user()->role == User::ADMIN_ROLE) {
             // Формирование списка идентификаторов баз знаний правил доступных администратору
@@ -57,14 +58,18 @@ class MalfunctionCauseRuleController extends Controller
             $malfunction_cause_rules = MalfunctionCauseRule::filter($filter)
                 ->with('document')
                 ->with('rule_based_knowledge_base')
+                ->with('malfunction_causes')
                 ->whereIn('rule_based_knowledge_base_id', $kb_ids)
                 ->paginate($pageSize);
         }
         $data = [];
         foreach ($malfunction_cause_rules as $malfunction_cause_rule)
             array_push($data, array_merge($malfunction_cause_rule->toArray(), [
-                'conditions (malfunction_codes)' => $malfunction_cause_rule->malfunction_codes,
-                'actions (technical_systems)' => $malfunction_cause_rule->technical_systems
+                'malfunction_codes' => $malfunction_cause_rule->malfunction_codes,
+                'actions' => [
+                    'technical_systems' => $malfunction_cause_rule->technical_systems,
+                    'operations' => $malfunction_cause_rule->operations,
+                ]
             ]));
         $result['data'] = $data;
         $result['page_current'] = !is_array($malfunction_cause_rules) ? $malfunction_cause_rules->currentPage() : null;
@@ -97,8 +102,12 @@ class MalfunctionCauseRuleController extends Controller
         return response()->json(array_merge($malfunctionCauseRule->toArray(), [
             'document' => $malfunctionCauseRule->document,
             'rule_based_knowledge_base' => $malfunctionCauseRule->rule_based_knowledge_base,
-            'conditions (malfunction_codes)' => $malfunctionCauseRule->malfunction_codes,
-            'actions (technical_systems)' => $malfunctionCauseRule->technical_systems
+            'malfunction_causes' => $malfunctionCauseRule->malfunction_causes,
+            'malfunction_codes' => $malfunctionCauseRule->malfunction_codes,
+            'actions' => [
+                'technical_systems' => $malfunctionCauseRule->technical_systems,
+                'operations' => $malfunctionCauseRule->operations,
+            ]
         ]));
     }
 

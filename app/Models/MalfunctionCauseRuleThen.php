@@ -13,9 +13,11 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $malfunction_cause_rule_id
  * @property int $technical_system_id
+ * @property int $operation_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read MalfunctionCauseRule $malfunction_cause_rule
+ * @property-read Operation $operation
  * @property-read TechnicalSystem $technical_system
  * @method static Builder|MalfunctionCauseRuleThen newModelQuery()
  * @method static Builder|MalfunctionCauseRuleThen newQuery()
@@ -23,6 +25,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MalfunctionCauseRuleThen whereCreatedAt($value)
  * @method static Builder|MalfunctionCauseRuleThen whereId($value)
  * @method static Builder|MalfunctionCauseRuleThen whereMalfunctionCauseRuleId($value)
+ * @method static Builder|MalfunctionCauseRuleThen whereOperationId($value)
  * @method static Builder|MalfunctionCauseRuleThen whereTechnicalSystemId($value)
  * @method static Builder|MalfunctionCauseRuleThen whereUpdatedAt($value)
  * @mixin Builder
@@ -46,11 +49,17 @@ class MalfunctionCauseRuleThen extends Model
     protected $fillable = [
         'malfunction_cause_rule_id',
         'technical_system_id',
+        'operation_id',
     ];
 
     public function malfunction_cause_rule()
     {
         return $this->belongsTo(MalfunctionCauseRule::class);
+    }
+
+    public function operation()
+    {
+        return $this->belongsTo(Operation::class);
     }
 
     public function technical_system()

@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('operation_hierarchy', function (Blueprint $table) {
+        Schema::create('malfunction_cause_rule_malfunction_cause', function (Blueprint $table) {
             $table->id();
-            $table->string('designation')->nullable();
-            $table->integer('sequence_number')->nullable();
-            $table->integer('parent_operation_id')->unsigned();
-            $table->foreign('parent_operation_id')
+            $table->integer('malfunction_cause_rule_id')->unsigned();
+            $table->foreign('malfunction_cause_rule_id')
                 ->references('id')
-                ->on('operation')
+                ->on('malfunction_cause_rule')
                 ->onDelete('cascade');
-            $table->integer('child_operation_id')->unsigned();
-            $table->foreign('child_operation_id')
+            $table->integer('malfunction_cause_id')->unsigned();
+            $table->foreign('malfunction_cause_id')
                 ->references('id')
-                ->on('operation')
+                ->on('malfunction_cause')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operation_hierarchy');
+        Schema::dropIfExists('malfunction_cause_rule_malfunction_cause');
     }
 };

@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.0.5"
+        "version": "1.0.6"
     },
     "paths": {
         "/api/": {},
@@ -606,12 +606,6 @@
                 "description": "Для супер-администратора возвращает список правил определения причины неисправности. Для администратора возвращает список только тех правил определения причины неисправности, принадлежащих базе знаний правил, которая доступна в рамках проекта для той организации к которой принадлежит администратор. Список может быть отфильтрован по различным параметрам.",
                 "parameters": [
                     {
-                        "name": "cause",
-                        "in": "query",
-                        "description": "Название или часть названия причины отказа (система, которая является причиной отказа)",
-                        "required": false
-                    },
-                    {
                         "name": "document_id",
                         "in": "query",
                         "description": "id документа",
@@ -654,10 +648,6 @@
                                                     "description": {
                                                         "type": "string",
                                                         "example": "Some description"
-                                                    },
-                                                    "cause": {
-                                                        "type": "string",
-                                                        "example": "Some cause"
                                                     },
                                                     "document_id": {
                                                         "type": "integer",
@@ -759,7 +749,33 @@
                                                         },
                                                         "type": "object"
                                                     },
-                                                    "conditions (malfunction_codes)": {
+                                                    "malfunction_causes": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Some name"
+                                                                },
+                                                                "created_at": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                                },
+                                                                "updated_at": {
+                                                                    "type": "string",
+                                                                    "format": "date-time",
+                                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "malfunction_codes": {
                                                         "type": "array",
                                                         "items": {
                                                             "properties": {
@@ -801,43 +817,110 @@
                                                             "type": "object"
                                                         }
                                                     },
-                                                    "actions (technical_systems)": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "properties": {
-                                                                "id": {
-                                                                    "type": "integer",
-                                                                    "example": 1
-                                                                },
-                                                                "code": {
-                                                                    "type": "string",
-                                                                    "example": "Some code"
-                                                                },
-                                                                "name": {
-                                                                    "type": "string",
-                                                                    "example": "Some name"
-                                                                },
-                                                                "description": {
-                                                                    "type": "string",
-                                                                    "example": "Some description"
-                                                                },
-                                                                "parent_technical_system_id": {
-                                                                    "type": "integer",
-                                                                    "example": 1
-                                                                },
-                                                                "created_at": {
-                                                                    "type": "string",
-                                                                    "format": "date-time",
-                                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                                },
-                                                                "updated_at": {
-                                                                    "type": "string",
-                                                                    "format": "date-time",
-                                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                    "actions": {
+                                                        "properties": {
+                                                            "technical_systems": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "code": {
+                                                                            "type": "string",
+                                                                            "example": "Some code"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "Some name"
+                                                                        },
+                                                                        "description": {
+                                                                            "type": "string",
+                                                                            "example": "Some description"
+                                                                        },
+                                                                        "parent_technical_system_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string",
+                                                                            "format": "date-time",
+                                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                                        },
+                                                                        "updated_at": {
+                                                                            "type": "string",
+                                                                            "format": "date-time",
+                                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
                                                                 }
                                                             },
-                                                            "type": "object"
-                                                        }
+                                                            "operations": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "code": {
+                                                                            "type": "string",
+                                                                            "example": "Some code"
+                                                                        },
+                                                                        "imperative_name": {
+                                                                            "type": "string",
+                                                                            "example": "Some imperative name"
+                                                                        },
+                                                                        "verbal_name": {
+                                                                            "type": "string",
+                                                                            "example": "Some verbal name"
+                                                                        },
+                                                                        "description": {
+                                                                            "type": "string",
+                                                                            "example": "Some description"
+                                                                        },
+                                                                        "document_section": {
+                                                                            "type": "string",
+                                                                            "example": "Some document section"
+                                                                        },
+                                                                        "document_subsection": {
+                                                                            "type": "string",
+                                                                            "example": "Some document subsection"
+                                                                        },
+                                                                        "start_document_page": {
+                                                                            "type": "integer",
+                                                                            "example": 100
+                                                                        },
+                                                                        "end_document_page": {
+                                                                            "type": "integer",
+                                                                            "example": 101
+                                                                        },
+                                                                        "actual_document_page": {
+                                                                            "type": "integer",
+                                                                            "example": 123
+                                                                        },
+                                                                        "document_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string",
+                                                                            "format": "date-time",
+                                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                                        },
+                                                                        "updated_at": {
+                                                                            "type": "string",
+                                                                            "format": "date-time",
+                                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
@@ -884,10 +967,6 @@
                                                 "type": "string",
                                                 "example": "Some description"
                                             },
-                                            "cause": {
-                                                "type": "string",
-                                                "example": "Some cause"
-                                            },
                                             "document_id": {
                                                 "type": "integer",
                                                 "example": 1
@@ -918,10 +997,6 @@
                                         "description": {
                                             "type": "string",
                                             "example": "Some description"
-                                        },
-                                        "cause": {
-                                            "type": "string",
-                                            "example": "Some cause"
                                         },
                                         "document_id": {
                                             "type": "integer",
@@ -985,10 +1060,6 @@
                                         "description": {
                                             "type": "string",
                                             "example": "Some description"
-                                        },
-                                        "cause": {
-                                            "type": "string",
-                                            "example": "Some cause"
                                         },
                                         "document_id": {
                                             "type": "integer",
@@ -1090,7 +1161,33 @@
                                             },
                                             "type": "object"
                                         },
-                                        "conditions (malfunction_codes)": {
+                                        "malfunction_causes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "malfunction_codes": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
@@ -1132,43 +1229,110 @@
                                                 "type": "object"
                                             }
                                         },
-                                        "actions (technical_systems)": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "code": {
-                                                        "type": "string",
-                                                        "example": "Some code"
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Some name"
-                                                    },
-                                                    "description": {
-                                                        "type": "string",
-                                                        "example": "Some description"
-                                                    },
-                                                    "parent_technical_system_id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time",
-                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                        "actions": {
+                                            "properties": {
+                                                "technical_systems": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "Some code"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Some description"
+                                                            },
+                                                            "parent_technical_system_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
-                                                "type": "object"
-                                            }
+                                                "operations": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "Some code"
+                                                            },
+                                                            "imperative_name": {
+                                                                "type": "string",
+                                                                "example": "Some imperative name"
+                                                            },
+                                                            "verbal_name": {
+                                                                "type": "string",
+                                                                "example": "Some verbal name"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Some description"
+                                                            },
+                                                            "document_section": {
+                                                                "type": "string",
+                                                                "example": "Some document section"
+                                                            },
+                                                            "document_subsection": {
+                                                                "type": "string",
+                                                                "example": "Some document subsection"
+                                                            },
+                                                            "start_document_page": {
+                                                                "type": "integer",
+                                                                "example": 100
+                                                            },
+                                                            "end_document_page": {
+                                                                "type": "integer",
+                                                                "example": 101
+                                                            },
+                                                            "actual_document_page": {
+                                                                "type": "integer",
+                                                                "example": 123
+                                                            },
+                                                            "document_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1208,10 +1372,6 @@
                                                 "type": "string",
                                                 "example": "Some description for edit"
                                             },
-                                            "cause": {
-                                                "type": "string",
-                                                "example": "Some cause for edit"
-                                            },
                                             "document_id": {
                                                 "type": "integer",
                                                 "example": 2
@@ -1242,10 +1402,6 @@
                                         "description": {
                                             "type": "string",
                                             "example": "Some description"
-                                        },
-                                        "cause": {
-                                            "type": "string",
-                                            "example": "Some cause"
                                         },
                                         "document_id": {
                                             "type": "integer",

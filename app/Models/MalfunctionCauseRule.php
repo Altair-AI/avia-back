@@ -13,19 +13,19 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string|null $description
- * @property string $cause
  * @property int $document_id
  * @property int $rule_based_knowledge_base_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Document $document
+ * @property-read MalfunctionCause $malfunction_causes
  * @property-read MalfunctionCode $malfunction_codes
  * @property-read RuleBasedKnowledgeBase $rule_based_knowledge_base
+ * @property-read Operation $operations
  * @property-read TechnicalSystem $technical_systems
  * @method static Builder|MalfunctionCauseRule newModelQuery()
  * @method static Builder|MalfunctionCauseRule newQuery()
  * @method static Builder|MalfunctionCauseRule query()
- * @method static Builder|MalfunctionCauseRule whereCause($value)
  * @method static Builder|MalfunctionCauseRule whereCreatedAt($value)
  * @method static Builder|MalfunctionCauseRule whereDescription($value)
  * @method static Builder|MalfunctionCauseRule whereDocumentId($value)
@@ -55,7 +55,6 @@ class MalfunctionCauseRule extends Model
      */
     protected $fillable = [
         'description',
-        'cause',
         'document_id',
         'rule_based_knowledge_base_id',
     ];
@@ -96,5 +95,28 @@ class MalfunctionCauseRule extends Model
     {
         return $this->belongsToMany(TechnicalSystem::class, 'malfunction_cause_rule_then',
             'malfunction_cause_rule_id', 'technical_system_id');
+    }
+
+    /**
+     * Получить все работы (операции), которые необходимо выполнить по условиям данного правила.
+     */
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'malfunction_cause_rule_then',
+            'malfunction_cause_rule_id', 'operation_id');
+    }
+
+    public function malfunction_cause_rule_malfunction_causes()
+    {
+        return $this->hasMany(MalfunctionCauseRuleMalfunctionCause::class, 'malfunction_cause_rule_id');
+    }
+
+    /**
+     * Получить все причины, относящиеся к данному правилу.
+     */
+    public function malfunction_causes()
+    {
+        return $this->belongsToMany(MalfunctionCause::class, 'malfunction_cause_rule_malfunction_cause',
+            'malfunction_cause_rule_id', 'malfunction_cause_id');
     }
 }

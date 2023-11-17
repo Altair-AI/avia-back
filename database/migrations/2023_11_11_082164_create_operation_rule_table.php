@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->text('description')->nullable();
             $table->smallInteger('type');
-            $table->smallInteger('status');
+            $table->smallInteger('repeat_voice');
+            $table->string('context');
+            $table->integer('priority');
             $table->integer('rule_based_knowledge_base_id')->unsigned();
             $table->foreign('rule_based_knowledge_base_id')
                 ->references('id')
@@ -38,14 +40,13 @@ return new class extends Migration
                 ->on('operation')
                 ->onDelete('cascade');
             $table->smallInteger('operation_status_then');
-            $table->integer('priority');
+            $table->integer('malfunction_cause_id')->unsigned();
+            $table->foreign('malfunction_cause_id')
+                ->references('id')
+                ->on('malfunction_cause')
+                ->onDelete('cascade');
             $table->integer('malfunction_system_id')->unsigned();
             $table->foreign('malfunction_system_id')
-                ->references('id')
-                ->on('technical_system')
-                ->onDelete('cascade');
-            $table->integer('cause_system_id')->unsigned();
-            $table->foreign('cause_system_id')
                 ->references('id')
                 ->on('technical_system')
                 ->onDelete('cascade');

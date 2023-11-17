@@ -2,6 +2,7 @@
 
 namespace App\Components;
 
+use App\Models\MalfunctionCause;
 use App\Models\MalfunctionCode;
 use App\Models\Operation;
 use App\Models\TechnicalSystem;
@@ -166,6 +167,7 @@ class CSVDataLoader
                     DB::table('operation_hierarchy')->insert([
                         'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
                             $designation,
+                        'sequence_number' => null,
                         'parent_operation_id' => $parent_operation->id,
                         'child_operation_id' => $operation_id,
                         'created_at' => Carbon::now(),
@@ -371,7 +373,6 @@ class CSVDataLoader
                 // Создание нового правила для базы знаний правил в БД
                 $malfunction_cause_rule_id = DB::table('malfunction_cause_rule')->insertGetId([
                     'description' => null,
-                    'cause' => $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause,
                     'document_id' => $operation->document_id,
                     'rule_based_knowledge_base_id' => $knowledge_base_id,
                     'created_at' => Carbon::now(),
@@ -390,9 +391,30 @@ class CSVDataLoader
                     DB::table('malfunction_cause_rule_then')->insert([
                         'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
                         'technical_system_id' => $technical_system->id,
+                        'operation_id' => $operation->id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
+                // Формирование названия причины неисправности
+                $cause_name = $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause;
+                // Поиск причины неисправности по названию
+                $malfunction_cause = MalfunctionCause::where('name', $cause_name)->first();
+                // Создание новой причины неисправности, если ее нет в БД
+                if ($malfunction_cause)
+                    $malfunction_cause_id = $malfunction_cause->id;
+                else
+                    $malfunction_cause_id = DB::table('malfunction_cause')->insertGetId([
+                        'name' => $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                // Создание связи причины неисправности с правилом
+                DB::table('malfunction_cause_rule_malfunction_cause')->insert([
+                    'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
+                    'malfunction_cause_id' => $malfunction_cause_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             }
         }
         return $encoding ? mb_convert_encoding($malfunction_causes, 'utf-8', 'windows-1251') : $malfunction_causes;

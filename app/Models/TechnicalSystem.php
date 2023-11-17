@@ -27,8 +27,6 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $malfunction_cause_rules_then_count
  * @property-read Collection<int, MalfunctionCode> $malfunction_codes
  * @property-read int|null $malfunction_codes_count
- * @property-read Collection<int, OperationRule> $operation_rules_for_cause_system
- * @property-read int|null $operation_rules_for_cause_system_count
  * @property-read Collection<int, OperationRule> $operation_rules_for_malfunction_system
  * @property-read int|null $operation_rules_for_malfunction_system_count
  * @property-read TechnicalSystem|null $parent_technical_system
@@ -176,10 +174,5 @@ class TechnicalSystem extends Model
     public function operation_rules_for_malfunction_system()
     {
         return $this->hasMany(OperationRule::class, 'malfunction_system_id');
-    }
-
-    public function operation_rules_for_cause_system()
-    {
-        return $this->hasMany(OperationRule::class, 'cause_system_id');
     }
 }

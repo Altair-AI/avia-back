@@ -23,6 +23,11 @@ return new class extends Migration
                 ->references('id')
                 ->on('technical_system')
                 ->onDelete('cascade');
+            $table->integer('operation_id')->unsigned();
+            $table->foreign('operation_id')
+                ->references('id')
+                ->on('operation')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
