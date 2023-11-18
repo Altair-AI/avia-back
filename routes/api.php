@@ -3,6 +3,7 @@
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\MalfunctionCauseRuleController;
 use App\Http\Controllers\OperationController;
+use App\Http\Controllers\OperationRuleController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RuleBasedKnowledgeBaseController;
@@ -39,5 +40,7 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], functio
     Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class)
         ->middleware('jwt.auth');
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class)
+        ->middleware('jwt.auth');
+    Route::apiResource('operation-rules', OperationRuleController::class)
         ->middleware('jwt.auth');
 });

@@ -76,6 +76,10 @@ class OperationRule extends Model
     const NOT_COMPLETED_OPERATION_THEN_STATUS = 1; // Работа не выполнена
     const INITIATED_OPERATION_THEN_STATUS = 2;     // Работа инициирована
 
+    // Флаг показывающий надо ли повторять озвучку
+    const REQUIRED_REPEAT_VOICE = 0;     // Требуется
+    const NOT_REQUIRED_REPEAT_VOICE = 1; // Не требуется
+
     /**
      * The table associated with the model.
      *
