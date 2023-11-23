@@ -6,7 +6,6 @@ use App\Models\MalfunctionCause;
 use App\Models\MalfunctionCode;
 use App\Models\Operation;
 use App\Models\OperationResult;
-use App\Models\OperationRule;
 use App\Models\TechnicalSystem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +78,7 @@ class CSVDataLoader
             // Создание новой работы (операции) в БД
             $operation_id = DB::table('operation')->insertGetId([
                 'code' => $encoding ? mb_convert_encoding($operation_code, 'utf-8', 'windows-1251') : $operation_code,
+                'type' => Operation::BASIC_OPERATION_TYPE,
                 'imperative_name' => null,
                 'verbal_name' => $encoding ? mb_convert_encoding($name, 'utf-8', 'windows-1251') : $name,
                 'description' => null,
@@ -138,6 +138,7 @@ class CSVDataLoader
                     $operation_id = DB::table('operation')->insertGetId([
                         'code' => $encoding ? mb_convert_encoding($child_operation_code, 'utf-8', 'windows-1251') :
                             $child_operation_code,
+                        'type' => Operation::NESTED_OPERATION_TYPE,
                         'imperative_name' => $encoding ? mb_convert_encoding($imperative_name, 'utf-8', 'windows-1251') :
                             $imperative_name,
                         'verbal_name' => $encoding ? mb_convert_encoding($verbal_name, 'utf-8', 'windows-1251') :

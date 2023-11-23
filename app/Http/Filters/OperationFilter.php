@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 class OperationFilter extends AbstractFilter
 {
     public const CODE = 'code';
+    public const TYPE = 'type';
     public const IMPERATIVE_NAME = 'imperative_name';
     public const VERBAL_NAME = 'verbal_name';
     public const DOCUMENT_SECTION = 'document_section';
@@ -20,6 +21,7 @@ class OperationFilter extends AbstractFilter
     {
         return [
             self::CODE => [$this, 'code'],
+            self::TYPE => [$this, 'type'],
             self::IMPERATIVE_NAME => [$this, 'imperativeName'],
             self::VERBAL_NAME => [$this, 'verbalName'],
             self::DOCUMENT_SECTION => [$this, 'documentSection'],
@@ -34,6 +36,11 @@ class OperationFilter extends AbstractFilter
     public function code(Builder $builder, $value)
     {
         $builder->where(self::CODE, $value);
+    }
+
+    public function type(Builder $builder, $value)
+    {
+        $builder->where(self::TYPE, $value);
     }
 
     public function imperativeName(Builder $builder, $value)
