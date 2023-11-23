@@ -25,6 +25,7 @@ class UpdateOperationRequest extends FormRequest
     {
         return [
             'code' => "required|string|max:255|unique:operation",
+            'type' => 'required|integer',
             'imperative_name' => 'nullable|string',
             'verbal_name' => 'required|string',
             'description' => 'nullable|string',

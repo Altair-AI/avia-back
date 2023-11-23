@@ -25,6 +25,7 @@ class IndexOperationRequest extends FormRequest
     {
         return [
             'code' => 'string|max:255',
+            'type' => 'integer',
             'imperative_name' => 'string',
             'verbal_name' => 'string',
             'document_section' => 'string|max:255',
