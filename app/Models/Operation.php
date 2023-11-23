@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -15,6 +14,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property string $code
+ * @property int $type
  * @property string $imperative_name
  * @property string $verbal_name
  * @property string|null $description
@@ -53,6 +53,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Operation whereId($value)
  * @method static Builder|Operation whereImperativeName($value)
  * @method static Builder|Operation whereStartDocumentPage($value)
+ * @method static Builder|Operation whereType($value)
  * @method static Builder|Operation whereUpdatedAt($value)
  * @method static Builder|Operation whereVerbalName($value)
  * @mixin Builder
@@ -61,6 +62,10 @@ class Operation extends Model
 {
     use HasFactory;
     use Filterable;
+
+    // Типы работ (операций)
+    const BASIC_OPERATION_TYPE = 0;  // Основная работа
+    const NESTED_OPERATION_TYPE = 1; // Вложенная подработа
 
     protected $hidden = ['pivot'];
 
@@ -78,6 +83,7 @@ class Operation extends Model
      */
     protected $fillable = [
         'code',
+        'type',
         'imperative_name',
         'verbal_name',
         'description',
