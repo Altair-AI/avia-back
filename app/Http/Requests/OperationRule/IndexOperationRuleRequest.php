@@ -32,9 +32,10 @@ class IndexOperationRuleRequest extends FormRequest
             'rule_based_knowledge_base_id' => 'integer',
             'operation_id_if' => 'integer',
             'operation_status_if' => 'integer',
-            'operation_result_id' => 'integer',
+            'operation_result_id_if' => 'integer',
             'operation_id_then' => 'integer',
             'operation_status_then' => 'integer',
+            'operation_result_id_then' => 'integer',
             'malfunction_cause_id' => 'integer',
             'malfunction_system_id' => 'integer',
             'document_id' => 'integer'
