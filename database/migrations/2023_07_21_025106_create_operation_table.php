@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('operation', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
+            $table->smallInteger('type');
             $table->text('imperative_name')->nullable();
             $table->text('verbal_name');
             $table->text('description')->nullable();

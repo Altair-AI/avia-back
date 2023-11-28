@@ -19,6 +19,12 @@ use App\Http\Controllers\Controller;
  *         required=false
  *     ),
  *     @OA\Parameter(
+ *         description="Тип работы (операции)",
+ *         in="query",
+ *         name="type",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
  *         description="Название или часть названия работы в повелительном наклонении",
  *         in="query",
  *         name="imperative_name",
@@ -86,6 +92,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="type", type="integer", example=0),
  *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
@@ -119,6 +126,7 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="sub_operations", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=2),
  *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="type", type="integer", example=0),
  *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
@@ -151,6 +159,7 @@ use App\Http\Controllers\Controller;
  *             allOf={
  *                 @OA\Schema(
  *                     @OA\Property(property="code", type="string", example="Some code"),
+ *                     @OA\Property(property="type", type="integer", example=0),
  *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
@@ -171,6 +180,7 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
@@ -207,6 +217,7 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
@@ -240,6 +251,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="sub_operations", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="type", type="integer", example=0),
  *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
@@ -276,6 +288,7 @@ use App\Http\Controllers\Controller;
  *             allOf={
  *                 @OA\Schema(
  *                     @OA\Property(property="code", type="string", example="Some code for edit"),
+ *                     @OA\Property(property="type", type="integer", example=1),
  *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name for edit"),
  *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name for edit"),
  *                     @OA\Property(property="description", type="string", example="Some description for edit"),
@@ -296,6 +309,7 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="type", type="integer", example=1),
  *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
  *             @OA\Property(property="description", type="string", example="Some description"),

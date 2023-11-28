@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.0.7"
+        "version": "1.0.8"
     },
     "paths": {
         "/api/": {},
@@ -1570,6 +1570,12 @@
                         "required": false
                     },
                     {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Тип работы (операции)",
+                        "required": false
+                    },
+                    {
                         "name": "imperative_name",
                         "in": "query",
                         "description": "Название или часть названия работы в повелительном наклонении",
@@ -1648,6 +1654,10 @@
                                                     "code": {
                                                         "type": "string",
                                                         "example": "Some code"
+                                                    },
+                                                    "type": {
+                                                        "type": "integer",
+                                                        "example": 0
                                                     },
                                                     "imperative_name": {
                                                         "type": "string",
@@ -1787,6 +1797,10 @@
                                                                     "type": "string",
                                                                     "example": "Some code"
                                                                 },
+                                                                "type": {
+                                                                    "type": "integer",
+                                                                    "example": 0
+                                                                },
                                                                 "imperative_name": {
                                                                     "type": "string",
                                                                     "example": "Some imperative name"
@@ -1886,6 +1900,10 @@
                                                 "type": "string",
                                                 "example": "Some code"
                                             },
+                                            "type": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
                                             "imperative_name": {
                                                 "type": "string",
                                                 "example": "Some imperative name"
@@ -1944,6 +1962,10 @@
                                         "code": {
                                             "type": "string",
                                             "example": "Some code"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "example": 0
                                         },
                                         "imperative_name": {
                                             "type": "string",
@@ -2035,6 +2057,10 @@
                                         "code": {
                                             "type": "string",
                                             "example": "Some code"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "example": 0
                                         },
                                         "imperative_name": {
                                             "type": "string",
@@ -2174,6 +2200,10 @@
                                                         "type": "string",
                                                         "example": "Some code"
                                                     },
+                                                    "type": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
                                                     "imperative_name": {
                                                         "type": "string",
                                                         "example": "Some imperative name"
@@ -2266,6 +2296,10 @@
                                                 "type": "string",
                                                 "example": "Some code for edit"
                                             },
+                                            "type": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
                                             "imperative_name": {
                                                 "type": "string",
                                                 "example": "Some imperative name for edit"
@@ -2324,6 +2358,10 @@
                                         "code": {
                                             "type": "string",
                                             "example": "Some code"
+                                        },
+                                        "type": {
+                                            "type": "integer",
+                                            "example": 1
                                         },
                                         "imperative_name": {
                                             "type": "string",
