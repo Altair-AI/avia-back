@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.0.8"
+        "version": "1.0.9"
     },
     "paths": {
         "/api/": {},
@@ -2506,9 +2506,9 @@
                         "required": false
                     },
                     {
-                        "name": "operation_result_id",
+                        "name": "operation_result_id_if",
                         "in": "query",
-                        "description": "id результата работы",
+                        "description": "id результата работы (условие)",
                         "required": false
                     },
                     {
@@ -2521,6 +2521,12 @@
                         "name": "operation_status_then",
                         "in": "query",
                         "description": "Статус работы (действие)",
+                        "required": false
+                    },
+                    {
+                        "name": "operation_result_id_then",
+                        "in": "query",
+                        "description": "id результата работы (действие)",
                         "required": false
                     },
                     {
@@ -2603,7 +2609,7 @@
                                                         "type": "integer",
                                                         "example": 2
                                                     },
-                                                    "operation_result_id": {
+                                                    "operation_result_id_if": {
                                                         "type": "integer",
                                                         "example": 1
                                                     },
@@ -2614,6 +2620,10 @@
                                                     "operation_status_then": {
                                                         "type": "integer",
                                                         "example": 1
+                                                    },
+                                                    "operation_result_id_then": {
+                                                        "type": "integer",
+                                                        "example": 2
                                                     },
                                                     "rule_based_knowledge_base_id": {
                                                         "type": "integer",
@@ -2700,7 +2710,7 @@
                                                         },
                                                         "type": "object"
                                                     },
-                                                    "operation_result": {
+                                                    "operation_result_if": {
                                                         "properties": {
                                                             "id": {
                                                                 "type": "integer",
@@ -2772,6 +2782,33 @@
                                                             "document_id": {
                                                                 "type": "integer",
                                                                 "example": 1
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "operation_result_then": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Some description"
                                                             },
                                                             "created_at": {
                                                                 "type": "string",
@@ -2995,7 +3032,7 @@
                                                 "type": "integer",
                                                 "example": 2
                                             },
-                                            "operation_result_id": {
+                                            "operation_result_id_if": {
                                                 "type": "integer",
                                                 "example": 1
                                             },
@@ -3006,6 +3043,10 @@
                                             "operation_status_then": {
                                                 "type": "integer",
                                                 "example": 1
+                                            },
+                                            "operation_result_id_then": {
+                                                "type": "integer",
+                                                "example": 2
                                             },
                                             "rule_based_knowledge_base_id": {
                                                 "type": "integer",
@@ -3070,7 +3111,7 @@
                                             "type": "integer",
                                             "example": 2
                                         },
-                                        "operation_result_id": {
+                                        "operation_result_id_if": {
                                             "type": "integer",
                                             "example": 1
                                         },
@@ -3081,6 +3122,10 @@
                                         "operation_status_then": {
                                             "type": "integer",
                                             "example": 1
+                                        },
+                                        "operation_result_id_then": {
+                                            "type": "integer",
+                                            "example": 2
                                         },
                                         "rule_based_knowledge_base_id": {
                                             "type": "integer",
@@ -3167,7 +3212,7 @@
                                             },
                                             "type": "object"
                                         },
-                                        "operation_result": {
+                                        "operation_result_if": {
                                             "properties": {
                                                 "id": {
                                                     "type": "integer",
@@ -3239,6 +3284,33 @@
                                                 "document_id": {
                                                     "type": "integer",
                                                     "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "operation_result_then": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -3462,7 +3534,7 @@
                                             "type": "integer",
                                             "example": 2
                                         },
-                                        "operation_result_id": {
+                                        "operation_result_id_if": {
                                             "type": "integer",
                                             "example": 1
                                         },
@@ -3473,6 +3545,10 @@
                                         "operation_status_then": {
                                             "type": "integer",
                                             "example": 1
+                                        },
+                                        "operation_result_id_then": {
+                                            "type": "integer",
+                                            "example": 2
                                         },
                                         "rule_based_knowledge_base_id": {
                                             "type": "integer",
@@ -3559,7 +3635,7 @@
                                             },
                                             "type": "object"
                                         },
-                                        "operation_result": {
+                                        "operation_result_if": {
                                             "properties": {
                                                 "id": {
                                                     "type": "integer",
@@ -3631,6 +3707,33 @@
                                                 "document_id": {
                                                     "type": "integer",
                                                     "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "operation_result_then": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -3847,7 +3950,7 @@
                                                 "type": "integer",
                                                 "example": 1
                                             },
-                                            "operation_result_id": {
+                                            "operation_result_id_if": {
                                                 "type": "integer",
                                                 "example": 3
                                             },
@@ -3858,6 +3961,10 @@
                                             "operation_status_then": {
                                                 "type": "integer",
                                                 "example": 1
+                                            },
+                                            "operation_result_id_then": {
+                                                "type": "integer",
+                                                "example": 4
                                             },
                                             "rule_based_knowledge_base_id": {
                                                 "type": "integer",
@@ -3922,7 +4029,7 @@
                                             "type": "integer",
                                             "example": 1
                                         },
-                                        "operation_result_id": {
+                                        "operation_result_id_if": {
                                             "type": "integer",
                                             "example": 3
                                         },
@@ -3933,6 +4040,10 @@
                                         "operation_status_then": {
                                             "type": "integer",
                                             "example": 1
+                                        },
+                                        "operation_result_id_then": {
+                                            "type": "integer",
+                                            "example": 4
                                         },
                                         "rule_based_knowledge_base_id": {
                                             "type": "integer",
@@ -4019,7 +4130,7 @@
                                             },
                                             "type": "object"
                                         },
-                                        "operation_result": {
+                                        "operation_result_if": {
                                             "properties": {
                                                 "id": {
                                                     "type": "integer",
@@ -4091,6 +4202,33 @@
                                                 "document_id": {
                                                     "type": "integer",
                                                     "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "operation_result_then": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
                                                 },
                                                 "created_at": {
                                                     "type": "string",
