@@ -15,7 +15,7 @@ class AuthController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
     }
 
     /**
@@ -35,6 +35,16 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($validator->validated()))
             return response()->json(['error' => 'Unauthorized'], 401);
         return $this->createNewToken($token);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return JsonResponse
+     */
+    public function me()
+    {
+        return response()->json(auth()->user());
     }
 
     /**
