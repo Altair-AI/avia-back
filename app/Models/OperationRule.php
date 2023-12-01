@@ -19,9 +19,10 @@ use Illuminate\Support\Carbon;
  * @property int $malfunction_system_id
  * @property int $operation_id_if
  * @property int $operation_status_if
- * @property int $operation_result_id
+ * @property int $operation_result_id_if
  * @property int $operation_id_then
  * @property int $operation_status_then
+ * @property int $operation_result_id_then
  * @property int $priority
  * @property int $repeat_voice
  * @property int $rule_based_knowledge_base_id
@@ -31,8 +32,9 @@ use Illuminate\Support\Carbon;
  * @property-read Document $document
  * @property-read RuleBasedKnowledgeBase $rule_based_knowledge_base
  * @property-read Operation|null $operation_if
- * @property-read OperationResult $operation_result
+ * @property-read OperationResult $operation_result_if
  * @property-read Operation|null $operation_then
+ * @property-read OperationResult $operation_result_then
  * @property-read TechnicalSystem $malfunction_system
  * @property-read MalfunctionCause $malfunction_cause
  * @method static Builder|OperationRule newModelQuery()
@@ -47,7 +49,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|OperationRule whereMalfunctionSystemId($value)
  * @method static Builder|OperationRule whereOperationIdIf($value)
  * @method static Builder|OperationRule whereOperationIdThen($value)
- * @method static Builder|OperationRule whereOperationResultId($value)
+ * @method static Builder|OperationRule whereOperationResultIdIf($value)
+ * @method static Builder|OperationRule whereOperationResultIdThen($value)
  * @method static Builder|OperationRule whereOperationStatusIf($value)
  * @method static Builder|OperationRule whereOperationStatusThen($value)
  * @method static Builder|OperationRule wherePriority($value)
@@ -101,9 +104,10 @@ class OperationRule extends Model
         'rule_based_knowledge_base_id',
         'operation_id_if',
         'operation_status_if',
-        'operation_result_id',
+        'operation_result_id_if',
         'operation_id_then',
         'operation_status_then',
+        'operation_result_id_then',
         'malfunction_cause_id',
         'malfunction_system_id',
         'document_id',
@@ -119,7 +123,7 @@ class OperationRule extends Model
         return $this->belongsTo(Operation::class);
     }
 
-    public function operation_result()
+    public function operation_result_if()
     {
         return $this->belongsTo(OperationResult::class);
     }
@@ -127,6 +131,11 @@ class OperationRule extends Model
     public function operation_then()
     {
         return $this->belongsTo(Operation::class);
+    }
+
+    public function operation_result_then()
+    {
+        return $this->belongsTo(OperationResult::class);
     }
 
     public function malfunction_system()

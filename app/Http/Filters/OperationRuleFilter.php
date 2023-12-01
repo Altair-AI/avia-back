@@ -13,9 +13,10 @@ class OperationRuleFilter extends AbstractFilter
     public const RULE_BASED_KNOWLEDGE_BASE_ID = 'rule_based_knowledge_base_id';
     public const OPERATION_ID_IF = 'operation_id_if';
     public const OPERATION_STATUS_IF = 'operation_status_if';
-    public const OPERATION_RESULT_ID = 'operation_result_id';
+    public const OPERATION_RESULT_ID_IF = 'operation_result_id_if';
     public const OPERATION_ID_THEN = 'operation_id_then';
     public const OPERATION_STATUS_THEN = 'operation_status_then';
+    public const OPERATION_RESULT_ID_THEN = 'operation_result_id_then';
     public const MALFUNCTION_CAUSE_ID = 'malfunction_cause_id';
     public const MALFUNCTION_SYSTEM_ID = 'malfunction_system_id';
     public const DOCUMENT_ID = 'document_id';
@@ -30,9 +31,10 @@ class OperationRuleFilter extends AbstractFilter
             self::RULE_BASED_KNOWLEDGE_BASE_ID => [$this, 'ruleBasedKnowledgeBaseId'],
             self::OPERATION_ID_IF => [$this, 'operationIdIf'],
             self::OPERATION_STATUS_IF => [$this, 'operationStatusIf'],
-            self::OPERATION_RESULT_ID => [$this, 'operationResultId'],
+            self::OPERATION_RESULT_ID_IF => [$this, 'operationResultIdIf'],
             self::OPERATION_ID_THEN => [$this, 'operationIdThen'],
             self::OPERATION_STATUS_THEN => [$this, 'operationStatusThen'],
+            self::OPERATION_RESULT_ID_THEN => [$this, 'operationResultIdThen'],
             self::MALFUNCTION_CAUSE_ID => [$this, 'malfunctionCauseId'],
             self::MALFUNCTION_SYSTEM_ID => [$this, 'malfunctionSystemId'],
             self::DOCUMENT_ID => [$this, 'documentId'],
@@ -74,9 +76,9 @@ class OperationRuleFilter extends AbstractFilter
         $builder->where(self::OPERATION_STATUS_IF, $value);
     }
 
-    public function operationResultId(Builder $builder, $value)
+    public function operationResultIdIf(Builder $builder, $value)
     {
-        $builder->where(self::OPERATION_RESULT_ID, $value);
+        $builder->where(self::OPERATION_RESULT_ID_IF, $value);
     }
 
     public function operationIdThen(Builder $builder, $value)
@@ -87,6 +89,11 @@ class OperationRuleFilter extends AbstractFilter
     public function operationStatusThen(Builder $builder, $value)
     {
         $builder->where(self::OPERATION_STATUS_THEN, $value);
+    }
+
+    public function operationResultIdThen(Builder $builder, $value)
+    {
+        $builder->where(self::OPERATION_RESULT_ID_THEN, $value);
     }
 
     public function malfunctionCauseId(Builder $builder, $value)

@@ -407,7 +407,7 @@ class CSVDataLoader
                     $malfunction_cause_id = $malfunction_cause->id;
                 else
                     $malfunction_cause_id = DB::table('malfunction_cause')->insertGetId([
-                        'name' => $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause,
+                        'name' => $cause_name,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
@@ -421,6 +421,31 @@ class CSVDataLoader
             }
         }
         return $encoding ? mb_convert_encoding($malfunction_causes, 'utf-8', 'windows-1251') : $malfunction_causes;
+    }
+
+    /**
+     * Get operation result id.
+     *
+     * @param String $operation_result_name - name of operation result from rule condition or action
+     * @return int|mixed|null
+     */
+    public function get_operation_result(String $operation_result_name) {
+        $operation_result_id = null;
+        if ($operation_result_name != "") {
+            // Поиск результата работы по названию
+            $operation_result_model = OperationResult::where('name', $operation_result_name)->first();
+            // Создание нового результата работы, если его нет в БД
+            if ($operation_result_model)
+                $operation_result_id = $operation_result_model->id;
+            else
+                $operation_result_id = DB::table('operation_result')->insertGetId([
+                    'name' => $operation_result_name != "" ? $operation_result_name : null,
+                    'description' => null,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+        }
+        return $operation_result_id;
     }
 
     /**
@@ -441,11 +466,12 @@ class CSVDataLoader
         // Читаем построчно содержимое CSV-файла
         while (($row = fgetcsv($fh, 0, ';')) !== false) {
             list($type_rule, $context, $priority, $operation_code_if, $operation_name_if, $operation_status_if,
-                $operation_result, $operation_code_then, $operation_name_then, $operation_status_then, $repeat_voice,
-                $malfunction_system, $malfunction_cause, $document_id) = $row;
+                $operation_result_if, $operation_code_then, $operation_name_then, $operation_status_then,
+                $operation_result_then, $repeat_voice, $malfunction_system, $malfunction_cause, $document_id) = $row;
             array_push($operation_rules, [$type_rule, $context, $priority, $operation_code_if, $operation_name_if,
-                $operation_status_if, $operation_result, $operation_code_then, $operation_name_then,
-                $operation_status_then, $repeat_voice, $malfunction_system, $malfunction_cause, $document_id]);
+                $operation_status_if, $operation_result_if, $operation_code_then, $operation_name_then,
+                $operation_status_then, $operation_result_then, $repeat_voice, $malfunction_system, $malfunction_cause,
+                $document_id]);
 
             // Поиск работы (условие) по коду
             $operation_if = Operation::where('code', $operation_code_if)->first();
@@ -454,31 +480,22 @@ class CSVDataLoader
 
             // Если работы найдены
             if ($operation_if and $operation_then) {
-                // Формирование контекста правила
-                $context_name = $encoding ? mb_convert_encoding($context, 'utf-8', 'windows-1251') : $context;
-
-                // Формирование названия результата работы
-                $operation_result_name = $encoding ? mb_convert_encoding($operation_result, 'utf-8', 'windows-1251') :
-                    $operation_result;
-                $operation_result_id = null;
-                if ($operation_result_name != "") {
-                    // Поиск результата работы по названию
-                    $operation_result_model = OperationResult::where('name', $operation_result_name)->first();
-                    // Создание нового результата работы, если его нет в БД
-                    if ($operation_result_model)
-                        $operation_result_id = $operation_result_model->id;
-                    else
-                        $operation_result_id = DB::table('operation_result')->insertGetId([
-                            'name' => $operation_result_name != "" ? $operation_result_name : null,
-                            'description' => null,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
+                // Формирование корректных названий
+                $context_name = $context;
+                $operation_result_name_if = $operation_result_if;
+                $operation_result_name_then = $operation_result_then;
+                $malfunction_cause_name = $malfunction_cause;
+                if ($encoding) {
+                    $context_name = mb_convert_encoding($context, 'utf-8', 'windows-1251');
+                    $operation_result_name_if = mb_convert_encoding($operation_result_if, 'utf-8', 'windows-1251');
+                    $operation_result_name_then = mb_convert_encoding($operation_result_then, 'utf-8', 'windows-1251');
+                    $malfunction_cause_name = mb_convert_encoding($malfunction_cause, 'utf-8', 'windows-1251');
                 }
 
-                // Формирование названия причины неисправности
-                $malfunction_cause_name = $encoding ? mb_convert_encoding($malfunction_cause, 'utf-8', 'windows-1251') :
-                    $malfunction_cause;
+                // Получение id результата работы из условия и действия
+                $operation_result_id_if = self::get_operation_result($operation_result_name_if);
+                $operation_result_id_then = self::get_operation_result($operation_result_name_then);
+
                 $malfunction_cause_id = null;
                 if ($malfunction_cause_name != "") {
                     // Поиск причины неисправности по названию
@@ -500,9 +517,10 @@ class CSVDataLoader
                     'type' => (int)$type_rule,
                     'operation_id_if' => $operation_if->id,
                     'operation_status_if' => (int)$operation_status_if,
-                    'operation_result_id' => $operation_result_id,
+                    'operation_result_id_if' => $operation_result_id_if,
                     'operation_id_then' => $operation_then->id,
                     'operation_status_then' => (int)$operation_status_then,
+                    'operation_result_id_then' => $operation_result_id_then,
                     'priority' => $priority != "" ? (int)$priority : 0,
                     'repeat_voice' => (int)$repeat_voice,
                     'context' => $context_name != "" ? $context_name : null,

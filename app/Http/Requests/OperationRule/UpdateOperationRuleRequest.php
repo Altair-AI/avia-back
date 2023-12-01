@@ -32,9 +32,10 @@ class UpdateOperationRuleRequest extends FormRequest
             'rule_based_knowledge_base_id' => 'required|integer',
             'operation_id_if' => 'required|integer',
             'operation_status_if' => 'required|integer',
-            'operation_result_id' => 'nullable|integer',
+            'operation_result_id_if' => 'nullable|integer',
             'operation_id_then' => 'required|integer',
             'operation_status_then' => 'required|integer',
+            'operation_result_id_then' => 'nullable|integer',
             'malfunction_cause_id' => 'nullable|integer',
             'malfunction_system_id' => 'required|integer',
             'document_id' => 'required|integer'
