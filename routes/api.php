@@ -27,20 +27,17 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
 });
 
-Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'v1/admin/'], function () {
-    Route::apiResource('organizations', OrganizationController::class)->middleware('jwt.auth');
-    Route::apiResource('users', UserController::class)->middleware('jwt.auth');
-    Route::apiResource('technical-systems', TechnicalSystemController::class)
-        ->middleware('jwt.auth');
-    Route::apiResource('projects', ProjectController::class)->middleware('jwt.auth');
-    Route::apiResource('documents', DocumentController::class)->middleware('jwt.auth');
-    Route::apiResource('operations', OperationController::class)->middleware('jwt.auth');
-    Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class)
-        ->middleware('jwt.auth');
-    Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class)
-        ->middleware('jwt.auth');
-    Route::apiResource('operation-rules', OperationRuleController::class)
-        ->middleware('jwt.auth');
+Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin/'], function () {
+    Route::apiResource('organizations', OrganizationController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('technical-systems', TechnicalSystemController::class);
+    Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('documents', DocumentController::class);
+    Route::apiResource('operations', OperationController::class);
+    Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class);
+    Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
+    Route::apiResource('operation-rules', OperationRuleController::class);
 });

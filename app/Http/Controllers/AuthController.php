@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -19,22 +19,27 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
+     * Get a JWT token via given credentials.
      *
      * @param Request $request
      * @return JsonResponse
-     * @throws ValidationException
      */
-    public function login(Request $request) {
-    	$validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
-        if ($validator->fails())
-            return response()->json($validator->errors(), 422);
-        if (!$token = auth()->attempt($validator->validated()))
-            return response()->json(['error' => 'Unauthorized'], 401);
-        return $this->createNewToken($token);
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        if ($token = $this->guard()->attempt($credentials))
+            return $this->respondWithToken($token);
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return JsonResponse
+     */
+    public function me()
+    {
+        return response()->json($this->guard()->user());
     }
 
     /**
@@ -43,7 +48,7 @@ class AuthController extends Controller
      * @return JsonResponse
      */
     public function logout() {
-        auth()->logout();
+        $this->guard()->logout();
         return response()->json(['message' => 'User successfully signed out.']);
     }
 
@@ -53,30 +58,32 @@ class AuthController extends Controller
      * @return JsonResponse
      */
     public function refresh() {
-        return $this->createNewToken(auth()->refresh());
-    }
-
-    /**
-     * Get the authenticated User.
-     *
-     * @return JsonResponse
-     */
-    public function userProfile() {
-        return response()->json(auth()->user());
+        return $this->respondWithToken($this->guard()->refresh());
     }
 
     /**
      * Get the token array structure.
      *
-     * @param  string $token
+     * @param string $token
      * @return JsonResponse
      */
-    protected function createNewToken(string $token) {
+    protected function respondWithToken(string $token)
+    {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60,
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
             'user' => auth()->user()
         ]);
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return Guard
+     */
+    public function guard()
+    {
+        return Auth::guard();
     }
 }
