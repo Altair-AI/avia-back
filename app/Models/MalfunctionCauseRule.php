@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -23,6 +24,8 @@ use Illuminate\Support\Carbon;
  * @property-read RuleBasedKnowledgeBase $rule_based_knowledge_base
  * @property-read Operation $operations
  * @property-read TechnicalSystem $technical_systems
+ * @property-read Collection<int, WorkSession> $work_sessions
+ * @property-read int|null $work_sessions_count
  * @method static Builder|MalfunctionCauseRule newModelQuery()
  * @method static Builder|MalfunctionCauseRule newQuery()
  * @method static Builder|MalfunctionCauseRule query()
@@ -118,5 +121,10 @@ class MalfunctionCauseRule extends Model
     {
         return $this->belongsToMany(MalfunctionCause::class, 'malfunction_cause_rule_malfunction_cause',
             'malfunction_cause_rule_id', 'malfunction_cause_id');
+    }
+
+    public function work_sessions()
+    {
+        return $this->hasMany(WorkSession::class, 'malfunction_cause_rule_id');
     }
 }
