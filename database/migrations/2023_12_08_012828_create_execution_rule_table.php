@@ -11,28 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('completed_operation', function (Blueprint $table) {
+        Schema::create('execution_rule', function (Blueprint $table) {
             $table->id();
-            $table->smallInteger('type');
+            $table->smallInteger('status');
             $table->integer('operation_id')->unsigned();
             $table->foreign('operation_id')
                 ->references('id')
                 ->on('operation')
                 ->onDelete('cascade');
-            $table->integer('previous_operation_id')->unsigned()->nullable();
-            $table->foreign('previous_operation_id')
-                ->references('id')
-                ->on('operation')
-                ->onDelete('cascade');
+            $table->smallInteger('operation_status');
             $table->integer('operation_result_id')->unsigned();
             $table->foreign('operation_result_id')
                 ->references('id')
                 ->on('operation_result')
                 ->onDelete('cascade');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')
+            $table->integer('operation_rule_list_id')->unsigned();
+            $table->foreign('operation_rule_list_id')
                 ->references('id')
-                ->on('users')
+                ->on('operation_rule_list')
                 ->onDelete('cascade');
             $table->timestamps();
         });
@@ -43,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('completed_operation');
+        Schema::dropIfExists('execution_rule');
     }
 };
