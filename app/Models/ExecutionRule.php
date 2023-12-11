@@ -38,6 +38,18 @@ class ExecutionRule extends Model
 {
     use HasFactory;
 
+    // Статус правила
+    const IN_PROGRESS_STATUS = 0;  // Выполнение правила
+    const NO_OPERATION_STATUS = 1; // Отсутствует факт работы
+    const NO_STATUS_STATUS = 2;    // Отсутствует факт статуса работы
+    const NO_RESULT_STATUS = 3;    // Отсутствует факт результата работы
+    const DONE_STATUS = 4;         // Выполнено
+
+    // Статус работы
+    const NOT_COMPLETED_STATUS = 0; // Не выполнена
+    const COMPLETED_STATUS = 1;     // Выполнена
+    const INITIATED_STATUS = 2;     // Инициирована
+
     /**
      * The table associated with the model.
      *

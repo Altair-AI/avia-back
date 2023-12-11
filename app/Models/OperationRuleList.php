@@ -38,6 +38,10 @@ class OperationRuleList extends Model
 {
     use HasFactory;
 
+    // Статус правила в списке
+    const NOT_COMPLETED_STATUS = 0; // Не выполнено
+    const COMPLETED_STATUS = 1;     // Выполнено
+
     /**
      * The table associated with the model.
      *
