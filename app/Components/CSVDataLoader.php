@@ -3,6 +3,9 @@
 namespace App\Components;
 
 use App\Models\MalfunctionCause;
+use App\Models\MalfunctionCauseRule;
+use App\Models\MalfunctionCauseRuleIf;
+use App\Models\MalfunctionCauseRuleThen;
 use App\Models\MalfunctionCode;
 use App\Models\Operation;
 use App\Models\OperationResult;
@@ -358,6 +361,7 @@ class CSVDataLoader
      */
     public function create_malfunction_cause_rules(int $knowledge_base_id, bool $encoding = false) {
         $malfunction_causes = [];
+        $operation_codes = [];
         // Пусть к csv-файлу с причинами неисправностей
         $file = resource_path() . '/csv/malfunction_causes.csv';
         // Открываем файл с CSV-данными
@@ -373,31 +377,39 @@ class CSVDataLoader
             $operation = Operation::where('code', $operation_code)->first();
             // Если работа найдена
             if ($operation) {
-                // Создание нового правила для базы знаний правил в БД
-                $malfunction_cause_rule_id = DB::table('malfunction_cause_rule')->insertGetId([
-                    'description' => null,
-                    'document_id' => $operation->document_id,
-                    'rule_based_knowledge_base_id' => $knowledge_base_id,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
-                // Создание условий для правила (коды неисправности для правила)
-                foreach ($operation->malfunction_codes as $malfunction_code)
-                    DB::table('malfunction_cause_rule_if')->insert([
-                        'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
-                        'malfunction_code_id' => $malfunction_code->id,
+                // Если код работы встречается впервые при чтении данного файла
+                if (!in_array($operation_code, $operation_codes)) {
+                    // Создание нового правила для базы знаний правил в БД
+                    $malfunction_cause_rule_id = DB::table('malfunction_cause_rule')->insertGetId([
+                        'description' => null,
+                        'document_id' => $operation->document_id,
+                        'rule_based_knowledge_base_id' => $knowledge_base_id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                // Создание действий для правила (системы, которые соответствуют кодам неисправности для правила)
-                foreach ($operation->technical_systems as $technical_system)
-                    DB::table('malfunction_cause_rule_then')->insert([
-                        'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
-                        'technical_system_id' => $technical_system->id,
-                        'operation_id' => $operation->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
+                    // Создание условий для правила (коды неисправности для правила)
+                    foreach ($operation->malfunction_codes as $malfunction_code)
+                        DB::table('malfunction_cause_rule_if')->insert([
+                            'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
+                            'malfunction_code_id' => $malfunction_code->id,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now(),
+                        ]);
+                    // Создание действий для правила (системы, которые соответствуют кодам неисправности для правила)
+                    foreach ($operation->technical_systems as $technical_system)
+                        DB::table('malfunction_cause_rule_then')->insert([
+                            'malfunction_cause_rule_id' => $malfunction_cause_rule_id,
+                            'technical_system_id' => $technical_system->id,
+                            'operation_id' => $operation->id,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now(),
+                        ]);
+                    // Добавление текущего кода работы в общий массив с кодами
+                    array_push($operation_codes, $operation_code);
+                } else
+                    $malfunction_cause_rule_id = MalfunctionCauseRule::whereIn('id',
+                        MalfunctionCauseRuleThen::select(['malfunction_cause_rule_id'])
+                        ->where('operation_id', $operation->id))->first()->id;
                 // Формирование названия причины неисправности
                 $cause_name = $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause;
                 // Поиск причины неисправности по названию
