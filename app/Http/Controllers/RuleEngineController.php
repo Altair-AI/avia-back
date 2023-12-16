@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\RuleEngine\Rule;
+use App\Components\RuleEngine\RuleEngine;
 use App\Http\Requests\RuleEngine\InitializeRuleEngineRequest;
+use App\Http\Requests\RuleEngine\RunRuleEngineRequest;
+use App\Models\CompletedOperation;
+use App\Models\ExecutionRule;
 use App\Models\ExecutionRuleQueue;
 use App\Models\MalfunctionCauseRule;
 use App\Models\MalfunctionCauseRuleIf;
@@ -107,6 +112,168 @@ class RuleEngineController extends Controller
                     }
                 }
             }
+        }
+
+        return response()->json($result);
+    }
+
+    /**
+     * Run rule engine to determine the sequence of operations.
+     *
+     * @param RunRuleEngineRequest $request
+     * @return JsonResponse|null
+     */
+    public function troubleshooting(RunRuleEngineRequest $request)
+    {
+        // Формирование ответа о рабочей сессии по умолчанию (непредвиденная ошибка)
+        $result['code'] = RuleEngine::ERROR_CODE;
+        $result['message'] = "Error! Something has gone wrong.";
+        $result['data'] = [];
+
+        $validated = $request->validated();
+
+        $work_session = WorkSession::find($validated['work_session']);
+
+        if (empty($work_session))
+            return response()->json(['message' => 'The work session could not be found.'], 403);
+
+        if ($work_session->status == WorkSession::MALFUNCTION_CAUSE_DETECTED_STATUS) {
+            // Обновление статуса рабочей сессии
+            $work_session->status = WorkSession::IN_PROGRESS_STATUS;
+            $work_session->save();
+            // Получение первой работы из списка
+            $operation_rule_list = OperationRuleList::whereWorkSessionId($work_session->id)->first();
+            // Создание первой выполненной работы по условию
+            CompletedOperation::create([
+                'operation_id' => $operation_rule_list->operation_rule->operation_id_if,
+                'previous_operation_id' => null,
+                'operation_result_id' => $operation_rule_list->operation_rule->operation_result_id_if,
+                'work_session_id' => $work_session->id
+            ]);
+        }
+
+        if ($work_session->status == WorkSession::IN_PROGRESS_STATUS) {
+            /* Загрузка данных в машину вывода */
+            $work_memory = [];
+            $rule_queue = [];
+            $execution_rule = null;
+            foreach ($work_session->operation_rule_lists as $orl) {
+                $rule = new Rule($orl->id, $orl->operation_rule->type,
+                    $orl->status == OperationRuleList::NOT_COMPLETED_STATUS ? Rule::NOT_COMPLETED_STATUS :
+                        Rule::DONE_STATUS,
+                    $orl->operation_rule->priority, $orl->operation_rule->repeat_voice,
+                    $orl->operation_rule->operation_id_if, $orl->operation_rule->operation_status_if,
+                    $orl->operation_rule->operation_result_id_if, $orl->operation_rule->operation_id_then,
+                    $orl->operation_rule->operation_status_then, $orl->operation_rule->operation_result_id_then);
+                array_push($work_memory, $rule);
+                foreach ($work_session->execution_rule_queues as $erq)
+                    if ($erq->operation_rule_list_id == $orl->id)
+                        array_push($rule_queue, $rule);
+                foreach ($work_session->execution_rules as $er)
+                    if ($er->status != ExecutionRule::DONE_RULE_STATUS and $er->operation_rule_list_id == $orl->id) {
+                        $execution_rule = $rule;
+                        $execution_rule->setStatus($er->status);
+                        $execution_rule->setOperationStatusAction($er->operation_status);
+                        $execution_rule->setOperationResultAction($er->operation_result_id);
+                    }
+            }
+
+            /* Запуск машины вывода и получение результата */
+            $rule_engine = new RuleEngine(RuleEngine::IN_PROGRESS_CODE, $work_memory, $rule_queue,
+                $execution_rule);
+            $operation_status = isset($validated['operation_status']) ? $validated['operation_status'] : null;
+            $operation_result = isset($validated['operation_result']) ? $validated['operation_result'] : null;
+            $rule_engine->run($operation_status, $operation_result);
+
+            /* Представлние результатов работы машины вывода для ответа сервера */
+            if ($rule_engine->getStatus() == RuleEngine::DONE_CODE) {
+                $result['code'] = RuleEngine::DONE_CODE;
+                $result['message'] = "The execution of rules completed successfully.";
+                // Обновление статуса рабочей сессии
+                $work_session->status = WorkSession::DONE_STATUS;
+                $work_session->save();
+            }
+            if ($rule_engine->getStatus() == RuleEngine::NO_STATUS_CODE) {
+                $result['code'] = RuleEngine::NO_STATUS_CODE;
+                $result['message'] = "The fact of operation status is incorrect.";
+            }
+            if ($rule_engine->getStatus() == RuleEngine::NO_RESULT_CODE) {
+                $result['code'] = RuleEngine::NO_RESULT_CODE;
+                $result['message'] = "The fact of operation result is incorrect.";
+            }
+            if (!empty($rule_engine->getCompletedOperations())) {
+                $result['data'] = $rule_engine->getCompletedOperations();
+                $last_operation = CompletedOperation::whereWorkSessionId($work_session->id)->latest()->first();
+                foreach ($rule_engine->getCompletedOperations() as $operation) {
+                    // Сохранение данных о выполненных работах и их результатах в БД
+                    CompletedOperation::create([
+                        'operation_id' => $operation['operation'],
+                        'previous_operation_id' => $last_operation->operation_id,
+                        'operation_result_id' => $operation['operation_result'],
+                        'work_session_id' => $work_session->id
+                    ]);
+                    // Сохранение данных о выполненных правилах в БД
+                    $execution_rule = ExecutionRule::where('operation_rule_list_id',
+                        $operation['operation_rule_id'])
+                        ->whereNotIn('operation_status', [ExecutionRule::DONE_RULE_STATUS])->first();
+                    if (isset($execution_rule)) {
+                        $execution_rule->status = ExecutionRule::DONE_RULE_STATUS;
+                        $execution_rule->operation_status = $operation['operation_status'];
+                        $execution_rule->operation_result_id = $operation['operation_result'];
+                        $execution_rule->save();
+                    } else
+                        ExecutionRule::create([
+                            'status' => ExecutionRule::DONE_RULE_STATUS,
+                            'operation_id' => $operation['operation'],
+                            'operation_status' => $operation['operation_status'],
+                            'operation_result_id' => $operation['operation_result'],
+                            'operation_rule_list_id' => $operation['operation_rule_id'],
+                        ]);
+                }
+            }
+
+            /* Сохранение результатов работы машины вывода в БД */
+            // Обновление статусов правил в массиве
+            foreach ($rule_engine->getWorkMemory() as $rule)
+                if ($rule->getStatus() == Rule::DONE_STATUS) {
+                    $operation_rule_list = OperationRuleList::find($rule->getId());
+                    $operation_rule_list->status = OperationRuleList::COMPLETED_STATUS;
+                    $operation_rule_list->save();
+                }
+            // Обновление правил в очереди
+            if (!empty($rule_engine->getRuleQueue())) {
+                ExecutionRuleQueue::truncate();
+                foreach ($rule_engine->getRuleQueue() as $rule)
+                    ExecutionRuleQueue::create([
+                        'operation_rule_list_id' => $rule->getId(),
+                    ]);
+            }
+            // Добавление или обновление текущего выполняемого правила в БД
+            $rule = $rule_engine->getExecutionRule();
+            if (isset($rule)) {
+                $execution_rule = ExecutionRule::where('operation_rule_list_id', $rule->getId())
+                    ->whereNotIn('operation_status', [ExecutionRule::DONE_RULE_STATUS])
+                    ->first();
+                if (isset($execution_rule)) {
+                    $execution_rule->status = $rule->getStatus();
+                    $execution_rule->operation_status = $rule->getOperationStatusAction();
+                    $execution_rule->operation_result_id = $rule->getOperationResultAction();
+                    $execution_rule->save();
+                } else
+                    ExecutionRule::create([
+                        'status' => $rule->getStatus(),
+                        'operation_id' => $rule->getOperationAction(),
+                        'operation_status' => $rule->getOperationStatusAction(),
+                        'operation_result_id' => $rule->getOperationResultAction(),
+                        'operation_rule_list_id' => $rule->getId(),
+                    ]);
+            }
+        }
+
+        if ($work_session->status == WorkSession::DONE_STATUS) {
+            $result['code'] = RuleEngine::DONE_CODE;
+            $result['message'] = "The execution of rules completed successfully.";
+            $result['data'] = [];
         }
 
         return response()->json($result);

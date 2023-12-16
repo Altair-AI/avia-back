@@ -42,4 +42,5 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
     Route::apiResource('operation-rules', OperationRuleController::class);
     Route::post('define-malfunction-causes', [RuleEngineController::class, 'defineMalfunctionCauses']);
+    Route::post('troubleshooting', [RuleEngineController::class, 'troubleshooting']);
 });
