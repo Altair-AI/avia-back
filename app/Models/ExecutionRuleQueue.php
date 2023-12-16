@@ -28,6 +28,8 @@ class ExecutionRuleQueue extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['laravel_through_key'];
+
     /**
      * The table associated with the model.
      *

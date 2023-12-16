@@ -23,6 +23,10 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $completed_operations_count
  * @property-read Collection<int, OperationRuleList> $operation_rule_lists
  * @property-read int|null $operation_rule_lists_count
+ * @property-read Collection<int, ExecutionRuleQueue> $execution_rule_queues
+ * @property-read int|null $execution_rule_queues_count
+ * @property-read Collection<int, ExecutionRule> $execution_rules
+ * @property-read int|null $execution_rules_count
  * @property-read MalfunctionCauseRule $malfunction_cause_rule
  * @property-read User $user
  * @method static Builder|WorkSession newModelQuery()
@@ -46,8 +50,6 @@ class WorkSession extends Model
     const MALFUNCTION_CAUSE_DETECTED_STATUS = 0; // Причины неисправности обнаружены
     const IN_PROGRESS_STATUS = 1;                // В процессе выполнения правил определения работ
     const DONE_STATUS = 2;                       // Выполнено
-
-    protected $hidden = ['pivot'];
 
     /**
      * The table associated with the model.
