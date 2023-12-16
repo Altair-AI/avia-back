@@ -23,7 +23,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('operation')
                 ->onDelete('cascade');
-            $table->integer('operation_result_id')->unsigned();
+            $table->integer('operation_result_id')->unsigned()->nullable();
             $table->foreign('operation_result_id')
                 ->references('id')
                 ->on('operation_result')
