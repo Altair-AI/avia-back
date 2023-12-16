@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Components\CSVDataLoader;
-use App\Models\Document;
 use App\Models\Project;
 use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;

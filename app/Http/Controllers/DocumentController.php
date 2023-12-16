@@ -6,7 +6,6 @@ use App\Components\Helper;
 use App\Models\Document;
 use App\Http\Requests\Document\StoreDocumentRequest;
 use App\Http\Requests\Document\UpdateDocumentRequest;
-use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 

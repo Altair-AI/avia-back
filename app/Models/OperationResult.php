@@ -20,6 +20,8 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $completed_operations_count
  * @property-read Collection<int, ConcreteOperationResult> $concrete_operation_results
  * @property-read int|null $concrete_operation_results_count
+ * @property-read Collection<int, ExecutionRule> $execution_rules
+ * @property-read int|null $execution_rules_count
  * @method static Builder|OperationResult newModelQuery()
  * @method static Builder|OperationResult newQuery()
  * @method static Builder|OperationResult query()
@@ -64,5 +66,10 @@ class OperationResult extends Model
     public function operation_rules()
     {
         return $this->hasMany(OperationRule::class, 'operation_result_id');
+    }
+
+    public function execution_rules()
+    {
+        return $this->hasMany(ExecutionRule::class, 'operation_result_id');
     }
 }

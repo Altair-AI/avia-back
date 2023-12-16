@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -37,6 +38,8 @@ use Illuminate\Support\Carbon;
  * @property-read OperationResult $operation_result_then
  * @property-read TechnicalSystem $malfunction_system
  * @property-read MalfunctionCause $malfunction_cause
+ * @property-read Collection<int, OperationRuleList> $operation_rule_lists
+ * @property-read int|null $operation_rule_lists_count
  * @method static Builder|OperationRule newModelQuery()
  * @method static Builder|OperationRule newQuery()
  * @method static Builder|OperationRule query()
@@ -70,13 +73,13 @@ class OperationRule extends Model
     const REUSABLE_TYPE = 1;   // Многоразовое правило
 
     // Статусы операций (условия)
-    const COMPLETED_OPERATION_IF_STATUS = 0;     // Работа выполнена
-    const NOT_COMPLETED_OPERATION_IF_STATUS = 1; // Работа не выполнена
+    const NOT_COMPLETED_OPERATION_IF_STATUS = 0; // Работа не выполнена
+    const COMPLETED_OPERATION_IF_STATUS = 1;     // Работа выполнена
     const INITIATED_OPERATION_IF_STATUS = 2;     // Работа инициирована
 
     // Статусы операций (действия)
-    const COMPLETED_OPERATION_THEN_STATUS = 0;     // Работа выполнена
-    const NOT_COMPLETED_OPERATION_THEN_STATUS = 1; // Работа не выполнена
+    const NOT_COMPLETED_OPERATION_THEN_STATUS = 0; // Работа не выполнена
+    const COMPLETED_OPERATION_THEN_STATUS = 1;     // Работа выполнена
     const INITIATED_OPERATION_THEN_STATUS = 2;     // Работа инициирована
 
     // Флаг показывающий надо ли повторять озвучку
@@ -156,5 +159,10 @@ class OperationRule extends Model
     public function operation_rule_malfunction_codes()
     {
         return $this->hasMany(OperationRuleMalfunctionCode::class, 'operation_rule_id');
+    }
+
+    public function operation_rule_lists()
+    {
+        return $this->hasMany(OperationRuleList::class, 'operation_rule_id');
     }
 }

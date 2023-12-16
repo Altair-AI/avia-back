@@ -35,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @property-read Document $document
  * @property-read Collection<int, CompletedOperation> $previous_completed_operations
  * @property-read int|null $previous_completed_operations_count
+ * @property-read Collection<int, ExecutionRule> $execution_rules
+ * @property-read int|null $execution_rules_count
  * @property-read MalfunctionCode malfunction_codes
  * @property-read Operation $operations
  * @property-read Operation $sub_operations
@@ -188,5 +190,10 @@ class Operation extends Model
     {
         return $this->belongsToMany(MalfunctionCode::class, 'operation_malfunction_code',
             'operation_id', 'malfunction_code_id');
+    }
+
+    public function execution_rules()
+    {
+        return $this->hasMany(ExecutionRule::class, 'operation_id');
     }
 }

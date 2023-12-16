@@ -32,8 +32,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, CaseBasedKnowledgeBase> $case_based_knowledge_bases
  * @property-read int|null $case_based_knowledge_bases_count
- * @property-read Collection<int, CompletedOperation> $completed_operations
- * @property-read int|null $completed_operations_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Organization $organization
@@ -41,6 +39,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read int|null $real_time_technical_system_users_count
  * @property-read Collection<int, RuleBasedKnowledgeBase> $rule_based_knowledge_bases
  * @property-read int|null $rule_based_knowledge_bases_count
+ * @property-read Collection<int, WorkSession> $work_sessions
+ * @property-read int|null $work_sessions_count
  * @method static UserFactory factory($count = null, $state = [])
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
@@ -121,9 +121,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(RealTimeTechnicalSystemUser::class, 'user_id');
     }
 
-    public function completed_operations()
+    public function work_sessions()
     {
-        return $this->hasMany(CompletedOperation::class, 'user_id');
+        return $this->hasMany(WorkSession::class, 'user_id');
     }
 
     public function case_based_knowledge_bases()
