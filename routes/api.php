@@ -10,6 +10,7 @@ use App\Http\Controllers\RuleBasedKnowledgeBaseController;
 use App\Http\Controllers\RuleEngineController;
 use App\Http\Controllers\TechnicalSystemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class);
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
     Route::apiResource('operation-rules', OperationRuleController::class);
+    Route::apiResource('work-sessions', WorkSessionController::class);
     Route::post('define-malfunction-causes', [RuleEngineController::class, 'defineMalfunctionCauses']);
     Route::post('troubleshooting', [RuleEngineController::class, 'troubleshooting']);
 });

@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
 use App\Models\User;
+use App\Models\WorkSession;
 use App\Policies\DocumentPolicy;
 use App\Policies\MalfunctionCauseRulePolicy;
 use App\Policies\OperationPolicy;
@@ -20,6 +21,7 @@ use App\Policies\ProjectPolicy;
 use App\Policies\RuleBasedKnowledgeBasePolicy;
 use App\Policies\TechnicalSystemPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\WorkSessionPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -39,6 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         RuleBasedKnowledgeBase::class => RuleBasedKnowledgeBasePolicy::class,
         TechnicalSystem::class => TechnicalSystemPolicy::class,
         User::class => UserPolicy::class,
+        WorkSession::class => WorkSessionPolicy::class
     ];
 
     /**
