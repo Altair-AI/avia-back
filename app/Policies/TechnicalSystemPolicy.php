@@ -22,7 +22,7 @@ class TechnicalSystemPolicy
             return true;
         if ($user->role === User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
-            $technical_systems = Helper::get_technical_system_hierarchy($user->organization->id);
+            $technical_systems = Helper::get_technical_system_hierarchy($user->organization_id);
             // Получение id всех технических систем или объектов для вложенного массива (иерархии) технических систем
             $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
             // Поиск совпадения идентификаторов
