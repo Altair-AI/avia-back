@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.1.0"
+        "version": "1.1.1"
     },
     "paths": {
         "/api/": {},
@@ -53,62 +53,6 @@
                                         "expires_in": {
                                             "type": "integer",
                                             "example": 3600
-                                        },
-                                        "user": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Some name"
-                                                },
-                                                "email": {
-                                                    "type": "string",
-                                                    "example": "Some email"
-                                                },
-                                                "email_verified_at": {
-                                                    "type": "string",
-                                                    "example": null
-                                                },
-                                                "role": {
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "status": {
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "full_name": {
-                                                    "type": "string",
-                                                    "example": "Some full name"
-                                                },
-                                                "last_login_date": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                },
-                                                "login_ip": {
-                                                    "type": "string",
-                                                    "example": "Some IP"
-                                                },
-                                                "organization_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                }
-                                            },
-                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -125,6 +69,7 @@
                     "Аутентификация"
                 ],
                 "summary": "Обновление токена",
+                "description": "Для обновления токена необходимо отправить старый (сгоревший) токен.",
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -143,62 +88,6 @@
                                         "expires_in": {
                                             "type": "integer",
                                             "example": 3600
-                                        },
-                                        "user": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Some name"
-                                                },
-                                                "email": {
-                                                    "type": "string",
-                                                    "example": "Some email"
-                                                },
-                                                "email_verified_at": {
-                                                    "type": "string",
-                                                    "example": null
-                                                },
-                                                "role": {
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "status": {
-                                                    "type": "integer",
-                                                    "example": 0
-                                                },
-                                                "full_name": {
-                                                    "type": "string",
-                                                    "example": "Some full name"
-                                                },
-                                                "last_login_date": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                },
-                                                "login_ip": {
-                                                    "type": "string",
-                                                    "example": "Some IP"
-                                                },
-                                                "organization_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                }
-                                            },
-                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -6343,6 +6232,256 @@
                                         "id": {
                                             "type": "integer",
                                             "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/define-malfunction-causes": {
+            "post": {
+                "tags": [
+                    "Машина вывода"
+                ],
+                "summary": "Определение причин неисправности",
+                "description": "Инициализируется, когда пользователь (техник) на странице выбирает (или заполняет поля) коды неисправностей и нажимает на условную кнопку - Определить причины неисправности.",
+                "parameters": [
+                    {
+                        "name": "emrg_code",
+                        "in": "query",
+                        "description": "id кода aвариийно‐сигнального сообщения",
+                        "required": false
+                    },
+                    {
+                        "name": "bsto_code",
+                        "in": "query",
+                        "description": "id кода БСТО",
+                        "required": false
+                    },
+                    {
+                        "name": "sei_code",
+                        "in": "query",
+                        "description": "id кода сигнализации СЭИ",
+                        "required": false
+                    },
+                    {
+                        "name": "local_code",
+                        "in": "query",
+                        "description": "id кода локальной сигнализации",
+                        "required": false
+                    },
+                    {
+                        "name": "obs",
+                        "in": "query",
+                        "description": "id наблюдаемой неисправности",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Some message"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "failed_technical_system": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "code": {
+                                                            "type": "string",
+                                                            "example": "Some code"
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        },
+                                                        "description": {
+                                                            "type": "string",
+                                                            "example": "Some description"
+                                                        },
+                                                        "parent_technical_system_id": {
+                                                            "type": "integer",
+                                                            "example": null
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "malfunction_causes": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "work_session": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "status": {
+                                                            "type": "integer",
+                                                            "example": 0
+                                                        },
+                                                        "stop_time": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "malfunction_cause_rule_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "user_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2023-09-15T01:52:11.000000Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/troubleshooting": {
+            "post": {
+                "tags": [
+                    "Машина вывода"
+                ],
+                "summary": "Устранение неисправности",
+                "description": "Инициализируется, когда пользователь (техник) на странице нажимает условную кнопку - Начать устранять неисправность.",
+                "parameters": [
+                    {
+                        "name": "work_session",
+                        "in": "query",
+                        "description": "id рабочей сессии",
+                        "required": false
+                    },
+                    {
+                        "name": "operation_status",
+                        "in": "query",
+                        "description": "статус работы",
+                        "required": false
+                    },
+                    {
+                        "name": "operation_result",
+                        "in": "query",
+                        "description": "id результата работы",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Some message"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "operation": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "operation_status": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "operation_result": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "operation_rule_id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
