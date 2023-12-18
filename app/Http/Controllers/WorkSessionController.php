@@ -33,7 +33,7 @@ class WorkSessionController extends Controller
     public function index(IndexWorkSessionRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(WorkSessionFilter::class, ['queryParams' => array_filter($validated)]);
+        $filter = app()->make(WorkSessionFilter::class, ['queryParams' => array_filter($validated, 'strlen')]);
 
         $pageSize = 10;
         if (isset($request['pageSize']))

@@ -34,7 +34,8 @@ class TechnicalSystemController extends Controller
     public function index(IndexTechnicalSystemRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(TechnicalSystemFilter::class, ['queryParams' => array_filter($validated)]);
+        $filter = app()->make(TechnicalSystemFilter::class,
+            ['queryParams' => array_filter($validated, 'strlen')]);
 
         $pageSize = 10;
         if (isset($request['pageSize']))

@@ -34,7 +34,7 @@ class OperationRuleController extends Controller
     public function index(IndexOperationRuleRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(OperationRuleFilter::class, ['queryParams' => array_filter($validated)]);
+        $filter = app()->make(OperationRuleFilter::class, ['queryParams' => array_filter($validated, 'strlen')]);
 
         $pageSize = 10;
         if (isset($request['pageSize']))

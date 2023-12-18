@@ -35,7 +35,7 @@ class OperationController extends Controller
     public function index(IndexOperationRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(OperationFilter::class, ['queryParams' => array_filter($validated)]);
+        $filter = app()->make(OperationFilter::class, ['queryParams' => array_filter($validated, 'strlen')]);
 
         $pageSize = 10;
         if (isset($request['pageSize']))
