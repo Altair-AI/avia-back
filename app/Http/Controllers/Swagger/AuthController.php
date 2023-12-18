@@ -27,21 +27,7 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="access_token", type="string", example="Generated new token"),
  *             @OA\Property(property="token_type", type="string", example="bearer"),
- *             @OA\Property(property="expires_in", type="integer", example=3600),
- *             @OA\Property(property="user", type="object",
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="email", type="string", example="Some email"),
- *                 @OA\Property(property="email_verified_at", type="string", example=null),
- *                 @OA\Property(property="role", type="integer", example=0),
- *                 @OA\Property(property="status", type="integer", example=0),
- *                 @OA\Property(property="full_name", type="string", example="Some full name"),
- *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             )
+ *             @OA\Property(property="expires_in", type="integer", example=3600)
  *         )
  *     )
  * ),
@@ -51,6 +37,7 @@ use App\Http\Controllers\Controller;
  *     summary="Обновление токена",
  *     tags={"Аутентификация"},
  *     security={{ "bearerAuth": {} }},
+ *     description="Для обновления токена необходимо отправить старый (сгоревший) токен.",
  *
  *     @OA\Response(
  *         response=200,
@@ -58,21 +45,7 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="access_token", type="string", example="Generated new token"),
  *             @OA\Property(property="token_type", type="string", example="bearer"),
- *             @OA\Property(property="expires_in", type="integer", example=3600),
- *             @OA\Property(property="user", type="object",
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="email", type="string", example="Some email"),
- *                 @OA\Property(property="email_verified_at", type="string", example=null),
- *                 @OA\Property(property="role", type="integer", example=0),
- *                 @OA\Property(property="status", type="integer", example=0),
- *                 @OA\Property(property="full_name", type="string", example="Some full name"),
- *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
- *             )
+ *             @OA\Property(property="expires_in", type="integer", example=3600)
  *         )
  *     )
  * ),

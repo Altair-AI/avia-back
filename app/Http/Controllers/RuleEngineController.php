@@ -135,7 +135,7 @@ class RuleEngineController extends Controller
         $work_session = WorkSession::find($validated['work_session']);
 
         if (empty($work_session))
-            return response()->json(['message' => 'The work session could not be found.'], 403);
+            return response()->json(['error' => 'The work session could not be found.'], 403);
 
         if ($work_session->status == WorkSession::MALFUNCTION_CAUSE_DETECTED_STATUS) {
             // Обновление статуса рабочей сессии
