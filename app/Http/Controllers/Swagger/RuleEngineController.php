@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Post(
- *     path="/api/v1/admin/define-malfunction-causes",
+ *     path="/api/v1/tech/define-malfunction-causes",
  *     summary="Определение причин неисправности",
  *     tags={"Машина вывода"},
  *     security={{ "bearerAuth": {} }},
@@ -80,7 +80,7 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Post(
- *     path="/api/v1/admin/troubleshooting",
+ *     path="/api/v1/tech/troubleshooting",
  *     summary="Устранение неисправности",
  *     tags={"Машина вывода"},
  *     security={{ "bearerAuth": {} }},
