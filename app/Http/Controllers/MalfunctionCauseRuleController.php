@@ -34,7 +34,8 @@ class MalfunctionCauseRuleController extends Controller
     public function index(IndexMalfunctionCauseRuleRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(MalfunctionCauseRuleFilter::class, ['queryParams' => array_filter($validated)]);
+        $filter = app()->make(MalfunctionCauseRuleFilter::class,
+            ['queryParams' => array_filter($validated, 'strlen')]);
 
         $pageSize = 10;
         if (isset($request['pageSize']))

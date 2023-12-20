@@ -2,7 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "version": "1.1.1"
+        "description": "Дата обновления: 18.12.2023",
+        "version": "1.1.2"
     },
     "paths": {
         "/api/": {},
@@ -7823,6 +7824,633 @@
                         "name": "user",
                         "in": "path",
                         "description": "id пользователя",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/work-sessions": {
+            "get": {
+                "tags": [
+                    "Рабочие сессии"
+                ],
+                "summary": "Получить список рабочих сессий",
+                "description": "Для супер-администратора возвращает список всех рабочих сессий, созданных в системе. Для администратора возвращает список только тех рабочих сессий пользователей, принадлежащих к той же организации, что и администратор. Список может быть отфильтрован по различным параметрам.",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Статус рабочей сессии",
+                        "required": false
+                    },
+                    {
+                        "name": "stop_time",
+                        "in": "query",
+                        "description": "Дата и время последней остановки машины вывода",
+                        "required": false
+                    },
+                    {
+                        "name": "malfunction_cause_rule_id",
+                        "in": "query",
+                        "description": "id правила для определения причины неисправности",
+                        "required": false
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "id пользователя",
+                        "required": false
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Размер страницы пагинации",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы пагинации",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "stop_time": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "malfunction_cause_rule_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "Some email"
+                                                            },
+                                                            "email_verified_at": {
+                                                                "type": "string",
+                                                                "example": null
+                                                            },
+                                                            "role": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "status": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "full_name": {
+                                                                "type": "string",
+                                                                "example": "Some full name"
+                                                            },
+                                                            "last_login_date": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "login_ip": {
+                                                                "type": "string",
+                                                                "example": "Some IP"
+                                                            },
+                                                            "organization_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "page_current": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "page_total": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "page_size": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Рабочие сессии"
+                ],
+                "summary": "Создание новой рабочей сессии",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "status": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "malfunction_cause_rule_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "stop_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": null
+                                        },
+                                        "malfunction_cause_rule_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "Some email"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "role": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "Some full name"
+                                                },
+                                                "last_login_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "login_ip": {
+                                                    "type": "string",
+                                                    "example": "Some IP"
+                                                },
+                                                "organization_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/work-sessions/{work-session}": {
+            "get": {
+                "tags": [
+                    "Рабочие сессии"
+                ],
+                "summary": "Получить единичную рабочую сессию",
+                "description": "Для супер-администратора возвращает любую рабочую сессию. Для администратора возвращает рабочую сессию пользователя, принадлежащего к той же организации, что и администратор.",
+                "parameters": [
+                    {
+                        "name": "work-session",
+                        "in": "path",
+                        "description": "id рабочей сессии",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "stop_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": null
+                                        },
+                                        "malfunction_cause_rule_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "Some email"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "role": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "Some full name"
+                                                },
+                                                "last_login_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "login_ip": {
+                                                    "type": "string",
+                                                    "example": "Some IP"
+                                                },
+                                                "organization_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Рабочие сессии"
+                ],
+                "summary": "Обновить рабочую сессию",
+                "parameters": [
+                    {
+                        "name": "work-session",
+                        "in": "path",
+                        "description": "id рабочей сессии",
+                        "required": true,
+                        "example": 2
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "status": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "stop_time": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-12-15T01:52:11.000000Z"
+                                            },
+                                            "malfunction_cause_rule_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "stop_time": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-12-15T01:52:11.000000Z"
+                                        },
+                                        "malfunction_cause_rule_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 3
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "Some email"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "role": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "Some full name"
+                                                },
+                                                "last_login_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "login_ip": {
+                                                    "type": "string",
+                                                    "example": "Some IP"
+                                                },
+                                                "organization_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Рабочие сессии"
+                ],
+                "summary": "Удалить рабочую сессию",
+                "parameters": [
+                    {
+                        "name": "work-session",
+                        "in": "path",
+                        "description": "id рабочей сессии",
                         "required": true,
                         "example": 1
                     }

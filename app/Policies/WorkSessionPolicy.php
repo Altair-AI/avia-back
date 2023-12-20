@@ -2,32 +2,27 @@
 
 namespace App\Policies;
 
-use App\Components\Helper;
-use App\Models\TechnicalSystem;
 use App\Models\User;
+use App\Models\WorkSession;
 use Illuminate\Auth\Access\Response;
 
-class TechnicalSystemPolicy
+class WorkSessionPolicy
 {
     /**
      * Check actions for administrators.
      *
      * @param User $user
-     * @param TechnicalSystem $technical_system
+     * @param WorkSession $work_session
      * @return bool
      */
-    private function check(User $user, TechnicalSystem $technical_system): bool
+    private function check(User $user, WorkSession $work_session): bool
     {
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
         if ($user->role === User::ADMIN_ROLE) {
-            // Формирование вложенного массива (иерархии) технических систем доступных администратору
-            $technical_systems = Helper::get_technical_system_hierarchy($user->organization_id);
-            // Получение id всех технических систем или объектов для вложенного массива (иерархии) технических систем
-            $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
-            // Поиск совпадения идентификаторов
-            foreach ($technical_system_ids as $technical_system_id)
-                if ($technical_system->id == $technical_system_id)
+            $found_users = User::whereOrganizationId($user->organization_id)->get();
+            foreach ($found_users as $found_user)
+                if ($work_session->user_id === $found_user->id)
                     return true;
         }
         return false;
@@ -48,14 +43,14 @@ class TechnicalSystemPolicy
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param TechnicalSystem $technical_system
+     * @param WorkSession $work_session
      * @return Response
      */
-    public function view(User $user, TechnicalSystem $technical_system): Response
+    public function view(User $user, WorkSession $work_session): Response
     {
-        return $this->check($user, $technical_system)
+        return $this->check($user, $work_session)
             ? Response::allow()
-            : Response::deny('You cannot view this technical system.');
+            : Response::deny('You cannot view this work session.');
     }
 
     /**
@@ -73,10 +68,10 @@ class TechnicalSystemPolicy
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param TechnicalSystem $technical_system
+     * @param WorkSession $work_session
      * @return bool
      */
-    public function update(User $user, TechnicalSystem $technical_system): bool
+    public function update(User $user, WorkSession $work_session): bool
     {
         return $user->role === User::SUPER_ADMIN_ROLE;
     }
@@ -85,10 +80,10 @@ class TechnicalSystemPolicy
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param TechnicalSystem $technical_system
+     * @param WorkSession $work_session
      * @return bool
      */
-    public function delete(User $user, TechnicalSystem $technical_system): bool
+    public function delete(User $user, WorkSession $work_session): bool
     {
         return $user->role === User::SUPER_ADMIN_ROLE;
     }
@@ -97,10 +92,10 @@ class TechnicalSystemPolicy
      * Determine whether the user can restore the model.
      *
      * @param User $user
-     * @param TechnicalSystem $technical_system
+     * @param WorkSession $work_session
      * @return bool
      */
-    public function restore(User $user, TechnicalSystem $technical_system): bool
+    public function restore(User $user, WorkSession $work_session): bool
     {
         return $user->role === User::SUPER_ADMIN_ROLE;
     }
@@ -109,10 +104,10 @@ class TechnicalSystemPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param User $user
-     * @param TechnicalSystem $technical_system
+     * @param WorkSession $work_session
      * @return bool
      */
-    public function forceDelete(User $user, TechnicalSystem $technical_system): bool
+    public function forceDelete(User $user, WorkSession $work_session): bool
     {
         return $user->role === User::SUPER_ADMIN_ROLE;
     }
