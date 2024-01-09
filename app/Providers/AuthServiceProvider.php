@@ -8,6 +8,7 @@ use App\Models\Operation;
 use App\Models\OperationRule;
 use App\Models\Organization;
 use App\Models\Project;
+use App\Models\RealTimeTechnicalSystem;
 use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
 use App\Models\User;
@@ -18,6 +19,7 @@ use App\Policies\OperationPolicy;
 use App\Policies\OperationRulePolicy;
 use App\Policies\OrganizationPolicy;
 use App\Policies\ProjectPolicy;
+use App\Policies\RealTimeTechnicalSystemPolicy;
 use App\Policies\RuleBasedKnowledgeBasePolicy;
 use App\Policies\TechnicalSystemPolicy;
 use App\Policies\UserPolicy;
@@ -40,6 +42,7 @@ class AuthServiceProvider extends ServiceProvider
         Project::class => ProjectPolicy::class,
         RuleBasedKnowledgeBase::class => RuleBasedKnowledgeBasePolicy::class,
         TechnicalSystem::class => TechnicalSystemPolicy::class,
+        RealTimeTechnicalSystem::class => RealTimeTechnicalSystemPolicy::class,
         User::class => UserPolicy::class,
         WorkSession::class => WorkSessionPolicy::class
     ];

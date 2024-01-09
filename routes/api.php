@@ -6,6 +6,7 @@ use App\Http\Controllers\OperationController;
 use App\Http\Controllers\OperationRuleController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RealTimeTechnicalSystemController;
 use App\Http\Controllers\RuleBasedKnowledgeBaseController;
 use App\Http\Controllers\RuleEngineController;
 use App\Http\Controllers\TechnicalSystemController;
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('organizations', OrganizationController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('technical-systems', TechnicalSystemController::class);
+    Route::apiResource('real-time-technical-systems', RealTimeTechnicalSystemController::class);
     Route::apiResource('projects', ProjectController::class);
     Route::apiResource('documents', DocumentController::class);
     Route::apiResource('operations', OperationController::class);

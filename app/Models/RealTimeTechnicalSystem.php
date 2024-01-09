@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, ECase> $system_for_repair_cases
  * @property-read int|null $system_for_repair_cases_count
  * @property-read TechnicalSystem $technical_system
+ * @property-read User $users
  * @method static Builder|RealTimeTechnicalSystem newModelQuery()
  * @method static Builder|RealTimeTechnicalSystem newQuery()
  * @method static Builder|RealTimeTechnicalSystem query()
@@ -45,6 +47,9 @@ use Illuminate\Support\Carbon;
 class RealTimeTechnicalSystem extends Model
 {
     use HasFactory;
+    use Filterable;
+
+    protected $hidden = ['pivot'];
 
     /**
      * The table associated with the model.
@@ -95,5 +100,14 @@ class RealTimeTechnicalSystem extends Model
     public function system_for_repair_cases()
     {
         return $this->hasMany(ECase::class, 'system_id_for_repair');
+    }
+
+    /**
+     * Получить всех пользователей, которые имеют доступ к данной технической системе реального времени.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'real_time_technical_system_user',
+            'real_time_technical_system_id', 'user_id');
     }
 }
