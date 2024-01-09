@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OperationSeeder::class);
         $this->call(MalfunctionCodeSeeder::class);
         $this->call(RuleBasedKnowledgeBaseSeeder::class);
+        $this->call(RealTimeTechnicalSystemSeeder::class);
         $this->command->info('Данные по-умолчанию загружены в базу данных!');
     }
 }
