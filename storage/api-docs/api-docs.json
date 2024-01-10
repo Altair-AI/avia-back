@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 18.12.2023",
-        "version": "1.1.2"
+        "description": "Дата обновления: 09.01.2024",
+        "version": "1.1.3"
     },
     "paths": {
         "/api/": {},
@@ -5721,6 +5721,616 @@
                 ]
             }
         },
+        "/api/v1/admin/real-time-technical-systems": {
+            "get": {
+                "tags": [
+                    "Технические системы реального времени"
+                ],
+                "summary": "Получить список технических систем реального времени",
+                "description": "Для супер-администратора возвращает список всех технических систем реального времени, созданных в системе. Для администратора возвращает список только тех технических систем реального времени, которые доступны в рамках проекта для той организации к которой принадлежит администратор. Для техника возвращает список только тех технических систем реального времени, доступ к которым установил администратор. Список может быть отфильтрован по различным параметрам.",
+                "parameters": [
+                    {
+                        "name": "registration_code",
+                        "in": "query",
+                        "description": "код технической системы или объекта при регистрации",
+                        "required": false
+                    },
+                    {
+                        "name": "registration_description",
+                        "in": "query",
+                        "description": "Описание или часть описания технической системы или объекта",
+                        "required": false
+                    },
+                    {
+                        "name": "operation_time_from_start",
+                        "in": "query",
+                        "description": "Наработка с начала эксплуатации",
+                        "required": false
+                    },
+                    {
+                        "name": "operation_time_from_last_repair",
+                        "in": "query",
+                        "description": "Наработка со времени последнего ремонта",
+                        "required": false
+                    },
+                    {
+                        "name": "technical_system_id",
+                        "in": "query",
+                        "description": "id технической системы",
+                        "required": false
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "id проекта",
+                        "required": false
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Размер страницы пагинации",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы пагинации",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "registration_code": {
+                                                        "type": "string",
+                                                        "example": "Some registration code"
+                                                    },
+                                                    "registration_description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "operation_time_from_start": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "operation_time_from_last_repair": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "project_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "technical_system": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "Some code"
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Some description"
+                                                            },
+                                                            "parent_technical_system_id": {
+                                                                "type": "integer",
+                                                                "example": null
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "project": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Some description"
+                                                            },
+                                                            "type": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "status": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "technical_system_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2023-09-15T01:52:11.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "page_current": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "page_total": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "page_size": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Технические системы реального времени"
+                ],
+                "summary": "Создание новой технической системы реального времени",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "registration_code": {
+                                                "type": "string",
+                                                "example": "Some registration code"
+                                            },
+                                            "registration_description": {
+                                                "type": "string",
+                                                "example": "Some description"
+                                            },
+                                            "operation_time_from_start": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "operation_time_from_last_repair": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "technical_system_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "project_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "registration_code": {
+                                            "type": "string",
+                                            "example": "Some registration code"
+                                        },
+                                        "registration_description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "operation_time_from_start": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "operation_time_from_last_repair": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "technical_system_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "project_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/real-time-technical-systems/{real-time-technical-system}": {
+            "get": {
+                "tags": [
+                    "Технические системы реального времени"
+                ],
+                "summary": "Получить единичную техническую систему реального времени",
+                "description": "Для супер-администратора возвращает любую техническую систему реального времени. Для администратора возвращает техническую систему реального времени, которая доступна в рамках проекта для той организации к которой принадлежит администратор. Для техника возвращает техническую систему реального времени, доступ к которой установил администратор.",
+                "parameters": [
+                    {
+                        "name": "real-time-technical-system",
+                        "in": "path",
+                        "description": "id технической системы реального времени",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "registration_code": {
+                                            "type": "string",
+                                            "example": "Some registration code"
+                                        },
+                                        "registration_description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "operation_time_from_start": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "operation_time_from_last_repair": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "technical_system_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "project_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "technical_system": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "code": {
+                                                    "type": "string",
+                                                    "example": "Some code"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "parent_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "project": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "type": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Технические системы реального времени"
+                ],
+                "summary": "Обновить техническую систему реального времени",
+                "parameters": [
+                    {
+                        "name": "real-time-technical-system",
+                        "in": "path",
+                        "description": "id технической системы реального времени",
+                        "required": true,
+                        "example": 2
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "registration_code": {
+                                                "type": "string",
+                                                "example": "Some registration code for edit"
+                                            },
+                                            "registration_description": {
+                                                "type": "string",
+                                                "example": "Some description for edit"
+                                            },
+                                            "operation_time_from_start": {
+                                                "type": "integer",
+                                                "example": 10
+                                            },
+                                            "operation_time_from_last_repair": {
+                                                "type": "integer",
+                                                "example": 100
+                                            },
+                                            "technical_system_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "project_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "registration_code": {
+                                            "type": "string",
+                                            "example": "Some registration code"
+                                        },
+                                        "registration_description": {
+                                            "type": "string",
+                                            "example": "Some description"
+                                        },
+                                        "operation_time_from_start": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "operation_time_from_last_repair": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "technical_system_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "project_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Технические системы реального времени"
+                ],
+                "summary": "Удалить техническую систему реального времени",
+                "parameters": [
+                    {
+                        "name": "real-time-technical-system",
+                        "in": "path",
+                        "description": "id технической системы реального времени",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/admin/rule-based-knowledge-bases": {
             "get": {
                 "tags": [
@@ -6248,7 +6858,7 @@
                 ]
             }
         },
-        "/api/v1/admin/define-malfunction-causes": {
+        "/api/v1/tech/define-malfunction-causes": {
             "post": {
                 "tags": [
                     "Машина вывода"
@@ -6418,7 +7028,7 @@
                 ]
             }
         },
-        "/api/v1/admin/troubleshooting": {
+        "/api/v1/tech/troubleshooting": {
             "post": {
                 "tags": [
                     "Машина вывода"

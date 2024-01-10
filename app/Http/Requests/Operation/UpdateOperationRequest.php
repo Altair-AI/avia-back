@@ -24,7 +24,7 @@ class UpdateOperationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => "required|string|max:255|unique:operation",
+            'code' => 'required|string|max:255|unique:operation',
             'type' => 'required|integer',
             'imperative_name' => 'nullable|string',
             'verbal_name' => 'required|string',
