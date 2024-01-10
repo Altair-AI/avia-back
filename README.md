@@ -13,7 +13,7 @@ Avia-Back is based on [PHP 8](https://www.php.net/releases/8.0/ru.php) and [Lara
 
 ## Version
 
-0.1
+0.1.24
 
 ## Author
 * [Nikita O. Dorodnykh](mailto:tualatin32@mail.ru)
