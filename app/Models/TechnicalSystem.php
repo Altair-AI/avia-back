@@ -38,7 +38,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $rule_based_knowledge_bases_count
  * @property-read Document $documents
  * @property-read Operation $operations
- * @property-read TechnicalSystem $grandchildren_technical_systems
+ * @property-read TechnicalSystem $technical_subsystems
  * @property-read MalfunctionCauseRule $malfunction_cause_rules
  * @method static Builder|TechnicalSystem newModelQuery()
  * @method static Builder|TechnicalSystem newQuery()
@@ -104,9 +104,9 @@ class TechnicalSystem extends Model
      *
      * @return HasMany
      */
-    public function grandchildren_technical_systems()
+    public function technical_subsystems()
     {
-        return $this->child_technical_systems()->with('grandchildren_technical_systems');
+        return $this->child_technical_systems()->with('technical_subsystems');
     }
 
     public function projects()

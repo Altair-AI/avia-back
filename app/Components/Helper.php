@@ -20,8 +20,8 @@ class Helper
         $technical_systems = [];
         foreach (Organization::find($organization_id)->licenses as $license) {
             $model = $license->project->technical_system->toArray();
-            $model['grandchildren_technical_systems'] = TechnicalSystem::find(
-                $license->project->technical_system_id)->grandchildren_technical_systems;
+            $model['technical_subsystems'] = TechnicalSystem::find(
+                $license->project->technical_system_id)->technical_subsystems;
             array_push($technical_systems, $model);
         }
         return $technical_systems;
@@ -39,8 +39,8 @@ class Helper
     {
         foreach ($technical_systems as $item) {
             array_push($id_list, $item['id']);
-            if (!empty($item['grandchildren_technical_systems']))
-                $id_list = self::get_technical_system_ids($item['grandchildren_technical_systems'], $id_list);
+            if (!empty($item['technical_subsystems']))
+                $id_list = self::get_technical_system_ids($item['technical_subsystems'], $id_list);
         }
         return $id_list;
     }
@@ -57,8 +57,8 @@ class Helper
     {
         foreach ($technical_systems as $item) {
             array_push($code_list, $item['code']);
-            if (!empty($item['grandchildren_technical_systems']))
-                $code_list = self::get_technical_system_codes($item['grandchildren_technical_systems'], $code_list);
+            if (!empty($item['technical_subsystems']))
+                $code_list = self::get_technical_system_codes($item['technical_subsystems'], $code_list);
         }
         return $code_list;
     }

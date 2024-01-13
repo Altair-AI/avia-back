@@ -26,7 +26,8 @@ class IndexMalfunctionCauseRuleRequest extends FormRequest
         return [
             'cause' => 'string',
             'document_id' => 'integer',
-            'rule_based_knowledge_base_id' => 'integer'
+            'rule_based_knowledge_base_id' => 'integer',
+            'technical_system_id' => 'integer',
         ];
     }
 }
