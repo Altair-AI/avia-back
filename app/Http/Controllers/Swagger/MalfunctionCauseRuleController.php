@@ -24,6 +24,12 @@ use App\Http\Controllers\Controller;
  *         required=false
  *     ),
  *     @OA\Parameter(
+ *         description="id технической системы",
+ *         in="query",
+ *         name="technical_system_id",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
  *         description="Размер страницы пагинации",
  *         in="query",
  *         name="pageSize",
