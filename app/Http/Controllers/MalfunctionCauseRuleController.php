@@ -10,6 +10,7 @@ use App\Http\Requests\MalfunctionCauseRule\UpdateMalfunctionCauseRuleRequest;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 
 class MalfunctionCauseRuleController extends Controller
@@ -43,12 +44,24 @@ class MalfunctionCauseRuleController extends Controller
 
         $result = [];
         $malfunction_cause_rules = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
             $malfunction_cause_rules = MalfunctionCauseRule::filter($filter)
                 ->with('document')
                 ->with('rule_based_knowledge_base')
                 ->with('malfunction_causes')
                 ->paginate($pageSize);
+            if (isset($request['technical_system_id'])) {
+                $value = $request['technical_system_id'];
+                $malfunction_cause_rules = MalfunctionCauseRule::filter($filter)
+                    ->with('document')
+                    ->with('rule_based_knowledge_base')
+                    ->with('malfunction_causes')
+                    ->whereHas('malfunction_cause_rules_then', function (Builder $query) use ($value) {
+                        $query->where('technical_system_id', $value);
+                    })
+                    ->paginate($pageSize);
+            }
+        }
         if (auth()->user()->role == User::ADMIN_ROLE) {
             // Формирование списка идентификаторов баз знаний правил доступных администратору
             $kb_ids = [];
@@ -62,6 +75,18 @@ class MalfunctionCauseRuleController extends Controller
                 ->with('malfunction_causes')
                 ->whereIn('rule_based_knowledge_base_id', $kb_ids)
                 ->paginate($pageSize);
+            if (isset($request['technical_system_id'])) {
+                $value = $request['technical_system_id'];
+                $malfunction_cause_rules = MalfunctionCauseRule::filter($filter)
+                    ->with('document')
+                    ->with('rule_based_knowledge_base')
+                    ->with('malfunction_causes')
+                    ->whereIn('rule_based_knowledge_base_id', $kb_ids)
+                    ->whereHas('malfunction_cause_rules_then', function (Builder $query) use ($value) {
+                        $query->where('technical_system_id', $value);
+                    })
+                    ->paginate($pageSize);
+            }
         }
         $data = [];
         foreach ($malfunction_cause_rules as $malfunction_cause_rule)

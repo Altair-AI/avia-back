@@ -56,8 +56,9 @@ class TechnicalSystemController extends Controller
         $data = [];
         foreach ($technical_systems as $technical_system)
             array_push($data, array_merge($technical_system->toArray(), [
+                'technical_subsystems' => $technical_system->technical_subsystems,
                 'documents' => $technical_system->documents,
-                'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
+                'rule_based_knowledge_bases' => $technical_system->rule_based_knowledge_bases
             ]));
         $result['data'] = $data;
         $result['page_current'] = !is_array($technical_systems) ? $technical_systems->currentPage() : null;
@@ -88,8 +89,9 @@ class TechnicalSystemController extends Controller
     public function show(TechnicalSystem $technical_system)
     {
         return response()->json(array_merge($technical_system->toArray(), [
+            'technical_subsystems' => $technical_system->technical_subsystems,
             'documents' => $technical_system->documents,
-            'grandchildren_technical_systems' => $technical_system->grandchildren_technical_systems
+            'rule_based_knowledge_bases' => $technical_system->rule_based_knowledge_bases
         ]));
     }
 
