@@ -12,19 +12,19 @@ class RealTimeTechnicalSystemPolicy
      * Check actions for all users.
      *
      * @param User $user
-     * @param RealTimeTechnicalSystem $real_time_technical_system
+     * @param RealTimeTechnicalSystem $realTimeTechnicalSystem
      * @return bool
      */
-    private function common_check(User $user, RealTimeTechnicalSystem $real_time_technical_system): bool
+    private function common_check(User $user, RealTimeTechnicalSystem $realTimeTechnicalSystem): bool
     {
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
         if ($user->role === User::ADMIN_ROLE)
             foreach ($user->organization->projects as $project)
-                if ($project->id == $real_time_technical_system->project_id)
+                if ($project->id == $realTimeTechnicalSystem->project_id)
                     return true;
         if ($user->role === User::TECHNICIAN_ROLE)
-            foreach ($real_time_technical_system->users as $tech_sys_user)
+            foreach ($realTimeTechnicalSystem->users as $tech_sys_user)
                 if ($tech_sys_user->id == $user->id)
                     return true;
         return false;
@@ -34,16 +34,16 @@ class RealTimeTechnicalSystemPolicy
      * Check actions for administrators.
      *
      * @param User $user
-     * @param RealTimeTechnicalSystem $real_time_technical_system
+     * @param RealTimeTechnicalSystem $realTimeTechnicalSystem
      * @return bool
      */
-    private function admin_check(User $user, RealTimeTechnicalSystem $real_time_technical_system): bool
+    private function admin_check(User $user, RealTimeTechnicalSystem $realTimeTechnicalSystem): bool
     {
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
         if ($user->role === User::ADMIN_ROLE)
             foreach ($user->organization->projects as $project)
-                if ($project->id == $real_time_technical_system->project_id)
+                if ($project->id == $realTimeTechnicalSystem->project_id)
                     return true;
         return false;
     }
@@ -56,8 +56,7 @@ class RealTimeTechnicalSystemPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === User::SUPER_ADMIN_ROLE or $user->role === User::ADMIN_ROLE or
-            $user->role === User::TECHNICIAN_ROLE;
+        return $user->role !== User::GUEST_ROLE;
     }
 
     /**
