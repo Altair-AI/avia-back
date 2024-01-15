@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 13.01.2024",
-        "version": "1.1.4"
+        "description": "Дата обновления: 15.01.2024",
+        "version": "1.1.5"
     },
     "paths": {
         "/api/": {},
@@ -6391,6 +6391,62 @@
                                                 "format": "date-time",
                                                 "example": "2023-09-15T01:52:11.000000Z"
                                             },
+                                            "user": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "Some email"
+                                                    },
+                                                    "email_verified_at": {
+                                                        "type": "string",
+                                                        "example": null
+                                                    },
+                                                    "role": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "full_name": {
+                                                        "type": "string",
+                                                        "example": "Some full name"
+                                                    },
+                                                    "last_login_date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "login_ip": {
+                                                        "type": "string",
+                                                        "example": "Some IP"
+                                                    },
+                                                    "organization_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
                                             "technical_system": {
                                                 "properties": {
                                                     "id": {
@@ -6525,6 +6581,62 @@
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
                                         },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "Some email"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "role": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "Some full name"
+                                                },
+                                                "last_login_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "login_ip": {
+                                                    "type": "string",
+                                                    "example": "Some IP"
+                                                },
+                                                "organization_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
                                         "technical_system": {
                                             "properties": {
                                                 "id": {
@@ -6634,6 +6746,62 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "Some email"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "role": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "Some full name"
+                                                },
+                                                "last_login_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "login_ip": {
+                                                    "type": "string",
+                                                    "example": "Some IP"
+                                                },
+                                                "organization_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
                                         "technical_system": {
                                             "properties": {
@@ -6776,6 +6944,62 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "Some email"
+                                                },
+                                                "email_verified_at": {
+                                                    "type": "string",
+                                                    "example": null
+                                                },
+                                                "role": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "full_name": {
+                                                    "type": "string",
+                                                    "example": "Some full name"
+                                                },
+                                                "last_login_date": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "login_ip": {
+                                                    "type": "string",
+                                                    "example": "Some IP"
+                                                },
+                                                "organization_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-09-15T01:52:11.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
                                         "technical_system": {
                                             "properties": {
@@ -7798,9 +8022,9 @@
                                                 "type": "string",
                                                 "example": "Some email"
                                             },
-                                            "password": {
+                                            "email_verified_at": {
                                                 "type": "string",
-                                                "example": "Some password"
+                                                "example": null
                                             },
                                             "role": {
                                                 "type": "integer",
@@ -8005,9 +8229,9 @@
                                                     "type": "string",
                                                     "example": "Some email"
                                                 },
-                                                "password": {
+                                                "email_verified_at": {
                                                     "type": "string",
-                                                    "example": "Some password"
+                                                    "example": null
                                                 },
                                                 "role": {
                                                     "type": "integer",
@@ -8176,9 +8400,9 @@
                                             "type": "string",
                                             "example": "Some email"
                                         },
-                                        "password": {
+                                        "email_verified_at": {
                                             "type": "string",
-                                            "example": "Some password"
+                                            "example": null
                                         },
                                         "role": {
                                             "type": "integer",
@@ -8389,9 +8613,9 @@
                                             "type": "string",
                                             "example": "Some email"
                                         },
-                                        "password": {
+                                        "email_verified_at": {
                                             "type": "string",
-                                            "example": "Some password"
+                                            "example": null
                                         },
                                         "role": {
                                             "type": "integer",
