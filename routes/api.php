@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CaseBasedKnowledgeBaseController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\MalfunctionCauseRuleController;
 use App\Http\Controllers\OperationController;
@@ -44,6 +45,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('rule-based-knowledge-bases', RuleBasedKnowledgeBaseController::class);
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
     Route::apiResource('operation-rules', OperationRuleController::class);
+    Route::apiResource('case-based-knowledge-bases', CaseBasedKnowledgeBaseController::class);
     Route::apiResource('work-sessions', WorkSessionController::class);
     Route::post('define-malfunction-causes', [RuleEngineController::class, 'defineMalfunctionCauses']);
     Route::post('troubleshooting', [RuleEngineController::class, 'troubleshooting']);
