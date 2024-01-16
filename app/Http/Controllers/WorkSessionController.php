@@ -41,9 +41,9 @@ class WorkSessionController extends Controller
 
         $result = [];
         $work_sessions = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $work_sessions = WorkSession::filter($filter)->paginate($pageSize);
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Поиск всех пользователей, принадлежащих к той же организации, что и администратор
             $users = User::whereOrganizationId(auth()->user()->organization_id)->get();
             // Формирование массива id найденных пользователей

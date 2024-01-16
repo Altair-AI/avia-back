@@ -27,10 +27,10 @@ class CaseBasedKnowledgeBaseController extends Controller
     public function index()
     {
         $case_based_kb = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $case_based_kb = CaseBasedKnowledgeBase::with('user')->with('real_time_technical_system')
                 ->with('project')->get();
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование массива идентификаторов проектов в которых состоит администратор
             $project_ids = [];
             foreach (auth()->user()->organization->projects as $project)
@@ -39,7 +39,7 @@ class CaseBasedKnowledgeBaseController extends Controller
             $case_based_kb = CaseBasedKnowledgeBase::with('user')->with('real_time_technical_system')
                 ->with('project')->whereIn('project_id', $project_ids)->get();
         }
-        if (auth()->user()->role == User::TECHNICIAN_ROLE) {
+        if (auth()->user()->role === User::TECHNICIAN_ROLE) {
             // Формирование массива идентификаторов технических систем реального времени, доступных технику
             $real_time_technical_system_ids = [];
             $user_tech_sys = RealTimeTechnicalSystemUser::where('user_id', auth()->user()->id)->get();

@@ -44,7 +44,7 @@ class MalfunctionCauseRuleController extends Controller
 
         $result = [];
         $malfunction_cause_rules = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE) {
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE) {
             $malfunction_cause_rules = MalfunctionCauseRule::filter($filter)
                 ->with('document')
                 ->with('rule_based_knowledge_base')
@@ -62,7 +62,7 @@ class MalfunctionCauseRuleController extends Controller
                     ->paginate($pageSize);
             }
         }
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование списка идентификаторов баз знаний правил доступных администратору
             $kb_ids = [];
             foreach (Organization::find(auth()->user()->organization->id)->projects as $project)

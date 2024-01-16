@@ -43,9 +43,9 @@ class TechnicalSystemController extends Controller
 
         $result = [];
         $technical_systems = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $technical_systems = TechnicalSystem::filter($filter)->paginate($pageSize);
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $items = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
             // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем

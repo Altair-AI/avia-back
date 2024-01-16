@@ -29,9 +29,9 @@ class RuleBasedKnowledgeBaseController extends Controller
     public function index()
     {
         $rule_based_kb = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $rule_based_kb = RuleBasedKnowledgeBase::with('user')->with('technical_system')->get();
-        if (auth()->user()->role == User::ADMIN_ROLE)
+        if (auth()->user()->role === User::ADMIN_ROLE)
             foreach (Organization::find(auth()->user()->organization_id)->projects as $project)
                 array_push($rule_based_kb, RuleBasedKnowledgeBase::with('user')
                     ->with('technical_system')->find($project->technical_system_id)->toArray());

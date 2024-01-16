@@ -29,9 +29,9 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $projects = Project::with('technical_system')->with('rule_based_knowledge_bases')->get();
-        if (auth()->user()->role == User::ADMIN_ROLE)
+        if (auth()->user()->role === User::ADMIN_ROLE)
             foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
                 array_push($projects, array_merge($project->toArray(), [
                     'technical_system' => $project->technical_system,

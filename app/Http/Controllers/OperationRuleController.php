@@ -42,7 +42,7 @@ class OperationRuleController extends Controller
 
         $result = [];
         $operation_rules = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $operation_rules = OperationRule::filter($filter)
                 ->with('operation_if')
                 ->with('operation_result')
@@ -52,7 +52,7 @@ class OperationRuleController extends Controller
                 ->with('malfunction_system')
                 ->with('document')
                 ->paginate($pageSize);
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование списка идентификаторов баз знаний правил доступных администратору
             $kb_ids = [];
             foreach (Organization::find(auth()->user()->organization->id)->projects as $project)

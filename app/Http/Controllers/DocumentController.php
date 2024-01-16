@@ -29,9 +29,9 @@ class DocumentController extends Controller
     public function index()
     {
         $documents = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $documents = Document::with('technical_systems')->get();
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
             // Получение всех id технических систем или объектов для вложенного массива (иерархии) технических систем

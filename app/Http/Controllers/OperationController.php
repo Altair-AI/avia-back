@@ -43,9 +43,9 @@ class OperationController extends Controller
 
         $result = [];
         $operations = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $operations = Operation::filter($filter)->paginate($pageSize);
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
             // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем

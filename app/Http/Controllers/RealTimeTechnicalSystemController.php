@@ -43,10 +43,10 @@ class RealTimeTechnicalSystemController extends Controller
 
         $result = [];
         $real_time_ts = [];
-        if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
             $real_time_ts = RealTimeTechnicalSystem::with('technical_system')->with('project')
                 ->filter($filter)->paginate($pageSize);
-        if (auth()->user()->role == User::ADMIN_ROLE) {
+        if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование массива идентификаторов проектов в которых состоит администратор
             $project_ids = [];
             foreach (auth()->user()->organization->projects as $project)
@@ -55,7 +55,7 @@ class RealTimeTechnicalSystemController extends Controller
             $real_time_ts = RealTimeTechnicalSystem::with('technical_system')->with('project')
                 ->filter($filter)->whereIn('project_id', $project_ids)->paginate($pageSize);
         }
-        if (auth()->user()->role == User::TECHNICIAN_ROLE) {
+        if (auth()->user()->role === User::TECHNICIAN_ROLE) {
             // Формирование массива идентификаторов технических систем реального времени, доступных технику
             $real_time_technical_system_ids = [];
             $user_tech_sys = RealTimeTechnicalSystemUser::where('user_id', auth()->user()->id)->get();
