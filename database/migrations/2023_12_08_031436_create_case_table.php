@@ -20,10 +20,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('malfunction_detection_stage')
                 ->onDelete('cascade');
-            $table->integer('malfunction_system_id')->unsigned();
-            $table->foreign('malfunction_system_id')
+            $table->integer('malfunction_cause_id')->unsigned();
+            $table->foreign('malfunction_cause_id')
                 ->references('id')
-                ->on('real_time_technical_system')
+                ->on('malfunction_cause')
                 ->onDelete('cascade');
             $table->integer('system_id_for_repair')->unsigned();
             $table->foreign('system_id_for_repair')
