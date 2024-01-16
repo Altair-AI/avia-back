@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\CaseBasedKnowledgeBase;
 use App\Models\Document;
 use App\Models\MalfunctionCauseRule;
 use App\Models\Operation;
@@ -13,6 +14,7 @@ use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
 use App\Models\User;
 use App\Models\WorkSession;
+use App\Policies\CaseBasedKnowledgeBasePolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\MalfunctionCauseRulePolicy;
 use App\Policies\OperationPolicy;
@@ -34,15 +36,16 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        CaseBasedKnowledgeBase::class => CaseBasedKnowledgeBasePolicy::class,
         Document::class => DocumentPolicy::class,
         MalfunctionCauseRule::class => MalfunctionCauseRulePolicy::class,
         Operation::class => OperationPolicy::class,
         OperationRule::class => OperationRulePolicy::class,
         Organization::class => OrganizationPolicy::class,
         Project::class => ProjectPolicy::class,
+        RealTimeTechnicalSystem::class => RealTimeTechnicalSystemPolicy::class,
         RuleBasedKnowledgeBase::class => RuleBasedKnowledgeBasePolicy::class,
         TechnicalSystem::class => TechnicalSystemPolicy::class,
-        RealTimeTechnicalSystem::class => RealTimeTechnicalSystemPolicy::class,
         User::class => UserPolicy::class,
         WorkSession::class => WorkSessionPolicy::class
     ];

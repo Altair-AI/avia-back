@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Get(
- *     path="/api/v1/admin/rule-based-knowledge-bases",
- *     summary="Получить список всех баз знаний правил",
- *     tags={"Базы знаний правил"},
+ *     path="/api/v1/admin/case-based-knowledge-bases",
+ *     summary="Получить список всех баз знаний прецедентов",
+ *     tags={"Базы знаний прецедентов"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает список всех баз знаний с правилами, созданных в системе. Для администратора возвращает базы знаний с правилами для технических систем с проектами, которые доступны по лицензии для организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает список всех баз знаний с прецедентами, созданных в системе. Для администратора возвращает базы знаний прецедентов, доступных в рамках проекта к которому принадлежит администратор. Для техника возвращает список только тех баз знаний прецедентов, доступ к которым установил администратор в рамках определенной технической системы реального времени.",
  *
  *     @OA\Response(
  *         response=200,
@@ -22,7 +22,8 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="status", type="integer", example=0),
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="real_time_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="project_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
@@ -39,12 +40,24 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             ),
- *             @OA\Property(property="technical_system",
+ *             @OA\Property(property="real_time_technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="registration_code", type="string", example="Some registration code"),
+ *                 @OA\Property(property="registration_description", type="string", example="Some description"),
+ *                 @OA\Property(property="operation_time_from_start", type="integer", example=10),
+ *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1),
+ *                 @OA\Property(property="project_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             ),
+ *             @OA\Property(property="project",
+ *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="status", type="integer", example=0),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             )
@@ -53,9 +66,9 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Post(
- *     path="/api/v1/admin/rule-based-knowledge-bases",
- *     summary="Создание новой базы знаний правил",
- *     tags={"Базы знаний правил"},
+ *     path="/api/v1/admin/case-based-knowledge-bases",
+ *     summary="Создание новой базы знаний прецедентов",
+ *     tags={"Базы знаний прецедентов"},
  *     security={{ "bearerAuth": {} }},
  *
  *     @OA\RequestBody(
@@ -66,7 +79,8 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="description", type="string", example="Some description"),
  *                     @OA\Property(property="status", type="integer", example=0),
  *                     @OA\Property(property="correctness", type="integer", example=0),
- *                     @OA\Property(property="technical_system_id", type="integer", example=1)
+ *                     @OA\Property(property="real_time_technical_system_id", type="integer", example=1),
+ *                     @OA\Property(property="project_id", type="integer", example=1)
  *                 )
  *             }
  *         )
@@ -82,7 +96,8 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="status", type="integer", example=0),
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="real_time_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="project_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
@@ -99,12 +114,24 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             ),
- *             @OA\Property(property="technical_system",
+ *             @OA\Property(property="real_time_technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="registration_code", type="string", example="Some registration code"),
+ *                 @OA\Property(property="registration_description", type="string", example="Some description"),
+ *                 @OA\Property(property="operation_time_from_start", type="integer", example=10),
+ *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1),
+ *                 @OA\Property(property="project_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             ),
+ *             @OA\Property(property="project",
+ *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="status", type="integer", example=0),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             )
@@ -113,16 +140,16 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Get(
- *     path="/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}",
- *     summary="Получить единичную базу знаний правил",
- *     tags={"Базы знаний правил"},
+ *     path="/api/v1/admin/case-based-knowledge-bases/{case-based-knowledge-base}",
+ *     summary="Получить единичную базу знаний прецедентов",
+ *     tags={"Базы знаний прецедентов"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает любую базу знаний с правилами, созданную в системе. Для администратора возвращает базу знаний с правилами для технической системы с проектом, который доступен по лицензии для организации к которой принадлежит администратор.",
+ *     description="Для супер-администратора возвращает любую базу знаний прецедентов, созданную в системе. Для администратора возвращает базу знаний прецедентов, доступную в рамках проекта к которому принадлежит администратор. Для техника возвращает базу знаний прецедентов, доступ к которой установил администратор в рамках определенной технической системы реального времени.",
  *
  *     @OA\Parameter(
- *         description="id базы знаний правил",
+ *         description="id базы знаний прецедентов",
  *         in="path",
- *         name="rule-based-knowledge-base",
+ *         name="case-based-knowledge-base",
  *         required=true,
  *         example=1
  *     ),
@@ -137,7 +164,8 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="status", type="integer", example=0),
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="real_time_technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="project_id", type="integer", example=1),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
@@ -154,12 +182,24 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             ),
- *             @OA\Property(property="technical_system",
+ *             @OA\Property(property="real_time_technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="registration_code", type="string", example="Some registration code"),
+ *                 @OA\Property(property="registration_description", type="string", example="Some description"),
+ *                 @OA\Property(property="operation_time_from_start", type="integer", example=10),
+ *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1),
+ *                 @OA\Property(property="project_id", type="integer", example=1),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             ),
+ *             @OA\Property(property="project",
+ *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="status", type="integer", example=0),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             )
@@ -168,15 +208,15 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Put(
- *     path="/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}",
- *     summary="Обновить базу знаний правил",
- *     tags={"Базы знаний правил"},
+ *     path="/api/v1/admin/case-based-knowledge-bases/{case-based-knowledge-base}",
+ *     summary="Обновить базу знаний прецедентов",
+ *     tags={"Базы знаний прецедентов"},
  *     security={{ "bearerAuth": {} }},
  *
  *     @OA\Parameter(
- *         description="id базы знаний правил",
+ *         description="id базы знаний прецедентов",
  *         in="path",
- *         name="rule-based-knowledge-base",
+ *         name="case-based-knowledge-base",
  *         required=true,
  *         example=1
  *     ),
@@ -187,9 +227,10 @@ use App\Http\Controllers\Controller;
  *                 @OA\Schema(
  *                     @OA\Property(property="name", type="string", example="Some name for edit"),
  *                     @OA\Property(property="description", type="string", example="Some description for edit"),
- *                     @OA\Property(property="status", type="integer", example=0),
- *                     @OA\Property(property="correctness", type="integer", example=0),
- *                     @OA\Property(property="technical_system_id", type="integer", example=1)
+ *                     @OA\Property(property="status", type="integer", example=1),
+ *                     @OA\Property(property="correctness", type="integer", example=1),
+ *                     @OA\Property(property="real_time_technical_system_id", type="integer", example=2),
+ *                     @OA\Property(property="project_id", type="integer", example=2)
  *                 )
  *             }
  *         )
@@ -202,10 +243,11 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="name", type="string", example="Some name"),
  *             @OA\Property(property="description", type="string", example="Some description"),
- *             @OA\Property(property="status", type="integer", example=0),
- *             @OA\Property(property="correctness", type="integer", example=0),
+ *             @OA\Property(property="status", type="integer", example=1),
+ *             @OA\Property(property="correctness", type="integer", example=1),
  *             @OA\Property(property="author", type="integer", example=1),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
+ *             @OA\Property(property="real_time_technical_system_id", type="integer", example=2),
+ *             @OA\Property(property="project_id", type="integer", example=2),
  *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
@@ -222,12 +264,24 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             ),
- *             @OA\Property(property="technical_system",
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="real_time_technical_system",
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="registration_code", type="string", example="Some registration code"),
+ *                 @OA\Property(property="registration_description", type="string", example="Some description"),
+ *                 @OA\Property(property="operation_time_from_start", type="integer", example=20),
+ *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=200),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=2),
+ *                 @OA\Property(property="project_id", type="integer", example=2),
+ *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             ),
+ *             @OA\Property(property="project",
+ *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="status", type="integer", example=0),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=2),
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             )
@@ -236,15 +290,15 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Delete(
- *     path="/api/v1/admin/rule-based-knowledge-bases/{rule-based-knowledge-base}",
- *     summary="Удалить базу знаний правил",
- *     tags={"Базы знаний правил"},
+ *     path="/api/v1/admin/case-based-knowledge-bases/{case-based-knowledge-base}",
+ *     summary="Удалить базу знаний прецедентов",
+ *     tags={"Базы знаний прецедентов"},
  *     security={{ "bearerAuth": {} }},
  *
  *     @OA\Parameter(
- *         description="id базы знаний правил",
+ *         description="id базы знаний прецедентов",
  *         in="path",
- *         name="rule-based-knowledge-base",
+ *         name="case-based-knowledge-base",
  *         required=true,
  *         example=1
  *     ),
@@ -258,7 +312,7 @@ use App\Http\Controllers\Controller;
  *     )
  * )
  */
-class RuleBasedKnowledgeBaseController extends Controller
+class CaseBasedKnowledgeBaseController extends Controller
 {
     //
 }

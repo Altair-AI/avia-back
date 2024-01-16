@@ -30,11 +30,11 @@ class RuleBasedKnowledgeBaseController extends Controller
     {
         $rule_based_kb = [];
         if (auth()->user()->role == User::SUPER_ADMIN_ROLE)
-            $rule_based_kb = RuleBasedKnowledgeBase::with('technical_system')->get();
+            $rule_based_kb = RuleBasedKnowledgeBase::with('user')->with('technical_system')->get();
         if (auth()->user()->role == User::ADMIN_ROLE)
             foreach (Organization::find(auth()->user()->organization_id)->projects as $project)
-                array_push($rule_based_kb, RuleBasedKnowledgeBase::with('technical_system')
-                    ->find($project->technical_system_id)->toArray());
+                array_push($rule_based_kb, RuleBasedKnowledgeBase::with('user')
+                    ->with('technical_system')->find($project->technical_system_id)->toArray());
         return response()->json($rule_based_kb);
     }
 
@@ -49,6 +49,7 @@ class RuleBasedKnowledgeBaseController extends Controller
         $validated = $request->validated();
         $ruleBasedKnowledgeBase = RuleBasedKnowledgeBase::create($validated);
         return response()->json(array_merge($ruleBasedKnowledgeBase->toArray(), [
+            'user' => $ruleBasedKnowledgeBase->user,
             'technical_system' => $ruleBasedKnowledgeBase->technical_system
         ]));
     }
@@ -62,6 +63,7 @@ class RuleBasedKnowledgeBaseController extends Controller
     public function show(RuleBasedKnowledgeBase $ruleBasedKnowledgeBase)
     {
         return response()->json(array_merge($ruleBasedKnowledgeBase->toArray(), [
+            'user' => $ruleBasedKnowledgeBase->user,
             'technical_system' => $ruleBasedKnowledgeBase->technical_system
         ]));
     }
@@ -79,6 +81,7 @@ class RuleBasedKnowledgeBaseController extends Controller
         $ruleBasedKnowledgeBase->fill($validated);
         $ruleBasedKnowledgeBase->save();
         return response()->json(array_merge($ruleBasedKnowledgeBase->toArray(), [
+            'user' => $ruleBasedKnowledgeBase->user,
             'technical_system' => $ruleBasedKnowledgeBase->technical_system
         ]));
     }

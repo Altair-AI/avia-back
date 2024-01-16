@@ -53,9 +53,10 @@ class RealTimeTechnicalSystemController extends Controller
                 array_push($project_ids, $project->id);
             // Поиск всех технических систем реального удовлетворяющих фильтру и совпадающих с массивом идентификаторов
             $real_time_ts = RealTimeTechnicalSystem::with('technical_system')->with('project')
-                ->filter($filter)->whereIn('project_id', $project_ids) ->paginate($pageSize);
+                ->filter($filter)->whereIn('project_id', $project_ids)->paginate($pageSize);
         }
         if (auth()->user()->role == User::TECHNICIAN_ROLE) {
+            // Формирование массива идентификаторов технических систем реального времени, доступных технику
             $real_time_technical_system_ids = [];
             $user_tech_sys = RealTimeTechnicalSystemUser::where('user_id', auth()->user()->id)->get();
             foreach ($user_tech_sys as $uts)

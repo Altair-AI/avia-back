@@ -78,7 +78,7 @@ class RuleBasedKnowledgeBase extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author');
     }
 
     public function technical_system()

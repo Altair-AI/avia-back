@@ -74,7 +74,7 @@ class CaseBasedKnowledgeBase extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author');
     }
 
     public function real_time_technical_system()

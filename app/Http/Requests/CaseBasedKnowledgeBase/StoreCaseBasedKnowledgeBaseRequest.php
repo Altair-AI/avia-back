@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\RealTimeTechnicalSystem;
+namespace App\Http\Requests\CaseBasedKnowledgeBase;
 
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRealTimeTechnicalSystemRequest extends FormRequest
+class StoreCaseBasedKnowledgeBaseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,12 @@ class StoreRealTimeTechnicalSystemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration_code' => 'required|string|max:255|unique:real_time_technical_system',
-            'registration_description' => 'nullable|string',
-            'operation_time_from_start' => 'nullable|integer',
-            'operation_time_from_last_repair' => 'nullable|integer',
-            'technical_system_id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|integer',
+            'correctness' => 'required|integer',
+            'author' => 'required|integer',
+            'real_time_technical_system_id' => 'required|integer',
             'project_id' => 'required|integer'
         ];
     }
