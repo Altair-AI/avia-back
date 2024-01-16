@@ -13,8 +13,7 @@ class InitializeRuleEngineRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $roles = [User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE, User::TECHNICIAN_ROLE];
-        return (in_array(auth()->user()->role, $roles, true));
+        return auth()->user()->role !== User::GUEST_ROLE;
     }
 
     /**

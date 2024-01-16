@@ -13,7 +13,7 @@ class StoreRealTimeTechnicalSystemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return (auth()->user()->role == User::SUPER_ADMIN_ROLE or auth()->user()->role == User::ADMIN_ROLE);
+        return auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE;
     }
 
     /**

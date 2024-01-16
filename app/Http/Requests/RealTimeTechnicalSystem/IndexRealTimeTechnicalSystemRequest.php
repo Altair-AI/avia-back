@@ -13,7 +13,7 @@ class IndexRealTimeTechnicalSystemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return (auth()->user()->role != User::GUEST_ROLE);
+        return auth()->user()->role !== User::GUEST_ROLE;
     }
 
     /**

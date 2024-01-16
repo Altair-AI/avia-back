@@ -13,7 +13,7 @@ class UpdateRuleBasedKnowledgeBaseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return (auth()->user()->role == User::SUPER_ADMIN_ROLE);
+        return auth()->user()->role === User::SUPER_ADMIN_ROLE;
     }
 
     /**
