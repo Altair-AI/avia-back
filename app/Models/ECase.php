@@ -13,8 +13,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $date
  * @property string $card_number
+ * @property int $malfunction_cause_id
  * @property int $malfunction_detection_stage_id
- * @property int $malfunction_system_id
  * @property int $system_id_for_repair
  * @property int|null $initial_completed_operation_id
  * @property int $case_based_knowledge_base_id
@@ -22,8 +22,8 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read CaseBasedKnowledgeBase $case_based_knowledge_base
  * @property-read CompletedOperation|null $initial_completed_operation
+ * @property-read MalfunctionCause $malfunction_cause
  * @property-read MalfunctionDetectionStage $malfunction_detection_stage
- * @property-read RealTimeTechnicalSystem $malfunction_system
  * @property-read RealTimeTechnicalSystem $system_for_repair
  * @method static Builder|ECase newModelQuery()
  * @method static Builder|ECase newQuery()
@@ -34,8 +34,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ECase whereDate($value)
  * @method static Builder|ECase whereId($value)
  * @method static Builder|ECase whereInitialCompletedOperationId($value)
+ * @method static Builder|ECase whereMalfunctionCauseId($value)
  * @method static Builder|ECase whereMalfunctionDetectionStageId($value)
- * @method static Builder|ECase whereMalfunctionSystemId($value)
  * @method static Builder|ECase whereSystemIdForRepair($value)
  * @method static Builder|ECase whereUpdatedAt($value)
  * @mixin Builder
@@ -60,7 +60,7 @@ class ECase extends Model
         'date',
         'card_number',
         'malfunction_detection_stage_id',
-        'malfunction_system_id',
+        'malfunction_cause_id',
         'system_id_for_repair',
         'initial_completed_operation_id',
         'case_based_knowledge_base_id',
@@ -71,9 +71,9 @@ class ECase extends Model
         return $this->belongsTo(MalfunctionDetectionStage::class);
     }
 
-    public function malfunction_system()
+    public function malfunction_cause()
     {
-        return $this->belongsTo(RealTimeTechnicalSystem::class);
+        return $this->belongsTo(MalfunctionCause::class);
     }
 
     public function system_for_repair()

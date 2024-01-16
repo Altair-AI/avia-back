@@ -23,8 +23,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read Collection<int, CaseBasedKnowledgeBase> $case_based_knowledge_bases
  * @property-read int|null $case_based_knowledge_bases_count
- * @property-read Collection<int, ECase> $malfunction_system_cases
- * @property-read int|null $malfunction_system_cases_count
  * @property-read Project $project
  * @property-read Collection<int, ECase> $system_for_repair_cases
  * @property-read int|null $system_for_repair_cases_count
@@ -90,11 +88,6 @@ class RealTimeTechnicalSystem extends Model
     public function case_based_knowledge_bases()
     {
         return $this->hasMany(CaseBasedKnowledgeBase::class, 'real_time_technical_system_id');
-    }
-
-    public function malfunction_system_cases()
-    {
-        return $this->hasMany(ECase::class, 'malfunction_system_id');
     }
 
     public function system_for_repair_cases()
