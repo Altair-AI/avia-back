@@ -16,7 +16,12 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection<int, MalfunctionCauseRuleMalfunctionCause> $malfunction_cause_rule_malfunction_causes
+ * @property-read int|null $malfunction_cause_rule_malfunction_causes_count
  * @property-read Collection<int, OperationRule> $operation_rules
+ * @property-read int|null $operation_rules_count
+ * @property-read Collection<int, ECase> $cases
+ * @property-read int|null $cases_count
  * @property-read MalfunctionCauseRule $malfunction_cause_rules
  * @method static Builder|MalfunctionCause newModelQuery()
  * @method static Builder|MalfunctionCause newQuery()
@@ -58,6 +63,11 @@ class MalfunctionCause extends Model
     public function operation_rules()
     {
         return $this->hasMany(OperationRule::class, 'malfunction_cause_id');
+    }
+
+    public function cases()
+    {
+        return $this->hasMany(ECase::class, 'malfunction_cause_id');
     }
 
     /**
