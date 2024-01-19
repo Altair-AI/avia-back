@@ -123,27 +123,27 @@ class OperationRule extends Model
 
     public function operation_if()
     {
-        return $this->belongsTo(Operation::class);
+        return $this->belongsTo(Operation::class, "operation_id_if");
     }
 
     public function operation_result_if()
     {
-        return $this->belongsTo(OperationResult::class);
+        return $this->belongsTo(OperationResult::class, "operation_result_id_if");
     }
 
     public function operation_then()
     {
-        return $this->belongsTo(Operation::class);
+        return $this->belongsTo(Operation::class, "operation_id_then");
     }
 
     public function operation_result_then()
     {
-        return $this->belongsTo(OperationResult::class);
+        return $this->belongsTo(OperationResult::class, "operation_result_id_then");
     }
 
     public function malfunction_system()
     {
-        return $this->belongsTo(TechnicalSystem::class);
+        return $this->belongsTo(TechnicalSystem::class, "malfunction_system_id");
     }
 
     public function document()
