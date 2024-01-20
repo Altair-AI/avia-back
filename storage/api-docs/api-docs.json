@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 15.01.2024",
-        "version": "1.1.5"
+        "description": "Дата обновления: 20.01.2024",
+        "version": "1.1.7"
     },
     "paths": {
         "/api/": {},
@@ -2600,78 +2600,81 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "Some name"
-                                        },
-                                        "type": {
-                                            "type": "integer",
-                                            "example": 0
-                                        },
-                                        "source": {
-                                            "type": "string",
-                                            "example": "Some source"
-                                        },
-                                        "alternative_name": {
-                                            "type": "string",
-                                            "example": "Some alternative name"
-                                        },
-                                        "technical_system_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-09-15T01:52:11.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-09-15T01:52:11.000000Z"
-                                        },
-                                        "technical_system": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "code": {
-                                                    "type": "string",
-                                                    "example": "Some code"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Some name"
-                                                },
-                                                "description": {
-                                                    "type": "string",
-                                                    "example": "Some description"
-                                                },
-                                                "parent_technical_system_id": {
-                                                    "type": "integer",
-                                                    "example": null
-                                                },
-                                                "created_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "format": "date-time",
-                                                    "example": "2023-09-15T01:52:11.000000Z"
-                                                }
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
                                             },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "type": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "source": {
+                                                "type": "string",
+                                                "example": "Some source"
+                                            },
+                                            "alternative_name": {
+                                                "type": "string",
+                                                "example": "Some alternative name"
+                                            },
+                                            "technical_system_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "technical_system": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "parent_technical_system_id": {
+                                                        "type": "integer",
+                                                        "example": null
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-09-15T01:52:11.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
                                 }
                             }
                         }
@@ -3066,6 +3069,284 @@
                         "name": "malfunction-code",
                         "in": "path",
                         "description": "id кода (признака) неисправности",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/malfunction-detection-stages": {
+            "get": {
+                "tags": [
+                    "Этапы обнаружения неисправности"
+                ],
+                "summary": "Получить список всех этапов обнаружения неисправности",
+                "description": "Возвращает список всех этапов обнаружения неисправности, созданных в системе (доступно всем зарегистрированным пользователям).",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-09-15T01:52:11.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Этапы обнаружения неисправности"
+                ],
+                "summary": "Создание нового этапа обнаружения неисправности",
+                "description": "Создание нового этапа обнаружения неисправности доступно только супер-администратору.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/malfunction-detection-stages/{malfunction-detection-stage}": {
+            "get": {
+                "tags": [
+                    "Этапы обнаружения неисправности"
+                ],
+                "summary": "Получить единичный этап обнаружения неисправности",
+                "description": "Возвращает этап обнаружения неисправности (доступно всем зарегистрированным пользователям).",
+                "parameters": [
+                    {
+                        "name": "malfunction-detection-stage",
+                        "in": "path",
+                        "description": "id этапа обнаружения неисправности",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Этапы обнаружения неисправности"
+                ],
+                "summary": "Обновить этап обнаружения неисправности",
+                "description": "Обновление данных этапа обнаружения неисправности доступно только супер-администратору.",
+                "parameters": [
+                    {
+                        "name": "malfunction-detection-stage",
+                        "in": "path",
+                        "description": "id этапа обнаружения неисправности",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Some name for edit"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Some name"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-09-15T01:52:11.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Этапы обнаружения неисправности"
+                ],
+                "summary": "Удалить этап обнаружения неисправности",
+                "description": "Удаление этапа обнаружения неисправности доступно только супер-администратору.",
+                "parameters": [
+                    {
+                        "name": "malfunction-detection-stage",
+                        "in": "path",
+                        "description": "id этапа обнаружения неисправности",
                         "required": true,
                         "example": 1
                     }

@@ -4,6 +4,7 @@ use App\Http\Controllers\CaseBasedKnowledgeBaseController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\MalfunctionCauseRuleController;
 use App\Http\Controllers\MalfunctionCodeController;
+use App\Http\Controllers\MalfunctionDetectionStageController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\OperationRuleController;
 use App\Http\Controllers\OrganizationController;
@@ -40,6 +41,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('documents', DocumentController::class);
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
     Route::apiResource('malfunction-codes', MalfunctionCodeController::class);
+    Route::apiResource('malfunction-detection-stages', MalfunctionDetectionStageController::class);
     Route::apiResource('operations', OperationController::class);
     Route::apiResource('operation-rules', OperationRuleController::class);
     Route::apiResource('organizations', OrganizationController::class);

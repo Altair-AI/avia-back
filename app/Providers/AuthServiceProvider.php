@@ -6,6 +6,7 @@ use App\Models\CaseBasedKnowledgeBase;
 use App\Models\Document;
 use App\Models\MalfunctionCauseRule;
 use App\Models\MalfunctionCode;
+use App\Models\MalfunctionDetectionStage;
 use App\Models\Operation;
 use App\Models\OperationRule;
 use App\Models\Organization;
@@ -19,6 +20,7 @@ use App\Policies\CaseBasedKnowledgeBasePolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\MalfunctionCauseRulePolicy;
 use App\Policies\MalfunctionCodePolicy;
+use App\Policies\MalfunctionDetectionStagePolicy;
 use App\Policies\OperationPolicy;
 use App\Policies\OperationRulePolicy;
 use App\Policies\OrganizationPolicy;
@@ -42,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
         Document::class => DocumentPolicy::class,
         MalfunctionCauseRule::class => MalfunctionCauseRulePolicy::class,
         MalfunctionCode::class => MalfunctionCodePolicy::class,
+        MalfunctionDetectionStage::class => MalfunctionDetectionStagePolicy::class,
         Operation::class => OperationPolicy::class,
         OperationRule::class => OperationRulePolicy::class,
         Organization::class => OrganizationPolicy::class,

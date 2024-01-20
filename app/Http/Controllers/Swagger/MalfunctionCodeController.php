@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
  *     @OA\Response(
  *         response=200,
  *         description="successful operation",
- *         @OA\JsonContent(
+ *         @OA\JsonContent(type="array", @OA\Items(
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="name", type="string", example="Some name"),
  *             @OA\Property(property="type", type="integer", example=0),
@@ -33,7 +33,7 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *             )
- *         )
+ *         ))
  *     )
  * ),
  *
