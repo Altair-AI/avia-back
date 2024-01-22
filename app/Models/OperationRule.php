@@ -121,6 +121,8 @@ class OperationRule extends Model
      * @var array<string>
      */
     protected $hidden = [
+        'operation_result_id_then',
+        'malfunction_system_id',
         'created_at',
         'updated_at'
     ];

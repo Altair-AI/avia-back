@@ -47,10 +47,8 @@ class OperationRuleController extends Controller
                 ->with('operation_if')
                 ->with('operation_result_if')
                 ->with('operation_then')
-                ->with('operation_result_then')
                 ->with('rule_based_knowledge_base')
                 ->with('malfunction_cause')
-                ->with('malfunction_system')
                 ->with('document')
                 ->paginate($pageSize);
         if (auth()->user()->role === User::ADMIN_ROLE) {
@@ -64,10 +62,8 @@ class OperationRuleController extends Controller
                 ->with('operation_if')
                 ->with('operation_result_if')
                 ->with('operation_then')
-                ->with('operation_result_then')
                 ->with('rule_based_knowledge_base')
                 ->with('malfunction_cause')
-                ->with('malfunction_system')
                 ->with('document')
                 ->whereIn('rule_based_knowledge_base_id', $kb_ids)
                 ->paginate($pageSize);
@@ -92,7 +88,14 @@ class OperationRuleController extends Controller
     {
         $validated = $request->validated();
         $operationRule = OperationRule::create($validated);
-        return response()->json($operationRule);
+        return response()->json(array_merge($operationRule->toArray(), [
+            'operation_if' => $operationRule->operation_if,
+            'operation_result_if' => $operationRule->operation_result_if,
+            'operation_then' => $operationRule->operation_then,
+            'rule_based_knowledge_base' => $operationRule->rule_based_knowledge_base,
+            'malfunction_cause' => $operationRule->malfunction_cause,
+            'document' => $operationRule->document
+        ]));
     }
 
     /**
@@ -104,12 +107,11 @@ class OperationRuleController extends Controller
     public function show(OperationRule $operationRule)
     {
         return response()->json(array_merge($operationRule->toArray(), [
-            'operation_if' => $operationRule->operation_then,
-            'operation_result' => $operationRule->operation_then,
+            'operation_if' => $operationRule->operation_if,
+            'operation_result_if' => $operationRule->operation_result_if,
             'operation_then' => $operationRule->operation_then,
             'rule_based_knowledge_base' => $operationRule->rule_based_knowledge_base,
             'malfunction_cause' => $operationRule->malfunction_cause,
-            'malfunction_system' => $operationRule->malfunction_system,
             'document' => $operationRule->document
         ]));
     }
@@ -127,12 +129,11 @@ class OperationRuleController extends Controller
         $operationRule->fill($validated);
         $operationRule->save();
         return response()->json(array_merge($operationRule->toArray(), [
-            'operation_if' => $operationRule->operation_then,
-            'operation_result' => $operationRule->operation_then,
+            'operation_if' => $operationRule->operation_if,
+            'operation_result_if' => $operationRule->operation_result_if,
             'operation_then' => $operationRule->operation_then,
             'rule_based_knowledge_base' => $operationRule->rule_based_knowledge_base,
             'malfunction_cause' => $operationRule->malfunction_cause,
-            'malfunction_system' => $operationRule->malfunction_system,
             'document' => $operationRule->document
         ]));
     }
