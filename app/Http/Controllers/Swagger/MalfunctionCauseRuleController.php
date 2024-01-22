@@ -135,7 +135,24 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="description", type="string", example="Some description"),
  *             @OA\Property(property="document_id", type="integer", example=1),
- *             @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1)
+ *             @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1),
+ *             @OA\Property(property="document",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="version", type="string", example="Some version"),
+ *                 @OA\Property(property="file", type="string", example="Some path to file")
+ *             ),
+ *             @OA\Property(property="rule_based_knowledge_base",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="status", type="integer", example=0),
+ *                 @OA\Property(property="correctness", type="integer", example=0),
+ *                 @OA\Property(property="author", type="integer", example=1),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )
  *         )
  *     )
  * ),
