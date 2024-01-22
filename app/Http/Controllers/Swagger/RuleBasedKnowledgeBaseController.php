@@ -23,8 +23,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -35,18 +33,14 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             ),
  *             @OA\Property(property="technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *             )
  *         ))
  *     )
@@ -83,8 +77,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -95,18 +87,14 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             ),
  *             @OA\Property(property="technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *             )
  *         )
  *     )
@@ -138,8 +126,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -150,18 +136,14 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             ),
  *             @OA\Property(property="technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *             )
  *         )
  *     )
@@ -206,8 +188,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correctness", type="integer", example=0),
  *             @OA\Property(property="author", type="integer", example=1),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -218,18 +198,14 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             ),
  *             @OA\Property(property="technical_system",
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *             )
  *         )
  *     )

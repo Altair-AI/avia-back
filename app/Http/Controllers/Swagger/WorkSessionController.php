@@ -59,8 +59,6 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="stop_time", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="malfunction_cause_rule_id", type="integer", example=1),
  *                 @OA\Property(property="user_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="user",
  *                     @OA\Property(property="id", type="integer", example=1),
  *                     @OA\Property(property="name", type="string", example="Some name"),
@@ -71,9 +69,7 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="full_name", type="string", example="Some full name"),
  *                     @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                     @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                     @OA\Property(property="organization_id", type="integer", example=1),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                     @OA\Property(property="organization_id", type="integer", example=1)
  *                 )
  *             )),
  *             @OA\Property(property="page_current", type="integer", example=1),
@@ -110,8 +106,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="stop_time", type="datetime", example=null),
  *             @OA\Property(property="malfunction_cause_rule_id", type="integer", example=1),
  *             @OA\Property(property="user_id", type="integer", example=2),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -122,9 +116,7 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             )
  *         )
  *     )
@@ -154,8 +146,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="stop_time", type="datetime", example=null),
  *             @OA\Property(property="malfunction_cause_rule_id", type="integer", example=1),
  *             @OA\Property(property="user_id", type="integer", example=2),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -166,9 +156,7 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             )
  *         )
  *     )
@@ -210,8 +198,6 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="stop_time", type="datetime", example="2023-12-15T01:52:11.000000Z"),
  *             @OA\Property(property="malfunction_cause_rule_id", type="integer", example=2),
  *             @OA\Property(property="user_id", type="integer", example=3),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="user",
  *                 @OA\Property(property="id", type="integer", example=3),
  *                 @OA\Property(property="name", type="string", example="Some name"),
@@ -222,9 +208,7 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="full_name", type="string", example="Some full name"),
  *                 @OA\Property(property="last_login_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="login_ip", type="string", example="Some IP"),
- *                 @OA\Property(property="organization_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
+ *                 @OA\Property(property="organization_id", type="integer", example=1)
  *             )
  *         )
  *     )

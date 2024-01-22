@@ -7,8 +7,8 @@ use Illuminate\Routing\Controller;
 /**
  * @OA\Info(
  *     title="Avia-back API",
- *     version="1.1.7",
- *     description="Дата обновления: 20.01.2024"
+ *     version="1.1.8",
+ *     description="Дата обновления: 22.01.2024"
  * ),
  *
  * @OA\PathItem(
