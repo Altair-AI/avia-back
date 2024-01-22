@@ -45,7 +45,17 @@ class ExternalMalfunctionSignCase extends Model
      */
     protected $fillable = [
         'case_id',
-        'external_malfunction_sign_id',
+        'external_malfunction_sign_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function case()

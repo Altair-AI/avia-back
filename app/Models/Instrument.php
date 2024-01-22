@@ -43,7 +43,17 @@ class Instrument extends Model
      */
     protected $fillable = [
         'name',
-        'description',
+        'description'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function operation_instruments()

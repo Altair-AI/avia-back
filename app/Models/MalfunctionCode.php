@@ -48,8 +48,6 @@ class MalfunctionCode extends Model
     const LOCAL_TYPE = 3; // Локальная сигнализация
     const OBS_TYPE = 4;   // Наблюдаемые неисправности
 
-    protected $hidden = ['pivot'];
-
     /**
      * The table associated with the model.
      *
@@ -67,7 +65,18 @@ class MalfunctionCode extends Model
         'type',
         'source',
         'alternative_name',
-        'technical_system_id',
+        'technical_system_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function technical_system()

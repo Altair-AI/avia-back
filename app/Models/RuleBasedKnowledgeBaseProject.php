@@ -45,7 +45,17 @@ class RuleBasedKnowledgeBaseProject extends Model
      */
     protected $fillable = [
         'rule_based_knowledge_base_id',
-        'project_id',
+        'project_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function rule_based_knowledge_base()

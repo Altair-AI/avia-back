@@ -51,8 +51,6 @@ class Project extends Model
     const READY_TO_USE_STATUS = 1;  // Готов к использованию (формирование проекта завершено и он готов к работе)
     const OUTDATED_STATUS = 2;      // Устаревший (неактуальный проект с устаревшими или некорректными данными)
 
-    protected $hidden = ['pivot'];
-
     /**
      * The table associated with the model.
      *
@@ -70,7 +68,18 @@ class Project extends Model
         'description',
         'type',
         'status',
-        'technical_system_id',
+        'technical_system_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function technical_system()

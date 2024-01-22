@@ -63,7 +63,17 @@ class ECase extends Model
         'malfunction_cause_id',
         'system_id_for_repair',
         'initial_completed_operation_id',
-        'case_based_knowledge_base_id',
+        'case_based_knowledge_base_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_detection_stage()

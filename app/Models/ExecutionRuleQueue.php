@@ -28,8 +28,6 @@ class ExecutionRuleQueue extends Model
 {
     use HasFactory;
 
-    protected $hidden = ['laravel_through_key'];
-
     /**
      * The table associated with the model.
      *
@@ -43,7 +41,18 @@ class ExecutionRuleQueue extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'operation_rule_list_id',
+        'operation_rule_list_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'laravel_through_key',
+        'created_at',
+        'updated_at'
     ];
 
     public function operation_rule_list()

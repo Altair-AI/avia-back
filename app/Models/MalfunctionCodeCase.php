@@ -45,7 +45,17 @@ class MalfunctionCodeCase extends Model
      */
     protected $fillable = [
         'case_id',
-        'malfunction_code_id',
+        'malfunction_code_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function case()

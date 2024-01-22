@@ -65,8 +65,7 @@ use Illuminate\Support\Carbon;
  */
 class OperationRule extends Model
 {
-    use HasFactory;
-    use Filterable;
+    use HasFactory, Filterable;
 
     // Типы правил
     const DISPOSABLE_TYPE = 0; // Одноразовое правило
@@ -113,7 +112,17 @@ class OperationRule extends Model
         'operation_result_id_then',
         'malfunction_cause_id',
         'malfunction_system_id',
-        'document_id',
+        'document_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function rule_based_knowledge_base()

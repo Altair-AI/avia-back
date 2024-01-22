@@ -51,7 +51,17 @@ class OperationHierarchy extends Model
         'designation',
         'sequence_number',
         'parent_operation_id',
-        'child_operation_id',
+        'child_operation_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function parent_operation()

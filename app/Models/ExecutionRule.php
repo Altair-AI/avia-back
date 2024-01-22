@@ -38,8 +38,6 @@ class ExecutionRule extends Model
 {
     use HasFactory;
 
-    protected $hidden = ['laravel_through_key'];
-
     // Статус правила
     const IN_PROGRESS_RULE_STATUS = 0;  // Выполнение правила
     const NO_OPERATION_RULE_STATUS = 1; // Отсутствует факт работы
@@ -69,7 +67,18 @@ class ExecutionRule extends Model
         'operation_id',
         'operation_status',
         'operation_result_id',
-        'operation_rule_list_id',
+        'operation_rule_list_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'laravel_through_key',
+        'created_at',
+        'updated_at'
     ];
 
     public function operation()

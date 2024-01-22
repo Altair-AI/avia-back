@@ -44,10 +44,7 @@ use Illuminate\Support\Carbon;
  */
 class RealTimeTechnicalSystem extends Model
 {
-    use HasFactory;
-    use Filterable;
-
-    protected $hidden = ['pivot'];
+    use HasFactory, Filterable;
 
     /**
      * The table associated with the model.
@@ -67,7 +64,18 @@ class RealTimeTechnicalSystem extends Model
         'operation_time_from_start',
         'operation_time_from_last_repair',
         'technical_system_id',
-        'project_id',
+        'project_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function technical_system()

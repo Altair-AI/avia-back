@@ -45,7 +45,17 @@ class OperationRuleMalfunctionCode extends Model
      */
     protected $fillable = [
         'malfunction_code_id',
-        'operation_rule_id',
+        'operation_rule_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_code()
