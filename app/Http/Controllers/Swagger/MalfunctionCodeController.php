@@ -12,6 +12,49 @@ use App\Http\Controllers\Controller;
  *     security={{ "bearerAuth": {} }},
  *     description="Для супер-администратора возвращает список всех кодов (признаков) неисправности, созданных в системе. Для администратора возвращает список только тех кодов (признаков) неисправности, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
  *
+ *     @OA\Parameter(
+ *         description="Название кода (признака) неисправности",
+ *         in="query",
+ *         name="name",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Тип кода (признака) неисправности",
+ *         in="query",
+ *         name="type",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Источник кода (признака) неисправности",
+ *         in="query",
+ *         name="source",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Альтернативное название кода (признака) неисправности",
+ *         in="query",
+ *         name="alternative_name",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="id технической системы или объекта",
+ *         in="query",
+ *         name="technical_system_id",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Размер страницы пагинации",
+ *         in="query",
+ *         name="pageSize",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Номер страницы пагинации",
+ *         in="query",
+ *         name="page",
+ *         required=false
+ *     ),
+ *
  *     @OA\Response(
  *         response=200,
  *         description="successful operation",
@@ -21,14 +64,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="source", type="string", example="Some source"),
  *             @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="technical_system",
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
- *             )
+ *             @OA\Property(property="technical_system_id", type="integer", example=1)
  *         ))
  *     )
  * ),
@@ -62,14 +98,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="source", type="string", example="Some source"),
  *             @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="technical_system",
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
- *             )
+ *             @OA\Property(property="technical_system_id", type="integer", example=1)
  *         )
  *     )
  * ),
@@ -98,14 +127,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="type", type="integer", example=0),
  *             @OA\Property(property="source", type="string", example="Some source"),
  *             @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
- *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="technical_system",
- *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
- *             )
+ *             @OA\Property(property="technical_system_id", type="integer", example=1)
  *         )
  *     )
  * ),
@@ -147,14 +169,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="type", type="integer", example=1),
  *             @OA\Property(property="source", type="string", example="Some source"),
  *             @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
- *             @OA\Property(property="technical_system_id", type="integer", example=2),
- *             @OA\Property(property="technical_system",
- *                 @OA\Property(property="id", type="integer", example=2),
- *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="name", type="string", example="Some name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
- *             )
+ *             @OA\Property(property="technical_system_id", type="integer", example=2)
  *         )
  *     )
  * ),
