@@ -20,8 +20,8 @@ class MalfunctionCodePolicy
     {
         if ($user->role === User::SUPER_ADMIN_ROLE)
             return true;
-        if ($user->role === User::ADMIN_ROLE) {
-            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+        if ($user->role === User::ADMIN_ROLE or $user->role === User::TECHNICIAN_ROLE) {
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору и технику
             $technical_systems = Helper::get_technical_system_hierarchy($user->organization_id);
             // Получение id всех технических систем или объектов для вложенного массива (иерархии) технических систем
             $technical_system_ids = Helper::get_technical_system_ids($technical_systems, []);
@@ -41,7 +41,7 @@ class MalfunctionCodePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role === User::SUPER_ADMIN_ROLE or $user->role === User::ADMIN_ROLE;
+        return $user->role !== User::GUEST_ROLE;
     }
 
     /**

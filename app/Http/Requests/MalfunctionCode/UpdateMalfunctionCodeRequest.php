@@ -26,7 +26,7 @@ class UpdateMalfunctionCodeRequest extends FormRequest
         return [
             'name' => 'required|string',
             'type' => 'required|integer',
-            'source' => 'nullable|string',
+            'source' => 'nullable|string|max:255',
             'alternative_name' => 'nullable|string',
             'technical_system_id' => 'required|integer'
         ];
