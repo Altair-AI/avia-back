@@ -31,9 +31,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
  *             @OA\Property(property="full_director_name", type="string", example="Some full director name"),
  *             @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
- *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *         ))
  *     )
  * ),
@@ -88,9 +86,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
  *             @OA\Property(property="full_director_name", type="string", example="Some full director name"),
  *             @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
- *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *         )
  *     )
  * ),
@@ -129,9 +125,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
  *             @OA\Property(property="full_director_name", type="string", example="Some full director name"),
  *             @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
- *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-15T01:52:11.000000Z")
  *         )
  *     )
  * ),
@@ -194,9 +188,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="correspondent_account", type="string", example="Some correspondent account"),
  *             @OA\Property(property="full_director_name", type="string", example="Some full director name"),
  *             @OA\Property(property="treaty_number", type="string", example="Some treaty number"),
- *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-20T01:50:10.000000Z"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="treaty_date", type="datetime", example="2023-09-20T01:50:10.000000Z")
  *         )
  *     )
  * ),

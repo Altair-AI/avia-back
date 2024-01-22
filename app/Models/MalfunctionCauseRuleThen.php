@@ -49,7 +49,17 @@ class MalfunctionCauseRuleThen extends Model
     protected $fillable = [
         'malfunction_cause_rule_id',
         'technical_system_id',
-        'operation_id',
+        'operation_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_cause_rule()

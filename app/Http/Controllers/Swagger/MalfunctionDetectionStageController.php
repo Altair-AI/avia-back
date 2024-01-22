@@ -17,9 +17,7 @@ use App\Http\Controllers\Controller;
  *         description="successful operation",
  *         @OA\JsonContent(type="array", @OA\Items(
  *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="name", type="string", example="Some name"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="name", type="string", example="Some name")
  *         ))
  *     )
  * ),
@@ -46,9 +44,7 @@ use App\Http\Controllers\Controller;
  *         description="successful operation",
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="name", type="string", example="Some name"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="name", type="string", example="Some name")
  *         )
  *     )
  * ),
@@ -73,9 +69,7 @@ use App\Http\Controllers\Controller;
  *         description="successful operation",
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="name", type="string", example="Some name"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="name", type="string", example="Some name")
  *         )
  *     )
  * ),
@@ -110,9 +104,7 @@ use App\Http\Controllers\Controller;
  *         description="successful operation",
  *         @OA\JsonContent(
  *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="name", type="string", example="Some name"),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="name", type="string", example="Some name")
  *         )
  *     )
  * ),

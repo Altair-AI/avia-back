@@ -62,14 +62,11 @@ use Illuminate\Support\Carbon;
  */
 class Operation extends Model
 {
-    use HasFactory;
-    use Filterable;
+    use HasFactory, Filterable;
 
     // Типы работ (операций)
     const BASIC_OPERATION_TYPE = 0;  // Основная работа
     const NESTED_OPERATION_TYPE = 1; // Вложенная подработа
-
-    protected $hidden = ['pivot'];
 
     /**
      * The table associated with the model.
@@ -94,7 +91,18 @@ class Operation extends Model
         'start_document_page',
         'end_document_page',
         'actual_document_page',
-        'document_id',
+        'document_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function document()

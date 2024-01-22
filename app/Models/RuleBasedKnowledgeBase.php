@@ -53,8 +53,6 @@ class RuleBasedKnowledgeBase extends Model
     const CORRECT_TYPE = 0;   // Корректная база знаний (проверена экспертом и может быть использована техниками)
     const INCORRECT_TYPE = 1; // Некорректная база знаний (не проверена экспертом и не может использоваться техниками)
 
-    protected $hidden = ['pivot'];
-
     /**
      * The table associated with the model.
      *
@@ -73,7 +71,18 @@ class RuleBasedKnowledgeBase extends Model
         'status',
         'correctness',
         'author',
-        'technical_system_id',
+        'technical_system_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function user()

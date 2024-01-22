@@ -34,10 +34,7 @@ use Illuminate\Support\Carbon;
  */
 class MalfunctionCause extends Model
 {
-    use HasFactory;
-    use Filterable;
-
-    protected $hidden = ['pivot'];
+    use HasFactory, Filterable;
 
     /**
      * The table associated with the model.
@@ -53,6 +50,17 @@ class MalfunctionCause extends Model
      */
     protected $fillable = [
         'name'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_cause_rule_malfunction_causes()

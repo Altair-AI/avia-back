@@ -69,7 +69,17 @@ class CaseBasedKnowledgeBase extends Model
         'correctness',
         'author',
         'real_time_technical_system_id',
-        'project_id',
+        'project_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function user()

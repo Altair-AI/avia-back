@@ -45,7 +45,17 @@ class ConcreteOperationResult extends Model
      */
     protected $fillable = [
         'operation_id',
-        'operation_result_id',
+        'operation_result_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function operation()

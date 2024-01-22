@@ -45,7 +45,17 @@ class MalfunctionCauseRuleIf extends Model
      */
     protected $fillable = [
         'malfunction_cause_rule_id',
-        'malfunction_code_id',
+        'malfunction_code_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_cause_rule()

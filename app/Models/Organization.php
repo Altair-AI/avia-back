@@ -86,7 +86,17 @@ class Organization extends Model
         'correspondent_account',
         'full_director_name',
         'treaty_number',
-        'treaty_date',
+        'treaty_date'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function licenses()

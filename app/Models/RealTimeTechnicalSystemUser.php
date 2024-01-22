@@ -45,7 +45,17 @@ class RealTimeTechnicalSystemUser extends Model
      */
     protected $fillable = [
         'real_time_technical_system_id',
-        'user_id',
+        'user_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function real_time_technical_system()

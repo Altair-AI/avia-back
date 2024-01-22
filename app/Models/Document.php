@@ -40,8 +40,6 @@ class Document extends Model
     const TROUBLESHOOTING_GUIDE_TYPE = 0; // РУН (руководство по устранению неисправности)
     const MAINTENANCE_GUIDE_TYPE = 1;     // РЭ (руководство по эксплуатации)
 
-    protected $hidden = ['pivot'];
-
     /**
      * The table associated with the model.
      *
@@ -59,7 +57,18 @@ class Document extends Model
         'name',
         'type',
         'version',
-        'file',
+        'file'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     public function technical_system_documents()

@@ -43,8 +43,7 @@ use Illuminate\Support\Carbon;
  */
 class WorkSession extends Model
 {
-    use HasFactory;
-    use Filterable;
+    use HasFactory, Filterable;
 
     // Статус рабочей сессии
     const MALFUNCTION_CAUSE_DETECTED_STATUS = 0; // Причины неисправности обнаружены
@@ -67,7 +66,17 @@ class WorkSession extends Model
         'status',
         'stop_time',
         'malfunction_cause_rule_id',
-        'user_id',
+        'user_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_cause_rule()

@@ -55,24 +55,18 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="code", type="string", example="Some code"),
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *                 ),
  *                 @OA\Property(property="malfunction_causes", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="name", type="string", example="Some name"),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="name", type="string", example="Some name")
  *                 )),
  *                 @OA\Property(property="work_session",
  *                     @OA\Property(property="id", type="integer", example=1),
  *                     @OA\Property(property="status", type="integer", example=0),
  *                     @OA\Property(property="stop_time", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                     @OA\Property(property="malfunction_cause_rule_id", type="integer", example=1),
- *                     @OA\Property(property="user_id", type="integer", example=1),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="user_id", type="integer", example=1)
  *                 )
  *             )
  *         )

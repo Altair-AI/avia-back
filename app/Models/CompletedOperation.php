@@ -56,7 +56,17 @@ class CompletedOperation extends Model
         'operation_id',
         'previous_operation_id',
         'operation_result_id',
-        'work_session_id',
+        'work_session_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function operation()

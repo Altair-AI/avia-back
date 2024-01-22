@@ -73,16 +73,12 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=10),
  *                 @OA\Property(property="technical_system_id", type="integer", example=1),
  *                 @OA\Property(property="project_id", type="integer", example=1),
- *                 @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                 @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *                 @OA\Property(property="technical_system",
  *                     @OA\Property(property="id", type="integer", example=1),
  *                     @OA\Property(property="code", type="string", example="Some code"),
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *                 ),
  *                 @OA\Property(property="project",
  *                     @OA\Property(property="id", type="integer", example=1),
@@ -90,9 +86,7 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="description", type="string", example="Some description"),
  *                     @OA\Property(property="type", type="integer", example=0),
  *                     @OA\Property(property="status", type="integer", example=0),
- *                     @OA\Property(property="technical_system_id", type="integer", example=1),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="technical_system_id", type="integer", example=1)
  *                 )
  *             )),
  *             @OA\Property(property="page_current", type="integer", example=1),
@@ -133,9 +127,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="operation_time_from_start", type="integer", example=1),
  *             @OA\Property(property="operation_time_from_last_repair", type="integer", example=2),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
- *             @OA\Property(property="project_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="project_id", type="integer", example=1)
  *         )
  *     )
  * ),
@@ -166,16 +158,12 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="operation_time_from_last_repair", type="integer", example=10),
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
  *             @OA\Property(property="project_id", type="integer", example=1),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
  *             @OA\Property(property="technical_system",
  *                     @OA\Property(property="id", type="integer", example=1),
  *                     @OA\Property(property="code", type="string", example="Some code"),
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null)
  *                 ),
  *                 @OA\Property(property="project",
  *                     @OA\Property(property="id", type="integer", example=1),
@@ -183,9 +171,7 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="description", type="string", example="Some description"),
  *                     @OA\Property(property="type", type="integer", example=0),
  *                     @OA\Property(property="status", type="integer", example=0),
- *                     @OA\Property(property="technical_system_id", type="integer", example=1),
- *                     @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *                     @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *                     @OA\Property(property="technical_system_id", type="integer", example=1)
  *                 )
  *         )
  *     )
@@ -230,9 +216,7 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="operation_time_from_start", type="integer", example=10),
  *             @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
  *             @OA\Property(property="technical_system_id", type="integer", example=2),
- *             @OA\Property(property="project_id", type="integer", example=2),
- *             @OA\Property(property="created_at", type="datetime", example="2023-09-15T01:52:11.000000Z"),
- *             @OA\Property(property="updated_at", type="datetime", example="2023-09-15T01:52:11.000000Z")
+ *             @OA\Property(property="project_id", type="integer", example=2)
  *         )
  *     )
  * ),

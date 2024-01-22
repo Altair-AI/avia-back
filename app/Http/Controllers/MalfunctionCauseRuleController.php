@@ -114,7 +114,10 @@ class MalfunctionCauseRuleController extends Controller
     {
         $validated = $request->validated();
         $malfunctionCauseRule = MalfunctionCauseRule::create($validated);
-        return response()->json($malfunctionCauseRule);
+        return response()->json(array_merge($malfunctionCauseRule->toArray(), [
+            'document' => $malfunctionCauseRule->document,
+            'rule_based_knowledge_base' => $malfunctionCauseRule->rule_based_knowledge_base
+        ]));
     }
 
     /**

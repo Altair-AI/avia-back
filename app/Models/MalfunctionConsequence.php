@@ -40,7 +40,17 @@ class MalfunctionConsequence extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'name',
+        'name'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 
     public function malfunction_consequence_cases()

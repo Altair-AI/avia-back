@@ -54,10 +54,7 @@ use Illuminate\Support\Carbon;
  */
 class TechnicalSystem extends Model
 {
-    use HasFactory;
-    use Filterable;
-
-    protected $hidden = ['pivot'];
+    use HasFactory, Filterable;
 
     /**
      * The table associated with the model.
@@ -75,7 +72,18 @@ class TechnicalSystem extends Model
         'code',
         'name',
         'description',
-        'parent_technical_system_id',
+        'parent_technical_system_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at'
     ];
 
     /**
