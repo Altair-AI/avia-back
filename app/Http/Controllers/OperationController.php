@@ -57,6 +57,7 @@ class OperationController extends Controller
         $data = [];
         foreach ($operations as $operation)
             array_push($data, array_merge($operation->toArray(), [
+                'operation_results' => $operation->operation_results,
                 'technical_systems' => $operation->technical_systems,
                 'malfunction_codes' => $operation->malfunction_codes,
                 'sub_operations' => $operation->sub_operations
@@ -90,6 +91,7 @@ class OperationController extends Controller
     public function show(Operation $operation)
     {
         return response()->json(array_merge($operation->toArray(), [
+            'operation_results' => $operation->operation_results,
             'technical_systems' => $operation->technical_systems,
             'malfunction_codes' => $operation->malfunction_codes,
             'sub_operations' => $operation->sub_operations

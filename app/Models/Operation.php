@@ -39,6 +39,7 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $execution_rules_count
  * @property-read MalfunctionCode malfunction_codes
  * @property-read Operation $operations
+ * @property-read OperationResult $operation_results
  * @property-read Operation $sub_operations
  * @property-read TechnicalSystem $technical_systems
  * @method static Builder|Operation newModelQuery()
@@ -137,6 +138,15 @@ class Operation extends Model
     public function concrete_operation_results()
     {
         return $this->hasMany(ConcreteOperationResult::class, 'operation_id');
+    }
+
+    /**
+     * Получить все результаты данной работы (операции).
+     */
+    public function operation_results()
+    {
+        return $this->belongsToMany(OperationResult::class, 'concrete_operation_result',
+            'operation_id', 'operation_result_id');
     }
 
     public function parent_operations()
