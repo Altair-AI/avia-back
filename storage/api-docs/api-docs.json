@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 22.01.2024",
-        "version": "1.1.8"
+        "description": "Дата обновления: 23.01.2024",
+        "version": "1.1.9"
     },
     "paths": {
         "/api/": {},
@@ -3002,6 +3002,26 @@
                                                         "type": "integer",
                                                         "example": 1
                                                     },
+                                                    "operation_results": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Some code"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string",
+                                                                    "example": "Some description"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
                                                     "technical_systems": {
                                                         "type": "array",
                                                         "items": {
@@ -3354,6 +3374,26 @@
                                         "document_id": {
                                             "type": "integer",
                                             "example": 1
+                                        },
+                                        "operation_results": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         },
                                         "technical_systems": {
                                             "type": "array",
