@@ -60,6 +60,8 @@ class OperationController extends Controller
                 'operation_results' => $operation->operation_results,
                 'technical_systems' => $operation->technical_systems,
                 'malfunction_codes' => $operation->malfunction_codes,
+                'malfunction_causes' => $operation->malfunction_causes,
+                'parent_operations' => $operation->parent_operations,
                 'sub_operations' => $operation->sub_operations
             ]));
         $result['data'] = $data;
@@ -94,6 +96,8 @@ class OperationController extends Controller
             'operation_results' => $operation->operation_results,
             'technical_systems' => $operation->technical_systems,
             'malfunction_codes' => $operation->malfunction_codes,
+            'malfunction_causes' => $operation->malfunction_causes,
+            'parent_operations' => $operation->parent_operations,
             'sub_operations' => $operation->sub_operations
         ]));
     }
