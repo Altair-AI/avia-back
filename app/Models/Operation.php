@@ -32,11 +32,18 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $concrete_operation_conditions_count
  * @property-read Collection<int, ConcreteOperationResult> $concrete_operation_results
  * @property-read int|null $concrete_operation_results_count
- * @property-read Document $document
  * @property-read Collection<int, CompletedOperation> $previous_completed_operations
  * @property-read int|null $previous_completed_operations_count
  * @property-read Collection<int, ExecutionRule> $execution_rules
  * @property-read int|null $execution_rules_count
+ * @property-read Collection<int, MalfunctionCauseOperation> $malfunction_cause_operations
+ * @property-read int|null $malfunction_cause_operations_count
+ * @property-read Collection<int, OperationMalfunctionCode> $operation_malfunction_codes
+ * @property-read int|null $operation_malfunction_codes_count
+ * @property-read Collection<int, TechnicalSystemOperation> $technical_system_operations
+ * @property-read int|null $technical_system_operations_count
+ * @property-read Document $document
+ * @property-read MalfunctionCause malfunction_causes
  * @property-read MalfunctionCode malfunction_codes
  * @property-read Operation $operations
  * @property-read OperationResult $operation_results
@@ -213,5 +220,19 @@ class Operation extends Model
     public function execution_rules()
     {
         return $this->hasMany(ExecutionRule::class, 'operation_id');
+    }
+
+    public function malfunction_cause_operations()
+    {
+        return $this->hasMany(MalfunctionCauseOperation::class, 'operation_id');
+    }
+
+    /**
+     * Получить все причины неисправностей связанные с данной работе (операции).
+     */
+    public function malfunction_causes()
+    {
+        return $this->belongsToMany(MalfunctionCause::class, 'malfunction_cause_operation',
+            'operation_id', 'malfunction_cause_id');
     }
 }
