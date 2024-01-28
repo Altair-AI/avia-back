@@ -40,6 +40,10 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $malfunction_cause_operations_count
  * @property-read Collection<int, OperationMalfunctionCode> $operation_malfunction_codes
  * @property-read int|null $operation_malfunction_codes_count
+ * @property-read Collection<int, Operation> child_operations
+ * @property-read int|null child_operations_count
+ * @property-read Collection<int, Operation> $parent_operations
+ * @property-read int|null $parent_operations_count
  * @property-read Collection<int, TechnicalSystemOperation> $technical_system_operations
  * @property-read int|null $technical_system_operations_count
  * @property-read Document $document
@@ -180,7 +184,7 @@ class Operation extends Model
      */
     public function sub_operations()
     {
-        return $this->operations()->with('sub_operations');
+        return $this->operations()->with('parent_operations')->with('sub_operations');
     }
 
     public function completed_operations()
