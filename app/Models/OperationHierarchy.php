@@ -60,8 +60,6 @@ class OperationHierarchy extends Model
      * @var array<string>
      */
     protected $hidden = [
-        'id',
-        'parent_operation_id',
         'created_at',
         'updated_at'
     ];

@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 23.01.2024",
-        "version": "1.1.9"
+        "description": "Дата обновления: 28.01.2024",
+        "version": "1.2.0"
     },
     "paths": {
         "/api/": {},
@@ -3082,6 +3082,22 @@
                                                             "type": "object"
                                                         }
                                                     },
+                                                    "malfunction_causes": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Some name"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
                                                     "sub_operations": {
                                                         "type": "array",
                                                         "items": {
@@ -3133,6 +3149,27 @@
                                                                 "document_id": {
                                                                     "type": "integer",
                                                                     "example": 1
+                                                                },
+                                                                "pivot": {
+                                                                    "properties": {
+                                                                        "parent_operation_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "child_operation_id": {
+                                                                            "type": "integer",
+                                                                            "example": "2"
+                                                                        },
+                                                                        "designation": {
+                                                                            "type": "string",
+                                                                            "example": "Some designation"
+                                                                        },
+                                                                        "sequence_number": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
                                                                 },
                                                                 "sub_operations": {
                                                                     "type": "array",
@@ -3455,6 +3492,22 @@
                                                 "type": "object"
                                             }
                                         },
+                                        "malfunction_causes": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
                                         "sub_operations": {
                                             "type": "array",
                                             "items": {
@@ -3506,6 +3559,27 @@
                                                     "document_id": {
                                                         "type": "integer",
                                                         "example": 1
+                                                    },
+                                                    "pivot": {
+                                                        "properties": {
+                                                            "parent_operation_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "child_operation_id": {
+                                                                "type": "integer",
+                                                                "example": "2"
+                                                            },
+                                                            "designation": {
+                                                                "type": "string",
+                                                                "example": "Some designation"
+                                                            },
+                                                            "sequence_number": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     },
                                                     "sub_operations": {
                                                         "type": "array",
