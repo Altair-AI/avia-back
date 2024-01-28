@@ -122,6 +122,10 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
  *                     @OA\Property(property="technical_system_id", type="integer", example=2)
  *                 )),
+ *                 @OA\Property(property="malfunction_causes", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Some name")
+ *                 )),
  *                 @OA\Property(property="sub_operations", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=2),
  *                     @OA\Property(property="code", type="string", example="Some code"),
@@ -135,6 +139,12 @@ use App\Http\Controllers\Controller;
  *                     @OA\Property(property="end_document_page", type="integer", example=101),
  *                     @OA\Property(property="actual_document_page", type="integer", example=123),
  *                     @OA\Property(property="document_id", type="integer", example=1),
+ *                     @OA\Property(property="pivot",
+ *                         @OA\Property(property="parent_operation_id", type="integer", example=1),
+ *                         @OA\Property(property="child_operation_id", type="integer", example="2"),
+ *                         @OA\Property(property="designation", type="string", example="Some designation"),
+ *                         @OA\Property(property="sequence_number", type="integer", example=1)
+ *                     ),
  *                     @OA\Property(property="sub_operations", type="array", @OA\Items())
  *                 ))
  *             )),
@@ -242,6 +252,10 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
  *                 @OA\Property(property="technical_system_id", type="integer", example=2)
  *             )),
+ *             @OA\Property(property="malfunction_causes", type="array", @OA\Items(
+ *                  @OA\Property(property="id", type="integer", example=1),
+ *                  @OA\Property(property="name", type="string", example="Some name")
+ *              )),
  *             @OA\Property(property="sub_operations", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="code", type="string", example="Some code"),
@@ -255,6 +269,12 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="end_document_page", type="integer", example=101),
  *                 @OA\Property(property="actual_document_page", type="integer", example=123),
  *                 @OA\Property(property="document_id", type="integer", example=1),
+ *                 @OA\Property(property="pivot",
+ *                     @OA\Property(property="parent_operation_id", type="integer", example=1),
+ *                     @OA\Property(property="child_operation_id", type="integer", example="2"),
+ *                     @OA\Property(property="designation", type="string", example="Some designation"),
+ *                     @OA\Property(property="sequence_number", type="integer", example=1)
+ *                 ),
  *                 @OA\Property(property="sub_operations", type="array", @OA\Items())
  *             ))
  *         )

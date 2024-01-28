@@ -16,13 +16,16 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection<int, ECase> $cases
+ * @property-read int|null $cases_count
+ * @property-read Collection<int, MalfunctionCauseOperation> $malfunction_cause_operations
+ * @property-read int|null $malfunction_cause_operations_count
  * @property-read Collection<int, MalfunctionCauseRuleMalfunctionCause> $malfunction_cause_rule_malfunction_causes
  * @property-read int|null $malfunction_cause_rule_malfunction_causes_count
  * @property-read Collection<int, OperationRule> $operation_rules
  * @property-read int|null $operation_rules_count
- * @property-read Collection<int, ECase> $cases
- * @property-read int|null $cases_count
  * @property-read MalfunctionCauseRule $malfunction_cause_rules
+ * @property-read Operation $operations
  * @method static Builder|MalfunctionCause newModelQuery()
  * @method static Builder|MalfunctionCause newQuery()
  * @method static Builder|MalfunctionCause query()
@@ -63,11 +66,6 @@ class MalfunctionCause extends Model
         'updated_at'
     ];
 
-    public function malfunction_cause_rule_malfunction_causes()
-    {
-        return $this->hasMany(MalfunctionCauseRuleMalfunctionCause::class, 'malfunction_cause_id');
-    }
-
     public function operation_rules()
     {
         return $this->hasMany(OperationRule::class, 'malfunction_cause_id');
@@ -78,6 +76,11 @@ class MalfunctionCause extends Model
         return $this->hasMany(ECase::class, 'malfunction_cause_id');
     }
 
+    public function malfunction_cause_rule_malfunction_causes()
+    {
+        return $this->hasMany(MalfunctionCauseRuleMalfunctionCause::class, 'malfunction_cause_id');
+    }
+
     /**
      * Получить все правила определения причины неисправности относящихся к данной причине.
      */
@@ -85,5 +88,19 @@ class MalfunctionCause extends Model
     {
         return $this->belongsToMany(MalfunctionCauseRule::class, 'malfunction_cause_rule_malfunction_cause',
             'malfunction_cause_id', 'malfunction_cause_rule_id');
+    }
+
+    public function malfunction_cause_operations()
+    {
+        return $this->hasMany(MalfunctionCauseOperation::class, 'malfunction_cause_id');
+    }
+
+    /**
+     * Получить все работы (операции) связанных с данной причиной.
+     */
+    public function operations()
+    {
+        return $this->belongsToMany(Operation::class, 'malfunction_cause_operation',
+            'malfunction_cause_id', 'operation_id');
     }
 }
