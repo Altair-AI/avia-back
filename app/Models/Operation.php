@@ -112,7 +112,6 @@ class Operation extends Model
      * @var array<string>
      */
     protected $hidden = [
-        'pivot',
         'created_at',
         'updated_at'
     ];
@@ -176,7 +175,8 @@ class Operation extends Model
     public function operations()
     {
         return $this->belongsToMany(Operation::class, 'operation_hierarchy',
-            'parent_operation_id', 'child_operation_id');
+            'parent_operation_id', 'child_operation_id')
+            ->withPivot('designation', 'sequence_number');
     }
 
     /**
@@ -184,7 +184,7 @@ class Operation extends Model
      */
     public function sub_operations()
     {
-        return $this->operations()->with('parent_operations')->with('sub_operations');
+        return $this->operations()->with('sub_operations');
     }
 
     public function completed_operations()
