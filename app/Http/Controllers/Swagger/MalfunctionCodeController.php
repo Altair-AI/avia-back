@@ -5,6 +5,37 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 
 /**
+ * @OA\Post(
+ *     path="/api/v1/admin/malfunction-codes/list",
+ *     summary="Получить полный список кодов (признаков) неисправности только с важными полями",
+ *     tags={"Коды неисправности"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора возвращает полный список всех кодов (признаков) неисправности, созданных в системе. Для администратора возвращает полный список только тех кодов (признаков) неисправности, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *
+ *     @OA\Parameter(
+ *         description="Тип кода (признака) неисправности",
+ *         in="query",
+ *         name="type",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="id технической системы или объекта",
+ *         in="query",
+ *         name="technical_system_id",
+ *         required=false
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(type="array", @OA\Items(
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="name", type="string", example="Some name"),
+ *             @OA\Property(property="type", type="integer", example=0)
+ *         ))
+ *     )
+ * ),
+ *
  * @OA\Get(
  *     path="/api/v1/admin/malfunction-codes",
  *     summary="Получить список кодов (признаков) неисправности",
@@ -58,14 +89,19 @@ use App\Http\Controllers\Controller;
  *     @OA\Response(
  *         response=200,
  *         description="successful operation",
- *         @OA\JsonContent(type="array", @OA\Items(
- *             @OA\Property(property="id", type="integer", example=1),
- *             @OA\Property(property="name", type="string", example="Some name"),
- *             @OA\Property(property="type", type="integer", example=0),
- *             @OA\Property(property="source", type="string", example="Some source"),
- *             @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
- *             @OA\Property(property="technical_system_id", type="integer", example=1)
- *         ))
+ *         @OA\JsonContent(
+ *             @OA\Property(property="data", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="page_current", type="integer", example=1),
+ *             @OA\Property(property="page_total", type="integer", example=20),
+ *             @OA\Property(property="page_size", type="integer", example=10)
+ *         )
  *     )
  * ),
  *

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Components\Helper;
 use App\Http\Filters\MalfunctionCodeFilter;
 use App\Http\Requests\MalfunctionCode\IndexMalfunctionCodeRequest;
+use App\Http\Requests\MalfunctionCode\ListMalfunctionCodeRequest;
 use App\Models\MalfunctionCode;
 use App\Http\Requests\MalfunctionCode\StoreMalfunctionCodeRequest;
 use App\Http\Requests\MalfunctionCode\UpdateMalfunctionCodeRequest;
@@ -22,6 +23,33 @@ class MalfunctionCodeController extends Controller
     public function __construct()
     {
         $this->authorizeResource(MalfunctionCode::class, 'malfunction_code');
+    }
+
+    /**
+     * Display a short listing of the resource.
+     *
+     * @param ListMalfunctionCodeRequest $request
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     */
+    public function list(ListMalfunctionCodeRequest $request)
+    {
+        $validated = $request->validated();
+        $filter = app()->make(MalfunctionCodeFilter::class,
+            ['queryParams' => array_filter($validated, 'strlen')]);
+        $malfunction_codes = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
+            $malfunction_codes = MalfunctionCode::filter($filter)->get();
+        if (auth()->user()->role === User::ADMIN_ROLE or auth()->user()->role === User::TECHNICIAN_ROLE) {
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору и технику
+            $items = Helper::get_technical_system_hierarchy(auth()->user()->organization_id);
+            // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
+            $tech_sys_ids = Helper::get_technical_system_ids($items, []);
+            // Поиск всех технических систем удовлетворяющих фильтру и совпадающих с массивом идентификаторов
+            $malfunction_codes = MalfunctionCode::filter($filter)->whereIn('technical_system_id', $tech_sys_ids)->get();
+        }
+        $result = $malfunction_codes->makeHidden(['source', 'alternative_name', 'technical_system_id'])->toArray();
+        return response()->json($result);
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexMalfunctionCodeRequest extends FormRequest
+class ListMalfunctionCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class IndexMalfunctionCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string',
             'type' => 'integer',
-            'source' => 'string|max:255',
-            'alternative_name' => 'string',
             'technical_system_id' => 'integer'
         ];
     }
