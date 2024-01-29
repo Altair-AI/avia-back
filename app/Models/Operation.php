@@ -44,14 +44,19 @@ use Illuminate\Support\Carbon;
  * @property-read int|null child_operations_count
  * @property-read Collection<int, Operation> $parent_operations
  * @property-read int|null $parent_operations_count
+ * @property-read Collection<int, OperationRule> $operation_rules
+ * @property-read int|null $operation_rules_count
+ * @property-read Collection<int, OperationRule> $operation_rules_then
+ * @property-read int|null $operation_rules_then_count
  * @property-read Collection<int, TechnicalSystemOperation> $technical_system_operations
  * @property-read int|null $technical_system_operations_count
  * @property-read Document $document
+ * @property-read Operation $sub_operations
  * @property-read MalfunctionCause malfunction_causes
  * @property-read MalfunctionCode malfunction_codes
  * @property-read Operation $operations
  * @property-read OperationResult $operation_results
- * @property-read Operation $sub_operations
+ * @property-read Operation $hierarchy_operations
  * @property-read TechnicalSystem $technical_systems
  * @method static Builder|Operation newModelQuery()
  * @method static Builder|Operation newQuery()
@@ -187,6 +192,14 @@ class Operation extends Model
         return $this->operations()->with('sub_operations');
     }
 
+    /**
+     * Возвращает всю иерархию подработ (подопераций) для текущей работы вместе с правилами определения работ
+     */
+    public function hierarchy_operations()
+    {
+        return $this->operations()->with('hierarchy_operations')->with('operation_rules');
+    }
+
     public function completed_operations()
     {
         return $this->hasMany(CompletedOperation::class, 'operation_id');
@@ -197,7 +210,7 @@ class Operation extends Model
         return $this->hasMany(CompletedOperation::class, 'previous_operation_id');
     }
 
-    public function operation_rules_if()
+    public function operation_rules()
     {
         return $this->hasMany(OperationRule::class, 'operation_id_if');
     }

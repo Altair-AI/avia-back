@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 28.01.2024",
-        "version": "1.2.0"
+        "description": "Дата обновления: 29.01.2024",
+        "version": "1.2.1"
     },
     "paths": {
         "/api/": {},
@@ -3767,6 +3767,239 @@
                                         "id": {
                                             "type": "integer",
                                             "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/operation-rules/hierarchy": {
+            "post": {
+                "tags": [
+                    "Правила определения последовательности работ"
+                ],
+                "summary": "Получить иерархию работ с правилами определения последовательности работ (операций)",
+                "description": "Для супер-администратора возвращает иерархию правил определения последовательности работ. Для администратора возвращает иерархию только тех правил определения последовательности работ, принадлежащих базе знаний правил, которая доступна в рамках проекта для той организации к которой принадлежит администратор. Список может быть отфильтрован только по параметру id отказавшей технической системы.",
+                "parameters": [
+                    {
+                        "name": "malfunction_system_id",
+                        "in": "query",
+                        "description": "id отказавшей технической системы или объекта",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "hierarchy_operations": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "Some code"
+                                                    },
+                                                    "imperative_name": {
+                                                        "type": "string",
+                                                        "example": "Some imperative name"
+                                                    },
+                                                    "verbal_name": {
+                                                        "type": "string",
+                                                        "example": "Some verbal name"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Some description"
+                                                    },
+                                                    "document_section": {
+                                                        "type": "string",
+                                                        "example": "Some document section"
+                                                    },
+                                                    "document_subsection": {
+                                                        "type": "string",
+                                                        "example": "Some document subsection"
+                                                    },
+                                                    "start_document_page": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    },
+                                                    "end_document_page": {
+                                                        "type": "integer",
+                                                        "example": 101
+                                                    },
+                                                    "actual_document_page": {
+                                                        "type": "integer",
+                                                        "example": 123
+                                                    },
+                                                    "document_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "operation_rules": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "description": {
+                                                                    "type": "string",
+                                                                    "example": "Some description"
+                                                                },
+                                                                "type": {
+                                                                    "type": "integer",
+                                                                    "example": 0
+                                                                },
+                                                                "priority": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "repeat_voice": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "context": {
+                                                                    "type": "string",
+                                                                    "example": "Some operation code"
+                                                                },
+                                                                "operation_id_if": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "operation_status_if": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "operation_result_id_if": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "operation_id_then": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "operation_status_then": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "rule_based_knowledge_base_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "malfunction_cause_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "document_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "hierarchy_operations": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 2
+                                                                },
+                                                                "code": {
+                                                                    "type": "string",
+                                                                    "example": "Some code"
+                                                                },
+                                                                "imperative_name": {
+                                                                    "type": "string",
+                                                                    "example": "Some imperative name"
+                                                                },
+                                                                "verbal_name": {
+                                                                    "type": "string",
+                                                                    "example": "Some verbal name"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string",
+                                                                    "example": "Some description"
+                                                                },
+                                                                "document_section": {
+                                                                    "type": "string",
+                                                                    "example": "Some document section"
+                                                                },
+                                                                "document_subsection": {
+                                                                    "type": "string",
+                                                                    "example": "Some document subsection"
+                                                                },
+                                                                "start_document_page": {
+                                                                    "type": "integer",
+                                                                    "example": 100
+                                                                },
+                                                                "end_document_page": {
+                                                                    "type": "integer",
+                                                                    "example": 101
+                                                                },
+                                                                "actual_document_page": {
+                                                                    "type": "integer",
+                                                                    "example": 123
+                                                                },
+                                                                "document_id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "pivot": {
+                                                                    "properties": {
+                                                                        "parent_operation_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "child_operation_id": {
+                                                                            "type": "integer",
+                                                                            "example": "2"
+                                                                        },
+                                                                        "designation": {
+                                                                            "type": "string",
+                                                                            "example": "Some designation"
+                                                                        },
+                                                                        "sequence_number": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "hierarchy_operations": {
+                                                                    "type": "array",
+                                                                    "items": {}
+                                                                },
+                                                                "operation_rules": {
+                                                                    "type": "array",
+                                                                    "items": {}
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
