@@ -25,7 +25,7 @@ class IndexMalfunctionCodeRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'type' => 'string',
+            'type' => 'integer',
             'source' => 'string|max:255',
             'alternative_name' => 'string',
             'technical_system_id' => 'integer'
