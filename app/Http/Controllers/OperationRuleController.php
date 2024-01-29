@@ -83,7 +83,7 @@ class OperationRuleController extends Controller
                 'hierarchy_operations' => $operation->hierarchy_operations,
             ]));
         }
-        $result['operations'] = $data;
+        $result['hierarchy_operations'] = $data;
         return response()->json($result);
     }
 
