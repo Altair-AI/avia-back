@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Components\Helper;
+use App\Http\Filters\AdditionalMalfunctionCodeFilter;
 use App\Http\Filters\MalfunctionCodeFilter;
 use App\Http\Requests\MalfunctionCode\IndexMalfunctionCodeRequest;
 use App\Http\Requests\MalfunctionCode\ListMalfunctionCodeRequest;
@@ -35,7 +36,7 @@ class MalfunctionCodeController extends Controller
     public function list(ListMalfunctionCodeRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(MalfunctionCodeFilter::class,
+        $filter = app()->make(AdditionalMalfunctionCodeFilter::class,
             ['queryParams' => array_filter($validated, 'strlen')]);
         $malfunction_codes = [];
         if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
