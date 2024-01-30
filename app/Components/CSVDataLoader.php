@@ -577,6 +577,21 @@ class CSVDataLoader
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
+
+                // Создание новой связи причины неисправности с работой (операцией) РУН в БД (если ее там нет)
+                $mc_operation = MalfunctionCauseOperation::where('operation_id', $operation->id)
+                    ->where('malfunction_cause_id', $malfunction_cause_id)
+                    ->first();
+                if (!$mc_operation) {
+                    $mco_count = MalfunctionCauseOperation::where('operation_id', $operation->id)->count();
+                    DB::table('malfunction_cause_operation')->insert([
+                        'priority' => 100 - ($mco_count * 10),
+                        'operation_id' => $operation->id,
+                        'malfunction_cause_id' => $malfunction_cause_id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                }
             }
         }
         return $encoding ? mb_convert_encoding($malfunction_causes, 'utf-8', 'windows-1251') : $malfunction_causes;
@@ -588,7 +603,7 @@ class CSVDataLoader
      * @param String $operation_result_name - name of operation result from rule condition or action
      * @return int|mixed|null
      */
-    public function get_operation_result(String $operation_result_name)
+    public function get_operation_result_id(String $operation_result_name)
     {
         $operation_result_id = null;
         if ($operation_result_name != "") {
@@ -654,8 +669,8 @@ class CSVDataLoader
                 }
 
                 // Получение id результата работы из условия и действия
-                $operation_result_id_if = self::get_operation_result($operation_result_name_if);
-                $operation_result_id_then = self::get_operation_result($operation_result_name_then);
+                $operation_result_id_if = self::get_operation_result_id($operation_result_name_if);
+                $operation_result_id_then = self::get_operation_result_id($operation_result_name_then);
 
                 $malfunction_cause_id = null;
                 if ($malfunction_cause_name != "") {
