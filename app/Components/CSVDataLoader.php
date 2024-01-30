@@ -3,11 +3,12 @@
 namespace App\Components;
 
 use App\Models\MalfunctionCause;
+use App\Models\MalfunctionCauseOperation;
 use App\Models\MalfunctionCauseRule;
-use App\Models\MalfunctionCauseRuleIf;
 use App\Models\MalfunctionCauseRuleThen;
 use App\Models\MalfunctionCode;
 use App\Models\Operation;
+use App\Models\OperationCondition;
 use App\Models\OperationResult;
 use App\Models\TechnicalSystem;
 use Carbon\Carbon;
@@ -21,7 +22,8 @@ class CSVDataLoader
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      * @return array|false|string|string[]|null
      */
-    public function create_technical_systems(bool $encoding = false) {
+    public function create_technical_systems(bool $encoding = false)
+    {
         $technical_systems = [];
         // Пусть к csv-файлу с техническими системами
         $file = resource_path() . '/csv/systems.csv';
@@ -63,7 +65,8 @@ class CSVDataLoader
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      * @return array|false|string|string[]|null
      */
-    public function create_operations(int $document_id, bool $encoding = false) {
+    public function create_operations(int $document_id, bool $encoding = false)
+    {
         $operations = [];
         // Пусть к csv-файлу с работами (операциями)
         $file = resource_path() . '/csv/operations.csv';
@@ -109,12 +112,143 @@ class CSVDataLoader
     }
 
     /**
+     * Create new operation results in database.
+     *
+     * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
+     * @param string $result - operation results in the form of source string
+     * @param int|null $operation_id - id operation
+     */
+    public function create_operation_results(bool $encoding = false, string $result = "", int $operation_id = null)
+    {
+        if ($result != "" and !is_null($operation_id)) {
+            $full_result_name =  $encoding ? mb_convert_encoding($result, 'utf-8', 'windows-1251') : $result;
+            $result_names = explode(" / ", $full_result_name);
+            foreach ($result_names as $result_name) {
+                // Поиск результата работы (операции)
+                $operation_result = OperationResult::where('name', $result_name)->first();
+                if ($operation_result)
+                    $operation_result_id = $operation_result->id;
+                else
+                    // Создание нового результата работы (операции) в БД
+                    $operation_result_id = DB::table('operation_result')->insertGetId([
+                        'name' => $result_name,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                // Создание новой связи результата работы (операции) с конкретной работой (операцией) в БД
+                DB::table('concrete_operation_result')->insert([
+                    'operation_id' => $operation_id,
+                    'operation_result_id' => $operation_result_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Create new operation conditions in database.
+     *
+     * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
+     * @param string $condition - operation conditions in the form of source string
+     * @param int|null $operation_id - id operation
+     */
+    public function create_operation_conditions(bool $encoding = false, string $condition = "",
+                                                int $operation_id = null)
+    {
+        if ($condition != "" and !is_null($operation_id)) {
+            $condition_name =  $encoding ? mb_convert_encoding($condition, 'utf-8', 'windows-1251') :
+                $condition;
+            // Поиск условия работы (операции)
+            $operation_condition = OperationCondition::where('name', $condition_name)->first();
+            if ($operation_condition)
+                $operation_condition_id = $operation_condition->id;
+            else
+                // Создание нового условия работы (операции) в БД
+                $operation_condition_id = DB::table('operation_condition')->insertGetId([
+                    'name' => $condition_name,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            // Создание новой связи условия работы (операции) с конкретной работой (операцией) в БД
+            DB::table('concrete_operation_condition')->insert([
+                'operation_id' => $operation_id,
+                'operation_condition_id' => $operation_condition_id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+    }
+
+    /**
+     * Create new malfunction causes for operations in database.
+     *
+     * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
+     * @param string $cause - malfunction cause in the form of source string
+     * @param int|null $parent_operation_id - id parent operation
+     * @param int|null $child_operation_id - id child operation
+     */
+    public function create_operation_malfunction_causes(
+        bool $encoding = false,
+        string $cause = "",
+        int $parent_operation_id = null,
+        int $child_operation_id = null
+    )
+    {
+        if ($cause != "" and !is_null($parent_operation_id) and !is_null($child_operation_id)) {
+            $cause_name =  $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause;
+            // Поиск причины неисправности
+            $malfunction_cause = MalfunctionCause::where('name', $cause_name)->first();
+            if ($malfunction_cause)
+                $malfunction_cause_id = $malfunction_cause->id;
+            else
+                // Создание новой причины неисправности в БД
+                $malfunction_cause_id = DB::table('malfunction_cause')->insertGetId([
+                    'name' => $cause_name,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+
+            // Создание новой связи причины неисправности с родительской работой (операцией) в БД (если ее там нет)
+            $parent_operation_mc = MalfunctionCauseOperation::where('operation_id', $parent_operation_id)
+                ->where('malfunction_cause_id', $malfunction_cause_id)
+                ->first();
+            if (!$parent_operation_mc) {
+                $mco_count = MalfunctionCauseOperation::where('operation_id', $parent_operation_id)->count();
+                DB::table('malfunction_cause_operation')->insert([
+                    'priority' => 100 - ($mco_count * 10),
+                    'operation_id' => $parent_operation_id,
+                    'malfunction_cause_id' => $malfunction_cause_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+
+            // Создание новой связи причины неисправности с дочерней работой (операцией) в БД (если ее там нет)
+            $child_operation_mc = MalfunctionCauseOperation::where('operation_id', $child_operation_id)
+                ->where('malfunction_cause_id', $malfunction_cause_id)
+                ->first();
+            if (!$child_operation_mc) {
+                $mco_count = MalfunctionCauseOperation::where('operation_id', $parent_operation_id)->count();
+                DB::table('malfunction_cause_operation')->insert([
+                    'priority' => 100 - ($mco_count * 10),
+                    'operation_id' => $child_operation_id,
+                    'malfunction_cause_id' => $malfunction_cause_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+        }
+    }
+
+    /**
      * Get source data on sub-operations and store this data in database.
      *
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      * @return array|false|string|string[]|null
      */
-    public function create_sub_operations(bool $encoding = false) {
+    public function create_sub_operations(bool $encoding = false)
+    {
         $sub_operations = [];
         // Пусть к csv-файлу с подработами (подоперациями)
         $file = resource_path() . '/csv/suboperations.csv';
@@ -125,9 +259,9 @@ class CSVDataLoader
         // Читаем построчно содержимое CSV-файла
         while (($row = fgetcsv($fh, 0, ';')) !== false) {
             list($child_operation_code, $designation, $imperative_name, $parent_operation_code, $verbal_name,
-                $result, $condition) = $row;
+                $sequence_number, $result, $condition, $cause) = $row;
             array_push($sub_operations, [$child_operation_code, $designation, $imperative_name,
-                $parent_operation_code, $verbal_name, $result, $condition]);
+                $parent_operation_code, $verbal_name, $sequence_number, $result, $condition, $cause]);
 
             if ($child_operation_code != "" and $parent_operation_code != "") {
                 $operation_id = null;
@@ -169,46 +303,24 @@ class CSVDataLoader
                 if ($child_operation)
                     $operation_id = $child_operation->id;
                 if ($parent_operation and $operation_id) {
+                    $sequence = $encoding ? mb_convert_encoding($sequence_number, 'utf-8', 'windows-1251') :
+                        $sequence_number;
                     // Создание новой связи родительской и дочерней работы (подоперации) в БД
                     DB::table('operation_hierarchy')->insert([
                         'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
                             $designation,
-                        'sequence_number' => null,
+                        'sequence_number' => $sequence != "" ? $sequence : null,
                         'parent_operation_id' => $parent_operation->id,
                         'child_operation_id' => $operation_id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    if ($result != "") {
-                        // Создание нового результата работы (операции) в БД
-                        $operation_result_id = DB::table('operation_result')->insertGetId([
-                            'name' => $encoding ? mb_convert_encoding($result, 'utf-8', 'windows-1251') : $result,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
-                        // Создание новой связи результата работы (операции) с конкретной работой (операцией) в БД
-                        DB::table('concrete_operation_result')->insert([
-                            'operation_id' => $operation_id,
-                            'operation_result_id' => $operation_result_id,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
-                    }
-                    if ($condition != "") {
-                        // Создание нового условия работы (операции) в БД
-                        $operation_condition_id = DB::table('operation_condition')->insertGetId([
-                            'name' => $encoding ? mb_convert_encoding($condition, 'utf-8', 'windows-1251') : $condition,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
-                        // Создание новой связи условия работы (операции) с конкретной работой (операцией) в БД
-                        DB::table('concrete_operation_condition')->insert([
-                            'operation_id' => $operation_id,
-                            'operation_condition_id' => $operation_condition_id,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
-                    }
+                    // Создание результатов работ (операций)
+                    self::create_operation_results($encoding, $result, $operation_id);
+                    // Создание условий выполнения для работ (операций)
+                    self::create_operation_conditions($encoding, $condition, $operation_id);
+                    // Создание причин неисправности для работ (операций)
+                    self::create_operation_malfunction_causes($encoding, $cause, $parent_operation->id, $operation_id);
                 }
             }
         }
@@ -221,7 +333,8 @@ class CSVDataLoader
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      * @return array|false|string|string[]|null
      */
-    public function create_malfunction_codes(bool $encoding = false) {
+    public function create_malfunction_codes(bool $encoding = false)
+    {
         $malfunction_codes = [];
         // Пусть к csv-файлу с признаками (кодами) неисправности
         $file = resource_path() . '/csv/malfunction_codes.csv';
@@ -392,7 +505,8 @@ class CSVDataLoader
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      * @return array|false|string|string[]|null
      */
-    public function create_malfunction_cause_rules(int $knowledge_base_id, bool $encoding = false) {
+    public function create_malfunction_cause_rules(int $knowledge_base_id, bool $encoding = false)
+    {
         $malfunction_causes = [];
         $operation_codes = [];
         // Пусть к csv-файлу с причинами неисправностей
@@ -474,7 +588,8 @@ class CSVDataLoader
      * @param String $operation_result_name - name of operation result from rule condition or action
      * @return int|mixed|null
      */
-    public function get_operation_result(String $operation_result_name) {
+    public function get_operation_result(String $operation_result_name)
+    {
         $operation_result_id = null;
         if ($operation_result_name != "") {
             // Поиск результата работы по названию
@@ -500,7 +615,8 @@ class CSVDataLoader
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      * @return array|false|string|string[]|null
      */
-    public function create_operation_rules(int $knowledge_base_id, bool $encoding = false) {
+    public function create_operation_rules(int $knowledge_base_id, bool $encoding = false)
+    {
         $operation_rules = [];
         // Пусть к csv-файлу с правилами последовательностей работ
         $file = resource_path() . '/csv/operation_rules.csv';
