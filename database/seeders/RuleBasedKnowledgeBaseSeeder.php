@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Components\CSVDataLoader;
+use App\Components\CSVDataLoader\MalfunctionCauseRuleLoader;
+use App\Components\CSVDataLoader\OperationRuleLoader;
 use App\Models\Project;
 use App\Models\RuleBasedKnowledgeBase;
 use App\Models\TechnicalSystem;
@@ -33,11 +34,13 @@ class RuleBasedKnowledgeBaseSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        // Создание правил для базы знаний правил
-        $data_loader = new CSVDataLoader;
-        // Загрузка реальных данных по причинам неисправностей РУН
+
+        // Создание правил для базы знаний правил определения причин неисправностей
+        $data_loader = new MalfunctionCauseRuleLoader();
         $data_loader->create_malfunction_cause_rules($knowledge_base_id);
-        // Загрузка реальных данных по правилам последовательности работ (операций)
+
+        // Создание правил для базы знаний правил определения последовательности работ (операций)
+        $data_loader = new OperationRuleLoader();
         $data_loader->create_operation_rules($knowledge_base_id);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Components\CSVDataLoader;
+use App\Components\CSVDataLoader\TechnicalSystemLoader;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +12,7 @@ class TechnicalSystemSeeder extends Seeder
     public function run()
     {
         // Загрузка реальных данных по техническим системам и подсистемам самолета
-        $data_loader = new CSVDataLoader;
+        $data_loader = new TechnicalSystemLoader();
         $data_loader->create_technical_systems();
 
         // Создание тестовой технической системы (альтернативный самолет) и ее подсистем
