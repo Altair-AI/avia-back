@@ -55,6 +55,7 @@ use Illuminate\Support\Carbon;
  * @property-read MalfunctionCause malfunction_causes
  * @property-read MalfunctionCode malfunction_codes
  * @property-read Operation $operations
+ * @property-read OperationCondition $operation_conditions
  * @property-read OperationResult $operation_results
  * @property-read Operation $hierarchy_operations
  * @property-read TechnicalSystem $technical_systems
@@ -148,6 +149,15 @@ class Operation extends Model
     public function concrete_operation_conditions()
     {
         return $this->hasMany(ConcreteOperationCondition::class, 'operation_id');
+    }
+
+    /**
+     * Получить все условия выполнения для данной работы (операции).
+     */
+    public function operation_conditions()
+    {
+        return $this->belongsToMany(OperationCondition::class, 'concrete_operation_condition',
+            'operation_id', 'operation_condition_id');
     }
 
     public function concrete_operation_results()
