@@ -102,17 +102,22 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="end_document_page", type="integer", example=101),
  *                 @OA\Property(property="actual_document_page", type="integer", example=123),
  *                 @OA\Property(property="document_id", type="integer", example=1),
- *                 @OA\Property(property="operation_results", type="array", @OA\Items(
- *                     @OA\Property(property="id", type="integer", example=2),
- *                     @OA\Property(property="name", type="string", example="Some code"),
- *                     @OA\Property(property="description", type="string", example="Some description")
- *                 )),
  *                 @OA\Property(property="technical_systems", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=2),
  *                     @OA\Property(property="code", type="string", example="Some code"),
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="description", type="string", example="Some description"),
  *                     @OA\Property(property="parent_technical_system_id", type="integer", example=1)
+ *                 )),
+ *                 @OA\Property(property="operation_results", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=2),
+ *                     @OA\Property(property="name", type="string", example="Some code"),
+ *                     @OA\Property(property="description", type="string", example="Some description")
+ *                 )),
+ *                 @OA\Property(property="operation_conditions", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=2),
+ *                     @OA\Property(property="name", type="string", example="Some code"),
+ *                     @OA\Property(property="description", type="string", example="Some description")
  *                 )),
  *                 @OA\Property(property="malfunction_codes", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
@@ -232,17 +237,22 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="end_document_page", type="integer", example=101),
  *             @OA\Property(property="actual_document_page", type="integer", example=123),
  *             @OA\Property(property="document_id", type="integer", example=1),
- *             @OA\Property(property="operation_results", type="array", @OA\Items(
- *                 @OA\Property(property="id", type="integer", example=2),
- *                 @OA\Property(property="name", type="string", example="Some code"),
- *                 @OA\Property(property="description", type="string", example="Some description")
- *             )),
  *             @OA\Property(property="technical_systems", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=2),
  *                 @OA\Property(property="code", type="string", example="Some code"),
  *                 @OA\Property(property="name", type="string", example="Some name"),
  *                 @OA\Property(property="description", type="string", example="Some description"),
  *                 @OA\Property(property="parent_technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="operation_results", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="name", type="string", example="Some code"),
+ *                 @OA\Property(property="description", type="string", example="Some description")
+ *             )),
+ *             @OA\Property(property="operation_conditions", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="name", type="string", example="Some code"),
+ *                 @OA\Property(property="description", type="string", example="Some description")
  *             )),
  *             @OA\Property(property="malfunction_codes", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
