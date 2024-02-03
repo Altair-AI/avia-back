@@ -3110,11 +3110,11 @@
                                                             "properties": {
                                                                 "id": {
                                                                     "type": "integer",
-                                                                    "example": 2
+                                                                    "example": 1
                                                                 },
                                                                 "name": {
                                                                     "type": "string",
-                                                                    "example": "Some code"
+                                                                    "example": "Some name"
                                                                 },
                                                                 "description": {
                                                                     "type": "string",
@@ -3130,11 +3130,11 @@
                                                             "properties": {
                                                                 "id": {
                                                                     "type": "integer",
-                                                                    "example": 2
+                                                                    "example": 1
                                                                 },
                                                                 "name": {
                                                                     "type": "string",
-                                                                    "example": "Some code"
+                                                                    "example": "Some name"
                                                                 },
                                                                 "description": {
                                                                     "type": "string",
@@ -3540,11 +3540,11 @@
                                                 "properties": {
                                                     "id": {
                                                         "type": "integer",
-                                                        "example": 2
+                                                        "example": 1
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Some code"
+                                                        "example": "Some name"
                                                     },
                                                     "description": {
                                                         "type": "string",
@@ -3560,11 +3560,11 @@
                                                 "properties": {
                                                     "id": {
                                                         "type": "integer",
-                                                        "example": 2
+                                                        "example": 1
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Some code"
+                                                        "example": "Some name"
                                                     },
                                                     "description": {
                                                         "type": "string",
