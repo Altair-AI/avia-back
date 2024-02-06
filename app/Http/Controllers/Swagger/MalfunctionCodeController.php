@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 
 /**
- * @OA\Post(
+ * @OA\Get(
  *     path="/api/v1/admin/malfunction-codes/list",
  *     summary="Получить полный список кодов (признаков) неисправности только с важными полями",
  *     tags={"Коды неисправности"},

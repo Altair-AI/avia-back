@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 
 /**
- * @OA\Post(
+ * @OA\Get(
  *     path="/api/v1/admin/operation-rules/hierarchy",
  *     summary="Получить иерархию работ с правилами определения последовательности работ (операций)",
  *     tags={"Правила определения последовательности работ"},
@@ -26,52 +26,15 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="hierarchy_operations", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
- *                 @OA\Property(property="description", type="string", example="Some description"),
- *                 @OA\Property(property="document_section", type="string", example="Some document section"),
- *                 @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
- *                 @OA\Property(property="start_document_page", type="integer", example=100),
- *                 @OA\Property(property="end_document_page", type="integer", example=101),
- *                 @OA\Property(property="actual_document_page", type="integer", example=123),
- *                 @OA\Property(property="document_id", type="integer", example=1),
+ *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                 @OA\Property(property="operation_rules", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="type", type="integer", example=0),
- *                     @OA\Property(property="priority", type="integer", example=100),
- *                     @OA\Property(property="repeat_voice", type="integer", example=1),
- *                     @OA\Property(property="context", type="string", example="Some operation code"),
  *                     @OA\Property(property="operation_id_if", type="integer", example=1),
- *                     @OA\Property(property="operation_status_if", type="integer", example=2),
- *                     @OA\Property(property="operation_result_id_if", type="integer", example=1),
  *                     @OA\Property(property="operation_id_then", type="integer", example=2),
- *                     @OA\Property(property="operation_status_then", type="integer", example=1),
- *                     @OA\Property(property="rule_based_knowledge_base_id", type="integer", example=1),
- *                     @OA\Property(property="malfunction_cause_id", type="integer", example=1),
- *                     @OA\Property(property="document_id", type="integer", example=1)
+ *                     @OA\Property(property="priority", type="integer", example=100)
  *                 )),
- *                 @OA\Property(property="hierarchy_operations", type="array", @OA\Items(
- *                     @OA\Property(property="id", type="integer", example=2),
- *                     @OA\Property(property="code", type="string", example="Some code"),
- *                     @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
- *                     @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
- *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="document_section", type="string", example="Some document section"),
- *                     @OA\Property(property="document_subsection", type="string", example="Some document subsection"),
- *                     @OA\Property(property="start_document_page", type="integer", example=100),
- *                     @OA\Property(property="end_document_page", type="integer", example=101),
- *                     @OA\Property(property="actual_document_page", type="integer", example=123),
- *                     @OA\Property(property="document_id", type="integer", example=1),
- *                     @OA\Property(property="pivot",
- *                         @OA\Property(property="parent_operation_id", type="integer", example=1),
- *                         @OA\Property(property="child_operation_id", type="integer", example="2"),
- *                         @OA\Property(property="designation", type="string", example="Some designation"),
- *                         @OA\Property(property="sequence_number", type="integer", example=1)
- *                     ),
- *                     @OA\Property(property="hierarchy_operations", type="array", @OA\Items()),
- *                     @OA\Property(property="operation_rules", type="array", @OA\Items())
- *                 ))
+ *                 @OA\Property(property="hierarchy_operations", type="array", @OA\Items())
  *             ))
  *         )
  *     )
