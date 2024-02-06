@@ -8,6 +8,7 @@ use App\Http\Requests\OperationRule\HierarchyOperationRuleRequest;
 use App\Http\Requests\OperationRule\IndexOperationRuleRequest;
 use App\Http\Requests\OperationRule\StoreOperationRuleRequest;
 use App\Http\Requests\OperationRule\UpdateOperationRuleRequest;
+use App\Http\Resources\Operation\OperationHierarchyResource;
 use App\Models\Operation;
 use App\Models\OperationRule;
 use App\Models\Organization;
@@ -77,11 +78,11 @@ class OperationRuleController extends Controller
         // Формирование выходных данных
         $data = [];
         foreach ($operation_rules as $operation_rule) {
-            $operation = Operation::where('id', $operation_rule->operation_id_if)->first();
-            array_push($data, array_merge($operation->toArray(), [
-                'operation_rules' => $operation->operation_rules,
-                'hierarchy_operations' => $operation->hierarchy_operations,
-            ]));
+            $operation = Operation::where('id', $operation_rule->operation_id_if)
+                ->with('operation_rules')
+                ->with('hierarchy_operations')
+                ->first();
+            array_push($data, new OperationHierarchyResource($operation));
         }
         $result['hierarchy_operations'] = $data;
         return response()->json($result);

@@ -37,6 +37,8 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 });
 
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin/'], function () {
+    Route::get('malfunction-codes/list', [MalfunctionCodeController::class, 'list']);
+    Route::get('operation-rules/hierarchy', [OperationRuleController::class, 'hierarchy']);
     Route::apiResource('case-based-knowledge-bases', CaseBasedKnowledgeBaseController::class);
     Route::apiResource('documents', DocumentController::class);
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
@@ -51,8 +53,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('technical-systems', TechnicalSystemController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('work-sessions', WorkSessionController::class);
-    Route::post('malfunction-codes/list', [MalfunctionCodeController::class, 'list']);
-    Route::post('operation-rules/hierarchy', [OperationRuleController::class, 'hierarchy']);
+
 });
 
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/tech/'], function () {
