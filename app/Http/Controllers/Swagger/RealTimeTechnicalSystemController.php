@@ -159,20 +159,20 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="technical_system_id", type="integer", example=1),
  *             @OA\Property(property="project_id", type="integer", example=1),
  *             @OA\Property(property="technical_system",
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="code", type="string", example="Some code"),
- *                     @OA\Property(property="name", type="string", example="Some name"),
- *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="parent_technical_system_id", type="integer", example=null)
- *                 ),
- *                 @OA\Property(property="project",
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="name", type="string", example="Some name"),
- *                     @OA\Property(property="description", type="string", example="Some description"),
- *                     @OA\Property(property="type", type="integer", example=0),
- *                     @OA\Property(property="status", type="integer", example=0),
- *                     @OA\Property(property="technical_system_id", type="integer", example=1)
- *                 )
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="code", type="string", example="Some code"),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="parent_technical_system_id", type="integer", example=null)
+ *             ),
+ *             @OA\Property(property="project",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="description", type="string", example="Some description"),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="status", type="integer", example=0),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )
  *         )
  *     )
  * ),

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\CaseBasedKnowledgeBase;
 use App\Models\Document;
+use App\Models\ECase;
 use App\Models\MalfunctionCauseRule;
 use App\Models\MalfunctionCode;
 use App\Models\MalfunctionDetectionStage;
@@ -17,6 +18,7 @@ use App\Models\TechnicalSystem;
 use App\Models\User;
 use App\Models\WorkSession;
 use App\Policies\CaseBasedKnowledgeBasePolicy;
+use App\Policies\CasePolicy;
 use App\Policies\DocumentPolicy;
 use App\Policies\MalfunctionCauseRulePolicy;
 use App\Policies\MalfunctionCodePolicy;
@@ -42,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         CaseBasedKnowledgeBase::class => CaseBasedKnowledgeBasePolicy::class,
         Document::class => DocumentPolicy::class,
+        ECase::class => CasePolicy::class,
         MalfunctionCauseRule::class => MalfunctionCauseRulePolicy::class,
         MalfunctionCode::class => MalfunctionCodePolicy::class,
         MalfunctionDetectionStage::class => MalfunctionDetectionStagePolicy::class,
