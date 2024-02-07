@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 06.02.2024",
-        "version": "1.2.4"
+        "description": "Дата обновления: 07.02.2024",
+        "version": "1.2.5"
     },
     "paths": {
         "/api/": {},
@@ -987,6 +987,661 @@
                         "name": "case-based-knowledge-base",
                         "in": "path",
                         "description": "id базы знаний прецедентов",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/cases": {
+            "get": {
+                "tags": [
+                    "Прецеденты"
+                ],
+                "summary": "Получить список прецедентов",
+                "description": "Для супер-администратора возвращает список всех прецедентов, созданных в системе. Для администратора и техника возвращает список прецедентов для определенной базы знаний, к которой у них есть доступ. Список может быть отфильтрован по различным параметрам.",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Дата фиксации прецедента",
+                        "required": false
+                    },
+                    {
+                        "name": "card_number",
+                        "in": "query",
+                        "description": "Номер КУНАТ прецедента",
+                        "required": false
+                    },
+                    {
+                        "name": "malfunction_detection_stage_id",
+                        "in": "query",
+                        "description": "id этапа обнаружения неисправности",
+                        "required": false
+                    },
+                    {
+                        "name": "malfunction_cause_id",
+                        "in": "query",
+                        "description": "id причины неисправности или отказа",
+                        "required": false
+                    },
+                    {
+                        "name": "system_id_for_repair",
+                        "in": "query",
+                        "description": "id технической системы реального времени, которая является причиной неисправности",
+                        "required": false
+                    },
+                    {
+                        "name": "initial_completed_operation_id",
+                        "in": "query",
+                        "description": "id начальной выполненной работы",
+                        "required": false
+                    },
+                    {
+                        "name": "case_based_knowledge_base_id",
+                        "in": "query",
+                        "description": "id базы знаний прецедентов",
+                        "required": false
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "Размер страницы пагинации",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы пагинации",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "date": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-02-02 01:10:48"
+                                                    },
+                                                    "card_number": {
+                                                        "type": "string",
+                                                        "example": "Some card number"
+                                                    },
+                                                    "malfunction_detection_stage_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "malfunction_cause_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "system_id_for_repair": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "initial_completed_operation_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "case_based_knowledge_base_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "malfunction_detection_stage": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "malfunction_cause": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "system_for_repair": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_code": {
+                                                                "type": "string",
+                                                                "example": "Some registration code"
+                                                            },
+                                                            "registration_description": {
+                                                                "type": "string",
+                                                                "example": "Some registration description"
+                                                            },
+                                                            "operation_time_from_start": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "operation_time_from_last_repair": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "technical_system_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "project_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "initial_completed_operation": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "operation_id": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "previous_operation_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "operation_result_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "work_session_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "case_based_knowledge_base": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Some description"
+                                                            },
+                                                            "status": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "correctness": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            },
+                                                            "author": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "real_time_technical_system_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "project_id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "page_current": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "page_total": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "page_size": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Прецеденты"
+                ],
+                "summary": "Создание нового прецедента",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "card_number": {
+                                                "type": "string",
+                                                "example": "Some card number"
+                                            },
+                                            "malfunction_detection_stage_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-02-02 01:10:48"
+                                        },
+                                        "card_number": {
+                                            "type": "string",
+                                            "example": "Some card number"
+                                        },
+                                        "malfunction_detection_stage_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "malfunction_cause_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "system_id_for_repair": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "initial_completed_operation_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "case_based_knowledge_base_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/cases/{case}": {
+            "get": {
+                "tags": [
+                    "Прецеденты"
+                ],
+                "summary": "Получить единичный прецедент",
+                "description": "Для супер-администратора возвращает любой прецедент. Для администратора и техника возвращает прецедент для определенной базы знаний прецедентов, которая им доступна.",
+                "parameters": [
+                    {
+                        "name": "case",
+                        "in": "path",
+                        "description": "id прецедента",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-02-02 01:10:48"
+                                        },
+                                        "card_number": {
+                                            "type": "string",
+                                            "example": "Some card number"
+                                        },
+                                        "malfunction_detection_stage_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "malfunction_cause_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "system_id_for_repair": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "initial_completed_operation_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "case_based_knowledge_base_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "malfunction_detection_stage": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "malfunction_cause": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "system_for_repair": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "registration_code": {
+                                                    "type": "string",
+                                                    "example": "Some registration code"
+                                                },
+                                                "registration_description": {
+                                                    "type": "string",
+                                                    "example": "Some registration description"
+                                                },
+                                                "operation_time_from_start": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "operation_time_from_last_repair": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "project_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "initial_completed_operation": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "operation_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "previous_operation_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "operation_result_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "work_session_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "case_based_knowledge_base": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Some name"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Some description"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "correctness": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "author": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "real_time_technical_system_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "project_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Прецеденты"
+                ],
+                "summary": "Обновить прецедент",
+                "description": "Супер-администратор может редактировать любые прецеденты. Администратор и техник могут редактировать прецеденты только тех баз знаний прецедентов, которые им доступны.",
+                "parameters": [
+                    {
+                        "name": "case",
+                        "in": "path",
+                        "description": "id прецедента",
+                        "required": true,
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "card_number": {
+                                                "type": "string",
+                                                "example": "Some card number for edit"
+                                            },
+                                            "malfunction_detection_stage_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-02-02 01:10:48"
+                                        },
+                                        "card_number": {
+                                            "type": "string",
+                                            "example": "Some card number"
+                                        },
+                                        "malfunction_detection_stage_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "malfunction_cause_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "system_id_for_repair": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "initial_completed_operation_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "case_based_knowledge_base_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Прецеденты"
+                ],
+                "summary": "Удалить прецедент",
+                "parameters": [
+                    {
+                        "name": "case",
+                        "in": "path",
+                        "description": "id прецедента",
                         "required": true,
                         "example": 1
                     }
