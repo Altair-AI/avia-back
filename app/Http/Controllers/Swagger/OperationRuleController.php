@@ -30,9 +30,8 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
  *                 @OA\Property(property="operation_rules", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="operation_id_if", type="integer", example=1),
- *                     @OA\Property(property="operation_id_then", type="integer", example=2),
- *                     @OA\Property(property="priority", type="integer", example=100)
+ *                     @OA\Property(property="operation_if", type="string", example="Some operation name from condition (if)"),
+ *                     @OA\Property(property="operation_then", type="string", example="Some operation name from action (then)")
  *                 )),
  *                 @OA\Property(property="hierarchy_operations", type="array", @OA\Items())
  *             ))

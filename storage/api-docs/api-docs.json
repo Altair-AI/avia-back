@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 07.02.2024",
-        "version": "1.2.5"
+        "description": "Дата обновления: 08.02.2024",
+        "version": "1.2.6"
     },
     "paths": {
         "/api/": {},
@@ -4601,17 +4601,13 @@
                                                                     "type": "integer",
                                                                     "example": 1
                                                                 },
-                                                                "operation_id_if": {
-                                                                    "type": "integer",
-                                                                    "example": 1
+                                                                "operation_if": {
+                                                                    "type": "string",
+                                                                    "example": "Some operation name from condition (if)"
                                                                 },
-                                                                "operation_id_then": {
-                                                                    "type": "integer",
-                                                                    "example": 2
-                                                                },
-                                                                "priority": {
-                                                                    "type": "integer",
-                                                                    "example": 100
+                                                                "operation_then": {
+                                                                    "type": "string",
+                                                                    "example": "Some operation name from action (then)"
                                                                 }
                                                             },
                                                             "type": "object"
