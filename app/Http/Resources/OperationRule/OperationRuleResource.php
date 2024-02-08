@@ -7,9 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property mixed id
- * @property mixed operation_id_if
- * @property mixed operation_id_then
- * @property mixed priority
+ * @property mixed operation_if
+ * @property mixed operation_then
  */
 class OperationRuleResource extends JsonResource
 {
@@ -23,9 +22,10 @@ class OperationRuleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'operation_id_if' => $this->operation_id_if,
-            'operation_id_then' => $this->operation_id_then,
-            'priority' => $this->priority
+            'operation_if' => $this->operation_if->verbal_name != null ? $this->operation_if->verbal_name :
+                $this->operation_if->imperative_name,
+            'operation_then' => $this->operation_then->verbal_name != null ? $this->operation_then->verbal_name :
+                $this->operation_then->imperative_name
         ];
     }
 }
