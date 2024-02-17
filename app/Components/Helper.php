@@ -2,6 +2,10 @@
 
 namespace App\Components;
 
+use App\Http\Resources\Operation\SubOperationResource;
+use App\Models\CompletedOperation;
+use App\Models\Operation;
+use App\Models\OperationHierarchy;
 use App\Models\Organization;
 use App\Models\TechnicalSystem;
 
@@ -61,5 +65,85 @@ class Helper
                 $code_list = self::get_technical_system_codes($item['technical_subsystems'], $code_list);
         }
         return $code_list;
+    }
+
+    /**
+     * Обновление узла работы в дереве выполненных работ (операций).
+     *
+     * @param $operations - массив выполненных работ в виде дерева
+     * @param $completed_operation - выполненная работа из БД
+     * @param $exist - флаг существования узла работы в дереве работ (операций)
+     * @return array
+     */
+    public static function find_node($operations, $completed_operation, $exist) {
+        foreach ($operations as & $operation)
+            if ($operation['id'] == $completed_operation->operation_id and !$exist and
+                $operation['status'] != CompletedOperation::COMPLETED_OPERATION_STATUS) {
+                $operation['status'] = $completed_operation->operation_status;
+                $operation['result'] = $completed_operation->operation_result_id;
+                $exist = true;
+            } else
+                list($operation['sub_operations'], $exist) = self::find_node($operation['sub_operations'],
+                    $completed_operation, $exist);
+        return array($operations, $exist);
+    }
+
+    /**
+     * Создание нового узла работы в дереве выполненных работ (операций).
+     *
+     * @param $operations - массив выполненных работ в виде дерева
+     * @param $completed_operation - выполненная работа из БД
+     * @param $parents - массив родительских работ для текущей выполненной работы
+     * @param $created - флаг создания нового узла работы в дереве работ (операций)
+     * @return array
+     */
+    public static function create_node($operations, $completed_operation, $parents, $created) {
+        foreach ($parents as $parent)
+            foreach ($operations as & $operation)
+                if ($operation['id'] == $parent->parent_operation_id and !$created and
+                    $operation['status'] != CompletedOperation::COMPLETED_OPERATION_STATUS) {
+                    $resource = SubOperationResource::make(Operation::find($completed_operation->operation_id))
+                        ->resolve();
+                    $resource['status'] = $completed_operation->operation_status;
+                    $resource['result'] = $completed_operation->operation_result_id;
+                    array_push($operation['sub_operations'], $resource);
+                    $created = true;
+                } else
+                    list($operation['sub_operations'], $created) = self::create_node($operation['sub_operations'],
+                        $completed_operation, $parents, $created);
+        return array($operations, $created);
+    }
+
+    /**
+     * Создание дерева выполненных работ (операций) для текущей рабочей сессии.
+     *
+     * @param $work_session_id - id рабочей сессии
+     * @return array|mixed
+     */
+    public static function create_operation_tree($work_session_id) {
+        // Формирование корневого узла начальной работы РУН для дерева выполненных работ
+        $completed_parent_operation = CompletedOperation::where('work_session_id', $work_session_id)
+            ->where('previous_operation_id', null)
+            ->first();
+        $parent_operation = SubOperationResource::make(Operation::find($completed_parent_operation->id))->resolve();
+        $parent_operation['status'] = $completed_parent_operation->operation_status;
+        $parent_operation['result'] = $completed_parent_operation->operation_result_id;
+        $data = [$parent_operation];
+        // Поиск всех выполненных работ в БД, кроме начальной работы РУН
+        $completed_operations = CompletedOperation::where('work_session_id', $work_session_id)
+            ->whereNot('previous_operation_id', null)
+            ->get();
+        // Обход всех найденных выполненных работ
+        foreach ($completed_operations as $completed_operation) {
+            // Поиск и обновление узла выполненной работы в дереве работ
+            list($data, $exist) = self::find_node($data, $completed_operation, false);
+            // Создание нового узла работы в дереве работ
+            if (!$exist) {
+                $parents = OperationHierarchy::where('child_operation_id', $completed_operation->operation_id)
+                    ->get();
+                list($data, $created) = self::create_node($data, $completed_operation, $parents, false);
+            }
+        }
+        return $data;
     }
 }

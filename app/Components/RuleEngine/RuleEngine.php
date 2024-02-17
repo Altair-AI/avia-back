@@ -97,7 +97,8 @@ class RuleEngine
             if (isset($this->execution_rule)) {
                 if ($this->execution_rule->getStatus() == Rule::NO_STATUS_STATUS and isset($operation_status))
                     $this->execution_rule->setOperationStatusAction($operation_status);
-                if ($this->execution_rule->getStatus() == Rule::NO_RESULT_STATUS and isset($operation_result))
+                if (($this->execution_rule->getStatus() == Rule::NO_STATUS_STATUS or
+                        $this->execution_rule->getStatus() == Rule::NO_RESULT_STATUS) and isset($operation_result))
                     $this->execution_rule->setOperationResultAction($operation_result);
             } else {
                 $this->execution_rule = end($this->rule_queue);
@@ -136,9 +137,8 @@ class RuleEngine
                     if ($this->execution_rule->getOperationStatusAction() == Rule::COMPLETED_OPERATION_STATUS)
                         self::refresh();
                     else {
+                        self::refresh();
                         $this->status = self::NO_OPERATION_CODE;
-                        $this->execution_rule->setStatus(Rule::NO_OPERATION_STATUS);
-                        break;
                     }
                 // Если нет совпадения факта статуса работы
                 if ($operation_exists == true and $operation_status_exists == false) {
@@ -160,7 +160,7 @@ class RuleEngine
             }
         }
 
-        if (empty($this->rule_queue))
+        if (empty($this->rule_queue) and $this->status != self::NO_OPERATION_CODE)
             $this->status = self::DONE_CODE;
     }
 }

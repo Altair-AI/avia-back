@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $operation_id
  * @property int|null $previous_operation_id
+ * @property int $operation_status
  * @property int $operation_result_id
  * @property int $work_session_id
  * @property Carbon|null $created_at
@@ -40,6 +41,11 @@ class CompletedOperation extends Model
 {
     use HasFactory;
 
+    // Статус работы
+    const NOT_COMPLETED_OPERATION_STATUS = 0; // Не выполнена
+    const COMPLETED_OPERATION_STATUS = 1;     // Выполнена
+    const INITIATED_OPERATION_STATUS = 2;     // Инициирована
+
     /**
      * The table associated with the model.
      *
@@ -55,6 +61,7 @@ class CompletedOperation extends Model
     protected $fillable = [
         'operation_id',
         'previous_operation_id',
+        'operation_status',
         'operation_result_id',
         'work_session_id'
     ];
