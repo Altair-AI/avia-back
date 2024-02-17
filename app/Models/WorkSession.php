@@ -48,7 +48,8 @@ class WorkSession extends Model
     // Статус рабочей сессии
     const MALFUNCTION_CAUSE_DETECTED_STATUS = 0; // Причины неисправности обнаружены
     const IN_PROGRESS_STATUS = 1;                // В процессе выполнения правил определения работ
-    const DONE_STATUS = 2;                       // Выполнено
+    const DONE_RESOLVED_STATUS = 2;              // Выполнено (неисправность устранена)
+    const DONE_NOT_RESOLVED_STATUS = 3;          // Выполнено (неисправность неустранена)
 
     /**
      * The table associated with the model.
