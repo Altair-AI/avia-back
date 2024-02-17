@@ -8476,28 +8476,83 @@
                                             "example": "Some message"
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "operation": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "operation_status": {
-                                                        "type": "integer",
-                                                        "example": 2
-                                                    },
-                                                    "operation_result": {
-                                                        "type": "integer",
-                                                        "example": null
-                                                    },
-                                                    "operation_rule_id": {
-                                                        "type": "integer",
-                                                        "example": 3
+                                            "properties": {
+                                                "chain_operations": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
-                                                "type": "object"
-                                            }
+                                                "current_operation": {
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Some name"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "operation_results": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "completed_operations": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Some name"
+                                                            },
+                                                            "status": {
+                                                                "type": "integer",
+                                                                "example": 2
+                                                            },
+                                                            "result": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "Some name"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "sub_operations": {
+                                                                "type": "array",
+                                                                "items": {}
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

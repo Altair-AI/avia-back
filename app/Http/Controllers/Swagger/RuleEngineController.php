@@ -105,12 +105,28 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="code", type="integer", example=0),
  *             @OA\Property(property="message", type="string", example="Some message"),
- *             @OA\Property(property="data", type="array", @OA\Items(
- *                 @OA\Property(property="operation", type="integer", example=1),
- *                 @OA\Property(property="operation_status", type="integer", example=2),
- *                 @OA\Property(property="operation_result", type="integer", example=null),
- *                 @OA\Property(property="operation_rule_id", type="integer", example=3)
- *             ))
+ *             @OA\Property(property="data",
+ *                 @OA\Property(property="chain_operations", type="array", @OA\Items(
+ *                     @OA\Property(property="name", type="string", example="Some name")
+ *                 )),
+ *                 @OA\Property(property="current_operation",
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                 ),
+ *                 @OA\Property(property="operation_results", type="array", @OA\Items(
+ *                      @OA\Property(property="id", type="integer", example=1),
+ *                      @OA\Property(property="name", type="string", example="Some name")
+ *                 )),
+ *                 @OA\Property(property="completed_operations", type="array", @OA\Items(
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="status", type="integer", example=2),
+ *                     @OA\Property(property="result",
+ *                         @OA\Property(property="id", type="integer", example=1),
+ *                         @OA\Property(property="name", type="string", example="Some name")
+ *                     ),
+ *                     @OA\Property(property="sub_operations", type="array", @OA\Items())
+ *                 ))
+ *             )
  *         )
  *     )
  * )
