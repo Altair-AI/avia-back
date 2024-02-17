@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Helper;
 use App\Components\RuleEngine\Rule;
 use App\Components\RuleEngine\RuleEngine;
 use App\Http\Requests\RuleEngine\InitializeRuleEngineRequest;
 use App\Http\Requests\RuleEngine\RunRuleEngineRequest;
+use App\Http\Resources\Operation\OperationResource;
+use App\Http\Resources\Operation\SubOperationResource;
+use App\Http\Resources\OperationResult\OperationResultResource;
 use App\Models\CompletedOperation;
 use App\Models\ExecutionRule;
 use App\Models\ExecutionRuleQueue;
 use App\Models\MalfunctionCauseRule;
 use App\Models\MalfunctionCauseRuleIf;
 use App\Models\MalfunctionCauseRuleThen;
+use App\Models\Operation;
+use App\Models\OperationHierarchy;
 use App\Models\OperationRule;
 use App\Models\OperationRuleList;
 use App\Models\WorkSession;
@@ -68,7 +74,8 @@ class RuleEngineController extends Controller
                 $work_sessions = WorkSession::where('malfunction_cause_rule_id', $rule->id)
                     ->where('user_id', auth()->user()->id)->get();
                 foreach ($work_sessions as $work_session) {
-                    if ($work_session->status != WorkSession::DONE_STATUS) {
+                    if ($work_session->status != WorkSession::DONE_RESOLVED_STATUS or
+                        $work_session->status != WorkSession::DONE_NOT_RESOLVED_STATUS) {
                         // Формирование неуспешного ответа (выполнение правил уже запущено)
                         $result['code'] = 1;
                         $result['message'] = "Rule execution has already started.";
@@ -147,6 +154,7 @@ class RuleEngineController extends Controller
             CompletedOperation::create([
                 'operation_id' => $operation_rule_list->operation_rule->operation_id_if,
                 'previous_operation_id' => null,
+                'operation_status' => CompletedOperation::INITIATED_OPERATION_STATUS,
                 'operation_result_id' => $operation_rule_list->operation_rule->operation_result_id_if,
                 'work_session_id' => $work_session->id
             ]);
@@ -190,7 +198,14 @@ class RuleEngineController extends Controller
                 $result['code'] = RuleEngine::DONE_CODE;
                 $result['message'] = "The execution of rules completed successfully.";
                 // Обновление статуса рабочей сессии
-                $work_session->status = WorkSession::DONE_STATUS;
+                $work_session->status = WorkSession::DONE_RESOLVED_STATUS;
+                $work_session->save();
+            }
+            if ($rule_engine->getStatus() == RuleEngine::NO_OPERATION_CODE) {
+                $result['code'] = RuleEngine::NO_OPERATION_CODE;
+                $result['message'] = "The execution of rules completed unsuccessfully.";
+                // Обновление статуса рабочей сессии
+                $work_session->status = WorkSession::DONE_NOT_RESOLVED_STATUS;
                 $work_session->save();
             }
             if ($rule_engine->getStatus() == RuleEngine::NO_STATUS_CODE) {
@@ -201,36 +216,40 @@ class RuleEngineController extends Controller
                 $result['code'] = RuleEngine::NO_RESULT_CODE;
                 $result['message'] = "The fact of operation result is incorrect.";
             }
-            if (!empty($rule_engine->getCompletedOperations())) {
-                $result['data'] = $rule_engine->getCompletedOperations();
-                $last_operation = CompletedOperation::whereWorkSessionId($work_session->id)->latest()->first();
-                foreach ($rule_engine->getCompletedOperations() as $operation) {
-                    // Сохранение данных о выполненных работах и их результатах в БД
-                    CompletedOperation::create([
+            $data = [];
+            foreach ($rule_engine->getCompletedOperations() as $operation) {
+                $last_operation = CompletedOperation::whereWorkSessionId($work_session->id)
+                    ->orderBy('id', 'DESC')
+                    ->first();
+                // Сохранение данных о выполненных работах и их результатах в БД
+                CompletedOperation::create([
+                    'operation_id' => $operation['operation'],
+                    'previous_operation_id' => $last_operation->operation_id,
+                    'operation_status' => $operation['operation_status'],
+                    'operation_result_id' => $operation['operation_result'],
+                    'work_session_id' => $work_session->id
+                ]);
+                // Сохранение данных о выполненных правилах в БД
+                $execution_rule = ExecutionRule::where('operation_rule_list_id',
+                    $operation['operation_rule_id'])
+                    ->whereNotIn('operation_status', [ExecutionRule::DONE_RULE_STATUS])->first();
+                if (isset($execution_rule)) {
+                    $execution_rule->status = ExecutionRule::DONE_RULE_STATUS;
+                    $execution_rule->operation_status = $operation['operation_status'];
+                    $execution_rule->operation_result_id = $operation['operation_result'];
+                    $execution_rule->save();
+                } else
+                    ExecutionRule::create([
+                        'status' => ExecutionRule::DONE_RULE_STATUS,
                         'operation_id' => $operation['operation'],
-                        'previous_operation_id' => $last_operation->operation_id,
+                        'operation_status' => $operation['operation_status'],
                         'operation_result_id' => $operation['operation_result'],
-                        'work_session_id' => $work_session->id
+                        'operation_rule_list_id' => $operation['operation_rule_id'],
                     ]);
-                    // Сохранение данных о выполненных правилах в БД
-                    $execution_rule = ExecutionRule::where('operation_rule_list_id',
-                        $operation['operation_rule_id'])
-                        ->whereNotIn('operation_status', [ExecutionRule::DONE_RULE_STATUS])->first();
-                    if (isset($execution_rule)) {
-                        $execution_rule->status = ExecutionRule::DONE_RULE_STATUS;
-                        $execution_rule->operation_status = $operation['operation_status'];
-                        $execution_rule->operation_result_id = $operation['operation_result'];
-                        $execution_rule->save();
-                    } else
-                        ExecutionRule::create([
-                            'status' => ExecutionRule::DONE_RULE_STATUS,
-                            'operation_id' => $operation['operation'],
-                            'operation_status' => $operation['operation_status'],
-                            'operation_result_id' => $operation['operation_result'],
-                            'operation_rule_list_id' => $operation['operation_rule_id'],
-                        ]);
-                }
+                // Добавление работы из действия правила в массив (формирование списка названий работ)
+                array_push($data, new OperationResource(Operation::find($operation['operation'])));
             }
+            $result['data']['chain_operations'] = $data;
 
             /* Сохранение результатов работы машины вывода в БД */
             // Обновление статусов правил в массиве
@@ -241,14 +260,15 @@ class RuleEngineController extends Controller
                     $operation_rule_list->save();
                 }
             // Обновление правил в очереди
-            if (!empty($rule_engine->getRuleQueue())) {
-                ExecutionRuleQueue::truncate();
-                foreach ($rule_engine->getRuleQueue() as $rule)
-                    ExecutionRuleQueue::create([
-                        'operation_rule_list_id' => $rule->getId(),
-                    ]);
-            }
+            $operation_rule_list_ids = OperationRuleList::select('id')
+                ->where('work_session_id', $work_session->id)
+                ->get();
+            ExecutionRuleQueue::whereIn('operation_rule_list_id', $operation_rule_list_ids)->delete();
+            foreach ($rule_engine->getRuleQueue() as $rule)
+                ExecutionRuleQueue::create(['operation_rule_list_id' => $rule->getId()]);
             // Добавление или обновление текущего выполняемого правила в БД
+            $current_operation = null;
+            $opr_res = [];
             $rule = $rule_engine->getExecutionRule();
             if (isset($rule)) {
                 $execution_rule = ExecutionRule::where('operation_rule_list_id', $rule->getId())
@@ -267,13 +287,31 @@ class RuleEngineController extends Controller
                         'operation_result_id' => $rule->getOperationResultAction(),
                         'operation_rule_list_id' => $rule->getId(),
                     ]);
+                // Добавление названия текущей работы, которую надо выполнить (если она есть)
+                $last_execution_rule = ExecutionRule::where('operation_rule_list_id', $rule->getId())
+                    ->whereNotIn('operation_status', [ExecutionRule::DONE_RULE_STATUS])
+                    ->orderBy('id', 'DESC')
+                    ->first();
+                if ($last_execution_rule) {
+                    $current_operation = new OperationResource(Operation::find($last_execution_rule->operation_id));
+                    $opr_res = OperationResultResource::collection($last_execution_rule->operation->operation_results);
+                }
             }
+            $result['data']['current_operation'] = $current_operation;
+            $result['data']['operation_results'] = $opr_res;
         }
 
-        if ($work_session->status == WorkSession::DONE_STATUS) {
+        // Формирование дерева выполненных работ
+        $result['data']['completed_operations'] = Helper::create_operation_tree($work_session->id);
+
+        if ($work_session->status == WorkSession::DONE_RESOLVED_STATUS) {
             $result['code'] = RuleEngine::DONE_CODE;
             $result['message'] = "The execution of rules completed successfully.";
-            $result['data'] = [];
+        }
+
+        if ($work_session->status == WorkSession::DONE_NOT_RESOLVED_STATUS) {
+            $result['code'] = RuleEngine::NO_OPERATION_CODE;
+            $result['message'] = "The execution of rules completed unsuccessfully.";
         }
 
         return response()->json($result);
