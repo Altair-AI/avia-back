@@ -3,6 +3,7 @@
 namespace App\Components;
 
 use App\Http\Resources\Operation\SubOperationResource;
+use App\Http\Resources\OperationResult\OperationResultResource;
 use App\Models\CompletedOperation;
 use App\Models\Operation;
 use App\Models\OperationHierarchy;
@@ -80,7 +81,8 @@ class Helper
             if ($operation['id'] == $completed_operation->operation_id and !$exist and
                 $operation['status'] != CompletedOperation::COMPLETED_OPERATION_STATUS) {
                 $operation['status'] = $completed_operation->operation_status;
-                $operation['result'] = $completed_operation->operation_result_id;
+                $operation['result'] = $completed_operation->operation_result_id ?
+                    new OperationResultResource($completed_operation->operation_result) : null;
                 $exist = true;
             } else
                 list($operation['sub_operations'], $exist) = self::find_node($operation['sub_operations'],
@@ -105,7 +107,8 @@ class Helper
                     $resource = SubOperationResource::make(Operation::find($completed_operation->operation_id))
                         ->resolve();
                     $resource['status'] = $completed_operation->operation_status;
-                    $resource['result'] = $completed_operation->operation_result_id;
+                    $resource['result'] = $completed_operation->operation_result_id ?
+                        new OperationResultResource($completed_operation->operation_result) : null;
                     array_push($operation['sub_operations'], $resource);
                     $created = true;
                 } else
@@ -127,7 +130,8 @@ class Helper
             ->first();
         $parent_operation = SubOperationResource::make(Operation::find($completed_parent_operation->id))->resolve();
         $parent_operation['status'] = $completed_parent_operation->operation_status;
-        $parent_operation['result'] = $completed_parent_operation->operation_result_id;
+        $parent_operation['result'] = $completed_parent_operation->operation_result_id ?
+            new OperationResultResource($completed_parent_operation->operation_result) : null;
         $data = [$parent_operation];
         // Поиск всех выполненных работ в БД, кроме начальной работы РУН
         $completed_operations = CompletedOperation::where('work_session_id', $work_session_id)
