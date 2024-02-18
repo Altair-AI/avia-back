@@ -59,7 +59,8 @@ use App\Http\Controllers\Controller;
  *                 ),
  *                 @OA\Property(property="malfunction_causes", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="name", type="string", example="Some name")
+ *                     @OA\Property(property="name", type="string", example="Some name"),
+ *                     @OA\Property(property="priority", type="integer", example=100)
  *                 )),
  *                 @OA\Property(property="work_session",
  *                     @OA\Property(property="id", type="integer", example=1),
