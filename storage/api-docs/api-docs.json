@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 08.02.2024",
-        "version": "1.2.6"
+        "description": "Дата обновления: 18.02.2024",
+        "version": "1.2.8"
     },
     "paths": {
         "/api/": {},
@@ -8385,6 +8385,10 @@
                                                             "name": {
                                                                 "type": "string",
                                                                 "example": "Some name"
+                                                            },
+                                                            "priority": {
+                                                                "type": "integer",
+                                                                "example": 100
                                                             }
                                                         },
                                                         "type": "object"

@@ -103,7 +103,8 @@ class SubOperationLoader
         if (!$parent_operation_mc) {
             $mco_count = MalfunctionCauseOperation::where('operation_id', $parent_operation_id)->count();
             DB::table('malfunction_cause_operation')->insert([
-                'priority' => 100 - ($mco_count * 10),
+                'source_priority' => 100 - ($mco_count * 10),
+                'case_priority' => null,
                 'operation_id' => $parent_operation_id,
                 'malfunction_cause_id' => $malfunction_cause_id,
                 'created_at' => Carbon::now(),
@@ -118,7 +119,8 @@ class SubOperationLoader
         if (!$child_operation_mc) {
             $mco_count = MalfunctionCauseOperation::where('operation_id', $parent_operation_id)->count();
             DB::table('malfunction_cause_operation')->insert([
-                'priority' => 100 - ($mco_count * 10),
+                'source_priority' => 100 - ($mco_count * 10),
+                'case_priority' => null,
                 'operation_id' => $child_operation_id,
                 'malfunction_cause_id' => $malfunction_cause_id,
                 'created_at' => Carbon::now(),

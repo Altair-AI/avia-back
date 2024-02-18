@@ -102,7 +102,8 @@ class MalfunctionCauseRuleLoader
                 if (!$mc_operation) {
                     $mco_count = MalfunctionCauseOperation::where('operation_id', $operation->id)->count();
                     DB::table('malfunction_cause_operation')->insert([
-                        'priority' => 100 - ($mco_count * 10),
+                        'source_priority' => 100 - ($mco_count * 10),
+                        'case_priority' => null,
                         'operation_id' => $operation->id,
                         'malfunction_cause_id' => $malfunction_cause_id,
                         'created_at' => Carbon::now(),

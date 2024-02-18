@@ -7,17 +7,17 @@ use App\Components\RuleEngine\Rule;
 use App\Components\RuleEngine\RuleEngine;
 use App\Http\Requests\RuleEngine\InitializeRuleEngineRequest;
 use App\Http\Requests\RuleEngine\RunRuleEngineRequest;
+use App\Http\Resources\MalfunctionCauseOperation\MalfunctionCauseOperationResource;
 use App\Http\Resources\Operation\OperationResource;
-use App\Http\Resources\Operation\SubOperationResource;
 use App\Http\Resources\OperationResult\OperationResultResource;
 use App\Models\CompletedOperation;
 use App\Models\ExecutionRule;
 use App\Models\ExecutionRuleQueue;
+use App\Models\MalfunctionCauseOperation;
 use App\Models\MalfunctionCauseRule;
 use App\Models\MalfunctionCauseRuleIf;
 use App\Models\MalfunctionCauseRuleThen;
 use App\Models\Operation;
-use App\Models\OperationHierarchy;
 use App\Models\OperationRule;
 use App\Models\OperationRuleList;
 use App\Models\WorkSession;
@@ -63,29 +63,21 @@ class RuleEngineController extends Controller
                         $confirmation = false;
             }
 
-            // Правила по указанным кодам неисправности действительно найдено
+            // Правила по указанным кодам неисправности найдены
             if ($confirmation) {
                 // Формирование успешного ответа (причины неисправности найдены)
                 $result['code'] = 2;
                 $result['message'] = "Malfunction causes were found.";
+                $work_session = null;
                 // Поиск действия правила
                 $mcr_then = MalfunctionCauseRuleThen::where('malfunction_cause_rule_id', $rule->id)->first();
                 // Поиск рабочих сессий созданных авторизованным пользователем по правилу определения причин неисправности
                 $work_sessions = WorkSession::where('malfunction_cause_rule_id', $rule->id)
                     ->where('user_id', auth()->user()->id)->get();
-                foreach ($work_sessions as $work_session) {
-                    if ($work_session->status != WorkSession::DONE_RESOLVED_STATUS or
-                        $work_session->status != WorkSession::DONE_NOT_RESOLVED_STATUS) {
-                        // Формирование неуспешного ответа (выполнение правил уже запущено)
-                        $result['code'] = 1;
-                        $result['message'] = "Rule execution has already started.";
-                        $data = [];
-                        $data['failed_technical_system'] = $mcr_then->technical_system;
-                        $data['malfunction_causes'] = $rule->malfunction_causes;
-                        $data['work_session'] = $work_session;
-                        $result['data'] = $data;
-                    }
-                }
+                foreach ($work_sessions as $workSession)
+                    if ($workSession->status != WorkSession::DONE_RESOLVED_STATUS or
+                        $workSession->status != WorkSession::DONE_NOT_RESOLVED_STATUS)
+                        $work_session = $workSession;
                 if ($result['code'] == 2) {
                     // Создание новой рабочей сессии для выполнения правил работ, если она не была создана ранее
                     $work_session = WorkSession::create([
@@ -94,12 +86,6 @@ class RuleEngineController extends Controller
                         'malfunction_cause_rule_id' => $rule->id,
                         'user_id' => auth()->user()->id
                     ]);
-                    // Добавление данных в ответ
-                    $data = [];
-                    $data['failed_technical_system'] = $mcr_then->technical_system;
-                    $data['malfunction_causes'] = $rule->malfunction_causes;
-                    $data['work_session'] = $work_session;
-                    $result['data'] = $data;
                     // Поиск правил определения последовательности работ по контексту
                     $operation_rules = OperationRule::where('context', $mcr_then->operation->code)->get();
                     // Поиск начального правила определения последовательности работ по id работы из условия
@@ -118,6 +104,13 @@ class RuleEngineController extends Controller
                             ExecutionRuleQueue::create(['operation_rule_list_id' => $operation_rule_list->id]);
                     }
                 }
+                // Поиск причин неисправности по работе РУН
+                $mc_ops = MalfunctionCauseOperation::where('operation_id', $mcr_then->operation_id)->get();
+                // Добавление данных в ответ
+                $data['failed_technical_system'] = $mcr_then->technical_system;
+                $data['malfunction_causes'] = MalfunctionCauseOperationResource::collection($mc_ops);
+                $data['work_session'] = $work_session;
+                $result['data'] = $data;
             }
         }
 

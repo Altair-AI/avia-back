@@ -32,6 +32,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|CompletedOperation whereId($value)
  * @method static Builder|CompletedOperation whereOperationId($value)
  * @method static Builder|CompletedOperation whereOperationResultId($value)
+ * @method static Builder|CompletedOperation whereOperationStatus($value)
  * @method static Builder|CompletedOperation wherePreviousOperationId($value)
  * @method static Builder|CompletedOperation whereUpdatedAt($value)
  * @method static Builder|CompletedOperation whereWorkSessionId($value)
