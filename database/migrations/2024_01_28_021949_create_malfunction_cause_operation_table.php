@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('malfunction_cause_operation', function (Blueprint $table) {
             $table->id();
-            $table->integer('priority')->nullable();
+            $table->integer('source_priority')->nullable();
+            $table->integer('case_priority')->nullable();
             $table->integer('operation_id')->unsigned();
             $table->foreign('operation_id')
                 ->references('id')

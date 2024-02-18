@@ -11,7 +11,8 @@ use Illuminate\Support\Carbon;
  * App\Models\MalfunctionCauseOperation
  *
  * @property int $id
- * @property int $priority
+ * @property int $source_priority
+ * @property int $code_priority
  * @property int $operation_id
  * @property int $malfunction_cause_id
  * @property Carbon|null $created_at
@@ -21,11 +22,12 @@ use Illuminate\Support\Carbon;
  * @method static Builder|MalfunctionCauseOperation newModelQuery()
  * @method static Builder|MalfunctionCauseOperation newQuery()
  * @method static Builder|MalfunctionCauseOperation query()
+ * @method static Builder|MalfunctionCauseOperation whereCasePriority($value)
  * @method static Builder|MalfunctionCauseOperation whereCreatedAt($value)
  * @method static Builder|MalfunctionCauseOperation whereId($value)
  * @method static Builder|MalfunctionCauseOperation whereMalfunctionCauseId($value)
  * @method static Builder|MalfunctionCauseOperation whereOperationId($value)
- * @method static Builder|MalfunctionCauseOperation wherePriority($value)
+ * @method static Builder|MalfunctionCauseOperation whereSourcePriority($value)
  * @method static Builder|MalfunctionCauseOperation whereUpdatedAt($value)
  * @mixin Builder
  */
@@ -46,7 +48,8 @@ class MalfunctionCauseOperation extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'priority',
+        'source_priority',
+        'case_priority',
         'operation_id',
         'malfunction_cause_id'
     ];
