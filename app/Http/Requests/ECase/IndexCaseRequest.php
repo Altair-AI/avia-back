@@ -25,6 +25,8 @@ class IndexCaseRequest extends FormRequest
     {
         return [
             'card_number' => 'string',
+            'operation_time_from_start' => 'integer',
+            'operation_time_from_last_repair' => 'integer',
             'malfunction_detection_stage_id' => 'integer'
         ];
     }
