@@ -25,6 +25,18 @@ use App\Http\Controllers\Controller;
  *         required=false
  *     ),
  *     @OA\Parameter(
+ *         description="Наработка с начала эксплуатации",
+ *         in="query",
+ *         name="operation_time_from_start",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
+ *         description="Наработка со времени последнего ремонта",
+ *         in="query",
+ *         name="operation_time_from_last_repair",
+ *         required=false
+ *     ),
+ *     @OA\Parameter(
  *         description="id этапа обнаружения неисправности",
  *         in="query",
  *         name="malfunction_detection_stage_id",
@@ -75,6 +87,8 @@ use App\Http\Controllers\Controller;
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="date", type="datetime", example="2024-02-02 01:10:48"),
  *                 @OA\Property(property="card_number", type="string", example="Some card number"),
+ *                 @OA\Property(property="operation_time_from_start", type="integer", example=1000),
+ *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
  *                 @OA\Property(property="malfunction_detection_stage_id", type="integer", example=1),
  *                 @OA\Property(property="malfunction_cause_id", type="integer", example=1),
  *                 @OA\Property(property="system_id_for_repair", type="integer", example=1),
@@ -133,6 +147,8 @@ use App\Http\Controllers\Controller;
  *             allOf={
  *                 @OA\Schema(
  *                     @OA\Property(property="card_number", type="string", example="Some card number"),
+ *                     @OA\Property(property="operation_time_from_start", type="integer", example=1000),
+ *                     @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
  *                     @OA\Property(property="malfunction_detection_stage_id", type="integer", example=1)
  *                 )
  *             }
@@ -146,6 +162,8 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="date", type="datetime", example="2024-02-02 01:10:48"),
  *                 @OA\Property(property="card_number", type="string", example="Some card number"),
+ *                 @OA\Property(property="operation_time_from_start", type="integer", example=1000),
+ *                 @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
  *                 @OA\Property(property="malfunction_detection_stage_id", type="integer", example=1),
  *                 @OA\Property(property="malfunction_cause_id", type="integer", example=1),
  *                 @OA\Property(property="system_id_for_repair", type="integer", example=1),
@@ -177,6 +195,8 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="id", type="integer", example=1),
  *             @OA\Property(property="date", type="datetime", example="2024-02-02 01:10:48"),
  *             @OA\Property(property="card_number", type="string", example="Some card number"),
+ *             @OA\Property(property="operation_time_from_start", type="integer", example=1000),
+ *             @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
  *             @OA\Property(property="malfunction_detection_stage_id", type="integer", example=1),
  *             @OA\Property(property="malfunction_cause_id", type="integer", example=1),
  *             @OA\Property(property="system_id_for_repair", type="integer", example=1),
@@ -240,6 +260,8 @@ use App\Http\Controllers\Controller;
  *             allOf={
  *                 @OA\Schema(
  *                     @OA\Property(property="card_number", type="string", example="Some card number for edit"),
+ *                     @OA\Property(property="operation_time_from_start", type="integer", example=2000),
+ *                     @OA\Property(property="operation_time_from_last_repair", type="integer", example=200),
  *                     @OA\Property(property="malfunction_detection_stage_id", type="integer", example=2)
  *                 )
  *             }
@@ -252,6 +274,8 @@ use App\Http\Controllers\Controller;
  *         @OA\JsonContent(
  *             @OA\Property(property="date", type="datetime", example="2024-02-02 01:10:48"),
  *             @OA\Property(property="card_number", type="string", example="Some card number"),
+ *             @OA\Property(property="operation_time_from_start", type="integer", example=2000),
+ *             @OA\Property(property="operation_time_from_last_repair", type="integer", example=200),
  *             @OA\Property(property="malfunction_detection_stage_id", type="integer", example=2),
  *             @OA\Property(property="malfunction_cause_id", type="integer", example=1),
  *             @OA\Property(property="system_id_for_repair", type="integer", example=1),
