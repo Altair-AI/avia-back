@@ -25,6 +25,8 @@ class UpdateCaseRequest extends FormRequest
     {
         return [
             'card_number' => 'required|string|max:255',
+            'operation_time_from_start' => 'nullable|integer',
+            'operation_time_from_last_repair' => 'nullable|integer',
             'malfunction_detection_stage_id' => 'required|integer'
         ];
     }
