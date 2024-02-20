@@ -13,6 +13,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property string $date
  * @property string $card_number
+ * @property int $operation_time_from_start
+ * @property int $operation_time_from_last_repair
  * @property int $malfunction_cause_id
  * @property int $malfunction_detection_stage_id
  * @property int $system_id_for_repair
@@ -36,6 +38,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ECase whereInitialCompletedOperationId($value)
  * @method static Builder|ECase whereMalfunctionCauseId($value)
  * @method static Builder|ECase whereMalfunctionDetectionStageId($value)
+ * @method static Builder|ECase whereOperationTimeFromStart($value)
+ * @method static Builder|ECase whereOperationTimeFromLastRepair($value)
  * @method static Builder|ECase whereSystemIdForRepair($value)
  * @method static Builder|ECase whereUpdatedAt($value)
  * @mixin Builder
@@ -59,6 +63,8 @@ class ECase extends Model
     protected $fillable = [
         'date',
         'card_number',
+        'operation_time_from_start',
+        'operation_time_from_last_repair',
         'malfunction_detection_stage_id',
         'malfunction_cause_id',
         'system_id_for_repair',

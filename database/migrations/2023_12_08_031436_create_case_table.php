@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamp('date');
             $table->string('card_number');
+            $table->integer('operation_time_from_start')->nullable();
+            $table->integer('operation_time_from_last_repair')->nullable();
             $table->integer('malfunction_detection_stage_id')->unsigned();
             $table->foreign('malfunction_detection_stage_id')
                 ->references('id')
