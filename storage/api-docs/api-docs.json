@@ -1793,9 +1793,13 @@
                                                         "type": "integer",
                                                         "example": 1
                                                     },
+                                                    "malfunction_cause_name": {
+                                                        "type": "string",
+                                                        "example": "Some name"
+                                                    },
                                                     "score": {
                                                         "type": "integer",
-                                                        "example": 0
+                                                        "example": 1
                                                     }
                                                 },
                                                 "type": "object"

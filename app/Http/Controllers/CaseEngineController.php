@@ -20,20 +20,13 @@ class CaseEngineController extends Controller
      */
     public function getCases(InitializeCaseEngineRequest $request)
     {
-        // Формирование неуспешного ответа (причины неисправности не найдены)
-        $result['code'] = 0;
-        $result['message'] = "Malfunction causes could not be found.";
-        $result['data'] = [];
-
         // Формирование массива идентификаторов технических систем реального времени, которые доступны технику
         $real_time_technical_system_ids = [];
         $user_tech_sys = RealTimeTechnicalSystemUser::where('user_id', auth()->user()->id)->get();
         foreach ($user_tech_sys as $uts)
             array_push($real_time_technical_system_ids, $uts->real_time_technical_system_id);
-
         // Поиск всех прецедентов для технических систем реального времени, которые доступны технику
         $cases = ECase::whereIn('system_id_for_repair', $real_time_technical_system_ids)->get();
-
         $items = [];
         foreach ($cases as $case) {
             // Поиск всех кодов неисправности для текущего прецедента
@@ -61,13 +54,33 @@ class CaseEngineController extends Controller
 
         // Выполнение поиска прецедентов
         $case_scores = CaseEngine::execute($pattern, $items);
-
-        // Добавление результата в ответ
-        foreach ($case_scores as $case_id => $score) {
+        if ($case_scores) {
             $data = [];
-            $data['id'] = $case_id;
-            $data['score'] = $score;
-            array_push($result['data'], $data);
+            foreach ($case_scores as $case_id => $score)
+                if ($score != 0) {
+                    $case = ECase::find($case_id);
+                    $item = [];
+                    $item['id'] = $case->id;
+                    $item['malfunction_cause_name'] = $case->malfunction_cause->name;
+                    $item['score'] = $score;
+                    array_push($data, $item);
+                }
+            if ($data) {
+                // Формирование ответа (прецеденты найдены и их оценки не нулевые)
+                $result['code'] = 2;
+                $result['message'] = 'Cases have been found.';
+                $result['data'] = $data;
+            } else {
+                // Формирование ответа (прецеденты найдены, но все их оценки нулевые)
+                $result['code'] = 1;
+                $result['message'] = 'All cases have a zero scoring.';
+                $result['data'] = [];
+            }
+        } else {
+            // Формирование ответа (прецеденты не найдены)
+            $result['code'] = 0;
+            $result['message'] = 'No cases have been found.';
+            $result['data'] = [];
         }
 
         return response()->json($result);

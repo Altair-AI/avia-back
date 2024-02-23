@@ -51,7 +51,8 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="message", type="string", example="Some message"),
  *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
- *                 @OA\Property(property="score", type="integer", example=0)
+ *                 @OA\Property(property="malfunction_cause_name", type="string", example="Some name"),
+ *                 @OA\Property(property="score", type="integer", example=1)
  *             ))
  *         )
  *     )
