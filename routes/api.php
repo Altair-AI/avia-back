@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CaseBasedKnowledgeBaseController;
+use App\Http\Controllers\CaseEngineController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\CaseController;
 use App\Http\Controllers\MalfunctionCauseRuleController;
@@ -61,4 +62,5 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/tech/'], function () {
     Route::post('define-malfunction-causes', [RuleEngineController::class, 'defineMalfunctionCauses']);
     Route::post('troubleshooting', [RuleEngineController::class, 'troubleshooting']);
+    Route::post('get-cases', [CaseEngineController::class, 'getCases']);
 });

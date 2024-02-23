@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
  * @OA\Post(
  *     path="/api/v1/tech/define-malfunction-causes",
  *     summary="Определение причин неисправности",
- *     tags={"Машина вывода"},
+ *     tags={"Машина вывода по правилам"},
  *     security={{ "bearerAuth": {} }},
  *     description="Инициализируется, когда пользователь (техник) на странице выбирает (или заполняет поля) коды неисправностей и нажимает на условную кнопку - Определить причины неисправности.",
  *
@@ -77,7 +77,7 @@ use App\Http\Controllers\Controller;
  * @OA\Post(
  *     path="/api/v1/tech/troubleshooting",
  *     summary="Устранение неисправности",
- *     tags={"Машина вывода"},
+ *     tags={"Машина вывода по правилам"},
  *     security={{ "bearerAuth": {} }},
  *     description="Инициализируется, когда пользователь (техник) на странице нажимает условную кнопку - Начать устранять неисправность.",
  *
