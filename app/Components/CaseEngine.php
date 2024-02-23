@@ -35,13 +35,11 @@ class CaseEngine
                         $res = $weight;
                     else
                         $res = ($case1Val / ($case1Val + $res)) * $weight;
-            } else {
-                if (is_string($case1Val))
-                    if ((trim($case1Val) == trim($case2Val)) and (trim($case1Val) != ''))
-                        $res = $weight;
-                    else
-                        $res = 0;
-            }
+            } else
+                if (is_string($case1Val) and trim($case1Val) == trim($case2Val) and trim($case1Val) != '')
+                    $res = $weight;
+                else
+                    $res = 0;
         }
         return $res;
     }
@@ -76,11 +74,11 @@ class CaseEngine
      */
     public static function execute($case0, $cases)
     {
-        $res = array();
+        $res = [];
         $res[0] = self::compare($case0, $case0);
         foreach ($cases as $key => $value)
             $res[$key] = (self::compare($case0, $value)) / $res[0];
-        array_shift($res);
+        unset($res[0]);
         arsort($res);
         return $res;
     }
