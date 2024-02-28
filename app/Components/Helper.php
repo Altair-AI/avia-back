@@ -128,7 +128,7 @@ class Helper
         $completed_parent_operation = CompletedOperation::where('work_session_id', $work_session_id)
             ->where('previous_operation_id', null)
             ->first();
-        $parent_operation = SubOperationResource::make(Operation::find($completed_parent_operation->id))->resolve();
+        $parent_operation = SubOperationResource::make(Operation::find($completed_parent_operation->operation_id))->resolve();
         $parent_operation['status'] = $completed_parent_operation->operation_status;
         $parent_operation['result'] = $completed_parent_operation->operation_result_id ?
             new OperationResultResource($completed_parent_operation->operation_result) : null;
