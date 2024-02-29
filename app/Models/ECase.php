@@ -24,7 +24,10 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read CaseBasedKnowledgeBase $case_based_knowledge_base
  * @property-read CompletedOperation|null $initial_completed_operation
+ * @property-read ExternalMalfunctionSign $external_malfunction_signs
  * @property-read MalfunctionCause $malfunction_cause
+ * @property-read MalfunctionCode $malfunction_codes
+ * @property-read MalfunctionConsequence $malfunction_consequences
  * @property-read MalfunctionDetectionStage $malfunction_detection_stage
  * @property-read RealTimeTechnicalSystem $system_for_repair
  * @method static Builder|ECase newModelQuery()
@@ -112,13 +115,40 @@ class ECase extends Model
         return $this->hasMany(MalfunctionCodeCase::class, 'case_id');
     }
 
+    /**
+     * Получить все коды неисправности, относящиеся к данному прецеденту.
+     */
+    public function malfunction_codes()
+    {
+        return $this->belongsToMany(MalfunctionCode::class, 'malfunction_code_case',
+            'case_id', 'malfunction_code_id');
+    }
+
     public function external_malfunction_sign_cases()
     {
         return $this->hasMany(ExternalMalfunctionSignCase::class, 'case_id');
     }
 
+    /**
+     * Получить все внешние проявления, относящиеся к данному прецеденту.
+     */
+    public function external_malfunction_signs()
+    {
+        return $this->belongsToMany(ExternalMalfunctionSign::class, 'external_malfunction_sign_case',
+            'case_id', 'external_malfunction_sign_id');
+    }
+
     public function malfunction_consequence_cases()
     {
         return $this->hasMany(MalfunctionConsequenceCase::class, 'case_id');
+    }
+
+    /**
+     * Получить все последствия, относящиеся к данному прецеденту.
+     */
+    public function malfunction_consequences()
+    {
+        return $this->belongsToMany(MalfunctionConsequence::class, 'malfunction_consequence_case',
+            'case_id', 'malfunction_consequence_id');
     }
 }
