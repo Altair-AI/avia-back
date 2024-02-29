@@ -93,7 +93,23 @@ use App\Http\Controllers\Controller;
  *             @OA\Property(property="malfunction_cause_id", type="integer", example=1),
  *             @OA\Property(property="system_id_for_repair", type="integer", example=1),
  *             @OA\Property(property="initial_completed_operation_id", type="integer", example=1),
- *             @OA\Property(property="case_based_knowledge_base_id", type="integer", example=1)
+ *             @OA\Property(property="case_based_knowledge_base_id", type="integer", example=1),
+ *             @OA\Property(property="malfunction_code_cases", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="external_malfunction_signs", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name")
+ *             )),
+ *             @OA\Property(property="malfunction_consequences", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name")
+ *             ))
  *         )
  *     )
  * )
