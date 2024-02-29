@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 23.02.2024",
-        "version": "1.3.0"
+        "description": "Дата обновления: 29.02.2024",
+        "version": "1.3.1"
     },
     "paths": {
         "/api/": {},
@@ -1804,6 +1804,118 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tech/create-case": {
+            "post": {
+                "tags": [
+                    "Машина вывода по прецедентам"
+                ],
+                "summary": "Создание нового прецедента",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "date": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2024-02-02"
+                                            },
+                                            "card_number": {
+                                                "type": "string",
+                                                "example": "Some card number"
+                                            },
+                                            "operation_time_from_start": {
+                                                "type": "integer",
+                                                "example": 1000
+                                            },
+                                            "operation_time_from_last_repair": {
+                                                "type": "integer",
+                                                "example": 100
+                                            },
+                                            "malfunction_detection_stage_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "real_time_technical_system_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "work_session_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-02-02 01:10:48"
+                                        },
+                                        "card_number": {
+                                            "type": "string",
+                                            "example": "Some card number"
+                                        },
+                                        "operation_time_from_start": {
+                                            "type": "integer",
+                                            "example": 1000
+                                        },
+                                        "operation_time_from_last_repair": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "malfunction_detection_stage_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "malfunction_cause_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "system_id_for_repair": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "initial_completed_operation_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "case_based_knowledge_base_id": {
+                                            "type": "integer",
+                                            "example": 1
                                         }
                                     },
                                     "type": "object"

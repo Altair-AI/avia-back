@@ -56,6 +56,46 @@ use App\Http\Controllers\Controller;
  *             ))
  *         )
  *     )
+ * ),
+ *
+ * @OA\Post(
+ *     path="/api/v1/tech/create-case",
+ *     summary="Создание нового прецедента",
+ *     tags={"Машина вывода по прецедентам"},
+ *     security={{ "bearerAuth": {} }},
+ *
+ *     @OA\RequestBody(
+ *         @OA\JsonContent(
+ *             allOf={
+ *                 @OA\Schema(
+ *                     @OA\Property(property="date", type="date", example="2024-02-02"),
+ *                     @OA\Property(property="card_number", type="string", example="Some card number"),
+ *                     @OA\Property(property="operation_time_from_start", type="integer", example=1000),
+ *                     @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
+ *                     @OA\Property(property="malfunction_detection_stage_id", type="integer", example=1),
+ *                     @OA\Property(property="real_time_technical_system_id", type="integer", example=1),
+ *                     @OA\Property(property="work_session_id", type="integer", example=1)
+ *                 )
+ *             }
+ *         )
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="date", type="datetime", example="2024-02-02 01:10:48"),
+ *             @OA\Property(property="card_number", type="string", example="Some card number"),
+ *             @OA\Property(property="operation_time_from_start", type="integer", example=1000),
+ *             @OA\Property(property="operation_time_from_last_repair", type="integer", example=100),
+ *             @OA\Property(property="malfunction_detection_stage_id", type="integer", example=1),
+ *             @OA\Property(property="malfunction_cause_id", type="integer", example=1),
+ *             @OA\Property(property="system_id_for_repair", type="integer", example=1),
+ *             @OA\Property(property="initial_completed_operation_id", type="integer", example=1),
+ *             @OA\Property(property="case_based_knowledge_base_id", type="integer", example=1)
+ *         )
+ *     )
  * )
  */
 class CaseEngineController extends Controller
