@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Components\CaseEngine;
 use App\Http\Requests\CaseEngine\InitializeCaseEngineRequest;
+use App\Http\Requests\CaseEngine\StoreCaseEngineRequest;
+use App\Models\CaseBasedKnowledgeBase;
+use App\Models\CompletedOperation;
 use App\Models\ECase;
 use App\Models\MalfunctionCode;
 use App\Models\MalfunctionCodeCase;
+use App\Models\OperationRule;
 use App\Models\RealTimeTechnicalSystemUser;
 use Illuminate\Http\JsonResponse;
 
@@ -84,5 +88,42 @@ class CaseEngineController extends Controller
         }
 
         return response()->json($result);
+    }
+
+    /**
+     * Create a newly case in storage.
+     *
+     * @param StoreCaseEngineRequest $request
+     * @return JsonResponse
+     */
+    public function createCase(StoreCaseEngineRequest $request)
+    {
+        $validated = $request->validated();
+        // Поиск выполненной начальной работы по id рабочей сессии
+        $initial_operation = CompletedOperation::where('work_session_id', $validated['work_session_id'])
+            ->where('previous_operation_id', null)
+            ->first();
+        // Поиск последней выполненной работы по id рабочей сессии
+        $last_operation = CompletedOperation::where('work_session_id', $validated['work_session_id'])
+            ->orderBy('id', 'DESC')
+            ->first();
+        // Поиск правила определения работ по id работы в условии
+        $operation_rule = OperationRule::where('operation_id_if', $last_operation->operation_id)->first();
+        // Поиск базы знаний прецедентов на основе id технической системы реального времени
+        $case_based_knowledge_base = CaseBasedKnowledgeBase::where('real_time_technical_system_id',
+            $validated['real_time_technical_system_id'])->first();
+        // Создание нового прецедента
+        $case = ECase::create([
+            'date' => $validated['date'],
+            'card_number' => $validated['card_number'],
+            'operation_time_from_start' => (int)$validated['operation_time_from_start'],
+            'operation_time_from_last_repair' => (int)$validated['operation_time_from_last_repair'],
+            'malfunction_detection_stage_id' => (int)$validated['malfunction_detection_stage_id'],
+            'malfunction_cause_id' => $operation_rule->malfunction_cause_id,
+            'system_id_for_repair' => (int)$validated['real_time_technical_system_id'],
+            'initial_completed_operation_id' => $initial_operation->operation_id,
+            'case_based_knowledge_base_id' => $case_based_knowledge_base->id
+        ]);
+        return response()->json($case);
     }
 }

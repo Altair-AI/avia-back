@@ -63,4 +63,5 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/tech/
     Route::post('define-malfunction-causes', [RuleEngineController::class, 'defineMalfunctionCauses']);
     Route::post('troubleshooting', [RuleEngineController::class, 'troubleshooting']);
     Route::post('get-cases', [CaseEngineController::class, 'getCases']);
+    Route::post('create-case', [CaseEngineController::class, 'createCase']);
 });
