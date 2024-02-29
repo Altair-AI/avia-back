@@ -8,10 +8,13 @@ use App\Http\Requests\CaseEngine\StoreCaseEngineRequest;
 use App\Models\CaseBasedKnowledgeBase;
 use App\Models\CompletedOperation;
 use App\Models\ECase;
+use App\Models\MalfunctionCauseRuleIf;
+use App\Models\MalfunctionCauseRuleThen;
 use App\Models\MalfunctionCode;
 use App\Models\MalfunctionCodeCase;
 use App\Models\OperationRule;
 use App\Models\RealTimeTechnicalSystemUser;
+use App\Models\WorkSession;
 use Illuminate\Http\JsonResponse;
 
 class CaseEngineController extends Controller
@@ -99,12 +102,14 @@ class CaseEngineController extends Controller
     public function createCase(StoreCaseEngineRequest $request)
     {
         $validated = $request->validated();
+        // Поиск рабочей сессии по id
+        $work_session = WorkSession::find($validated['work_session_id']);
         // Поиск выполненной начальной работы по id рабочей сессии
-        $initial_operation = CompletedOperation::where('work_session_id', $validated['work_session_id'])
+        $initial_operation = CompletedOperation::where('work_session_id', $work_session->id)
             ->where('previous_operation_id', null)
             ->first();
         // Поиск последней выполненной работы по id рабочей сессии
-        $last_operation = CompletedOperation::where('work_session_id', $validated['work_session_id'])
+        $last_operation = CompletedOperation::where('work_session_id', $work_session->id)
             ->orderBy('id', 'DESC')
             ->first();
         // Поиск правила определения работ по id работы в условии
@@ -124,6 +129,19 @@ class CaseEngineController extends Controller
             'initial_completed_operation_id' => $initial_operation->operation_id,
             'case_based_knowledge_base_id' => $case_based_knowledge_base->id
         ]);
-        return response()->json($case);
+        // Создание связи прецедента с кодами неисправности
+        $mcr_if = MalfunctionCauseRuleIf::where('malfunction_cause_rule_id',
+            $work_session->malfunction_cause_rule_id)->get();
+        foreach ($mcr_if as $item)
+            MalfunctionCodeCase::create([
+                'case_id' => $case->id,
+                'malfunction_code_id' => $item->malfunction_code_id
+            ]);
+
+        return response()->json(array_merge($case->toArray(), [
+            'malfunction_code_cases' => $case->malfunction_codes,
+            'external_malfunction_signs' => $case->external_malfunction_signs,
+            'malfunction_consequences' => $case->malfunction_consequences
+        ]));
     }
 }
