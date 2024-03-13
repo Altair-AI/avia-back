@@ -4,12 +4,33 @@ namespace App\Components\CSVDataLoader;
 
 use App\Models\MalfunctionCode;
 use App\Models\Operation;
+use App\Models\OperationMalfunctionCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class MalfunctionCodeLoader
 {
     const FILE_NAME = 'malfunction_codes.csv';
+
+    /**
+     * Create a new connection between malfunction code and operation (if it has not yet been created).
+     *
+     * @param Operation $operation - operation
+     * @param int $malfunction_code_id - malfunction code id
+     */
+    public function create_operation_malfunction_codes(Operation $operation, int $malfunction_code_id)
+    {
+        $operation_malfunction_code = OperationMalfunctionCode::where('operation_id', $operation->id)
+            ->where('malfunction_code_id', $malfunction_code_id)
+            ->first();
+        if (!$operation_malfunction_code)
+            DB::table('operation_malfunction_code')->insert([
+                'operation_id' => $operation->id,
+                'malfunction_code_id' => $malfunction_code_id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+    }
 
     /**
      * Get source data on malfunction codes and store this data in database.
@@ -58,7 +79,9 @@ class MalfunctionCodeLoader
             if ($operation and $emergency_msg != "") {
                 // Поиск кода неисправности
                 $malfunction_code = MalfunctionCode::where('name', $emergency_msg)->first();
-                if (!$malfunction_code) {
+                if ($malfunction_code) {
+                    $malfunction_code_id = $malfunction_code->id;
+                } else
                     // Создание нового признака (кода) неисправности в БД - Аварийно‐сигнальное сообщение
                     $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                         'name' => $emergency_msg,
@@ -69,20 +92,16 @@ class MalfunctionCodeLoader
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    // Создание новой связи признака (кода) неисправности с работой (операцией)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                }
+                // Создание новой связи признака (кода) неисправности с работой (операцией), если она еще не создана
+                self::create_operation_malfunction_codes($operation, $malfunction_code_id);
             }
 
             if ($operation and $bsto_source != "" and $bsto_in != "" and $bsto_description != "") {
                 // Поиск кода неисправности
                 $malfunction_code = MalfunctionCode::where('name', $bsto)->first();
-                if (!$malfunction_code) {
+                if ($malfunction_code) {
+                    $malfunction_code_id = $malfunction_code->id;
+                } else
                     // Создание нового признака (кода) неисправности в БД - Сообщение БСТО
                     $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                         'name' => $bsto,
@@ -93,20 +112,16 @@ class MalfunctionCodeLoader
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    // Создание новой связи признака (кода) неисправности с работой (операцией)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                }
+                // Создание новой связи признака (кода) неисправности с работой (операцией), если она еще не создана
+                self::create_operation_malfunction_codes($operation, $malfunction_code_id);
             }
 
             if ($operation and $sei != "") {
                 // Поиск кода неисправности
                 $malfunction_code = MalfunctionCode::where('name', $sei)->first();
-                if (!$malfunction_code) {
+                if ($malfunction_code) {
+                    $malfunction_code_id = $malfunction_code->id;
+                } else
                     // Создание нового признака (кода) неисправности в БД - Сигнализация СЭИ
                     $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                         'name' => $sei,
@@ -117,20 +132,16 @@ class MalfunctionCodeLoader
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    // Создание новой связи признака (кода) неисправности с работой (операцией)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                }
+                // Создание новой связи признака (кода) неисправности с работой (операцией), если она еще не создана
+                self::create_operation_malfunction_codes($operation, $malfunction_code_id);
             }
 
             if ($operation and $local != "") {
                 // Поиск кода неисправности
                 $malfunction_code = MalfunctionCode::where('name', $local)->first();
-                if (!$malfunction_code) {
+                if ($malfunction_code) {
+                    $malfunction_code_id = $malfunction_code->id;
+                } else
                     // Создание нового признака (кода) неисправности в БД - Локальная сигнализация
                     $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                         'name' => $local,
@@ -141,20 +152,16 @@ class MalfunctionCodeLoader
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    // Создание новой связи признака (кода) неисправности с работой (операцией)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                }
+                // Создание новой связи признака (кода) неисправности с работой (операцией), если она еще не создана
+                self::create_operation_malfunction_codes($operation, $malfunction_code_id);
             }
 
             if ($operation and $observed_faults != "") {
                 // Поиск кода неисправности
                 $malfunction_code = MalfunctionCode::where('name', $observed_faults)->first();
-                if (!$malfunction_code) {
+                if ($malfunction_code) {
+                    $malfunction_code_id = $malfunction_code->id;
+                } else
                     // Создание нового признака (кода) неисправности в БД - Наблюдаемые неисправности
                     $malfunction_code_id = DB::table('malfunction_code')->insertGetId([
                         'name' => $observed_faults,
@@ -165,14 +172,8 @@ class MalfunctionCodeLoader
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    // Создание новой связи признака (кода) неисправности с работой (операцией)
-                    DB::table('operation_malfunction_code')->insert([
-                        'operation_id' => $operation->id,
-                        'malfunction_code_id' => $malfunction_code_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
-                }
+                // Создание новой связи признака (кода) неисправности с работой (операцией), если она еще не создана
+                self::create_operation_malfunction_codes($operation, $malfunction_code_id);
             }
         }
 
