@@ -65,52 +65,58 @@ class RuleEngineController extends Controller
 
             // Правила по указанным кодам неисправности найдены
             if ($confirmation) {
-                // Формирование успешного ответа (причины неисправности найдены)
-                $result['code'] = 2;
-                $result['message'] = "Malfunction causes were found.";
-                $work_session = null;
                 // Поиск действия правила
                 $mcr_then = MalfunctionCauseRuleThen::where('malfunction_cause_rule_id', $rule->id)->first();
-                // Поиск рабочих сессий созданных авторизованным пользователем по правилу определения причин неисправности
-                $work_sessions = WorkSession::where('malfunction_cause_rule_id', $rule->id)
-                    ->where('user_id', auth()->user()->id)->get();
-                foreach ($work_sessions as $workSession)
-                    if ($workSession->status != WorkSession::DONE_RESOLVED_STATUS or
-                        $workSession->status != WorkSession::DONE_NOT_RESOLVED_STATUS)
-                        $work_session = $workSession;
-                if ($result['code'] == 2) {
-                    // Создание новой рабочей сессии для выполнения правил работ, если она не была создана ранее
-                    $work_session = WorkSession::create([
-                        'status' => WorkSession::MALFUNCTION_CAUSE_DETECTED_STATUS,
-                        'stop_time' => Carbon::now(),
-                        'malfunction_cause_rule_id' => $rule->id,
-                        'user_id' => auth()->user()->id
-                    ]);
-                    // Поиск правил определения последовательности работ по контексту
-                    $operation_rules = OperationRule::where('context', $mcr_then->operation->code)->get();
-                    // Поиск начального правила определения последовательности работ по id работы из условия
-                    $operation_rule_id = OperationRule::where('operation_id_if', $mcr_then->operation_id)
-                        ->first()->id;
-                    // Обход найденных правил работ
-                    foreach ($operation_rules as $operation_rule) {
-                        // Создание листа (массива) исходных правил
-                        $operation_rule_list = OperationRuleList::create([
-                            'status' => OperationRuleList::NOT_COMPLETED_STATUS,
-                            'work_session_id' => $work_session->id,
-                            'operation_rule_id' => $operation_rule->id
+                // Поиск правил определения последовательности работ по контексту
+                $operation_rules = OperationRule::where('context', $mcr_then->operation->code)->get();
+                // Поиск начального правила определения последовательности работ по id работы из условия
+                $initial_operation_rule = OperationRule::where('operation_id_if', $mcr_then->operation_id)
+                    ->first();
+                if ($initial_operation_rule) {
+                    // Формирование успешного ответа (причины неисправности найдены)
+                    $result['code'] = 2;
+                    $result['message'] = "Malfunction causes were found.";
+                    $work_session = null;
+                    // Поиск рабочих сессий созданных авторизованным пользователем по правилу определения причин неисправности
+                    $work_sessions = WorkSession::where('malfunction_cause_rule_id', $rule->id)
+                        ->where('user_id', auth()->user()->id)->get();
+                    foreach ($work_sessions as $workSession)
+                        if ($workSession->status != WorkSession::DONE_RESOLVED_STATUS or
+                            $workSession->status != WorkSession::DONE_NOT_RESOLVED_STATUS)
+                            $work_session = $workSession;
+                    if ($result['code'] == 2) {
+                        // Создание новой рабочей сессии для выполнения правил работ, если она не была создана ранее
+                        $work_session = WorkSession::create([
+                            'status' => WorkSession::MALFUNCTION_CAUSE_DETECTED_STATUS,
+                            'stop_time' => Carbon::now(),
+                            'malfunction_cause_rule_id' => $rule->id,
+                            'user_id' => auth()->user()->id
                         ]);
-                        // Создание правила в очереди
-                        if ($operation_rule_id == $operation_rule->id)
-                            ExecutionRuleQueue::create(['operation_rule_list_id' => $operation_rule_list->id]);
+                        // Обход найденных правил работ
+                        foreach ($operation_rules as $operation_rule) {
+                            // Создание листа (массива) исходных правил
+                            $operation_rule_list = OperationRuleList::create([
+                                'status' => OperationRuleList::NOT_COMPLETED_STATUS,
+                                'work_session_id' => $work_session->id,
+                                'operation_rule_id' => $operation_rule->id
+                            ]);
+                            // Создание правила в очереди
+                            if ($initial_operation_rule->id == $operation_rule->id)
+                                ExecutionRuleQueue::create(['operation_rule_list_id' => $operation_rule_list->id]);
+                        }
                     }
+                    // Поиск причин неисправности по работе РУН
+                    $mc_ops = MalfunctionCauseOperation::where('operation_id', $mcr_then->operation_id)->get();
+                    // Добавление данных в ответ
+                    $data['failed_technical_system'] = $mcr_then->technical_system;
+                    $data['malfunction_causes'] = MalfunctionCauseOperationResource::collection($mc_ops);
+                    $data['work_session'] = $work_session;
+                    $result['data'] = $data;
+                } else {
+                    $result['code'] = 3;
+                    $result['message'] = "Malfunction causes were found, but operation rules with the initial operation were not found.";
+                    $result['data'] = [];
                 }
-                // Поиск причин неисправности по работе РУН
-                $mc_ops = MalfunctionCauseOperation::where('operation_id', $mcr_then->operation_id)->get();
-                // Добавление данных в ответ
-                $data['failed_technical_system'] = $mcr_then->technical_system;
-                $data['malfunction_causes'] = MalfunctionCauseOperationResource::collection($mc_ops);
-                $data['work_session'] = $work_session;
-                $result['data'] = $data;
             }
         }
 
