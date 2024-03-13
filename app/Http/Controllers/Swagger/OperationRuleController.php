@@ -5,6 +5,20 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 
 /**
+ * * @OA\Get(
+ *     path="/api/v1/admin/operation-rules/export",
+ *     summary="Экспортировать правила определения последовательности работ (операций) в виде CSV-файла",
+ *     tags={"Правила определения последовательности работ"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора возвращает CSV-файл со всеми правилами определения последовательности работ. Для администратора возвращает CSV-файл только тех правил определения последовательности работ, принадлежащих базе знаний правил, которая доступна в рамках проекта для той организации к которой принадлежит администратор.",
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\MediaType(mediaType="text/csv;charset=UTF-8")
+ *     )
+ * ),
+ *
  * @OA\Get(
  *     path="/api/v1/admin/operation-rules/hierarchy",
  *     summary="Получить иерархию работ с правилами определения последовательности работ (операций)",
