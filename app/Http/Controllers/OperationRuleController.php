@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\CSVDataExporter\OperationRuleExporter;
 use App\Http\Filters\AdditionalOperationRuleFilter;
 use App\Http\Filters\OperationRuleFilter;
 use App\Http\Requests\OperationRule\HierarchyOperationRuleRequest;
@@ -26,6 +27,28 @@ class OperationRuleController extends Controller
     public function __construct()
     {
         $this->authorizeResource(OperationRule::class, 'operation_rule');
+    }
+
+    /**
+     * Export operation rules to csv file.
+     */
+    public function export()
+    {
+        // Формирование списка идентификаторов баз знаний правил доступных пользователю
+        $kb_ids = [];
+        foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
+            foreach ($project->rule_based_knowledge_bases as $knowledge_base)
+                array_push($kb_ids, $knowledge_base->id);
+        // Поиск правил определения работ
+        $operation_rules = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
+            $operation_rules = OperationRule::all();
+        if (auth()->user()->role === User::ADMIN_ROLE)
+            $operation_rules = OperationRule::whereIn('rule_based_knowledge_base_id', $kb_ids)->get();
+        // Экспорт правил определения работ в форме CSV-файла
+        $exporter = new OperationRuleExporter();
+        $data = $exporter->generate($operation_rules);
+        $exporter->export($data);
     }
 
     /**

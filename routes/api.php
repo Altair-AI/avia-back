@@ -40,6 +40,7 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin/'], function () {
     Route::get('malfunction-codes/list', [MalfunctionCodeController::class, 'list']);
+    Route::get('operation-rules/export', [OperationRuleController::class, 'export']);
     Route::get('operation-rules/hierarchy', [OperationRuleController::class, 'hierarchy']);
     Route::apiResource('case-based-knowledge-bases', CaseBasedKnowledgeBaseController::class);
     Route::apiResource('documents', DocumentController::class);
