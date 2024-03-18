@@ -138,6 +138,11 @@ class Helper
         $completed_operations = CompletedOperation::where('work_session_id', $work_session_id)
             ->whereNot('previous_operation_id', null)
             ->get();
+        // Формирование списка id всех выполненных работ (данные id будут выступать в роли id родительских работ)
+        $parent_ids = [];
+        foreach ($completed_operations as $completed_operation)
+            if (!in_array($completed_operation->operation_id, $parent_ids))
+                array_push($parent_ids, $completed_operation->operation_id);
         // Обход всех найденных выполненных работ
         foreach ($completed_operations as $completed_operation) {
             // Поиск и обновление узла выполненной работы в дереве работ
@@ -145,6 +150,7 @@ class Helper
             // Создание нового узла работы в дереве работ
             if (!$exist) {
                 $parents = OperationHierarchy::where('child_operation_id', $completed_operation->operation_id)
+                    ->whereIn('parent_operation_id', $parent_ids)
                     ->get();
                 list($data, $created) = self::create_node($data, $completed_operation, $parents, false);
             }
