@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 
 /**
- * * @OA\Get(
+ * @OA\Get(
  *     path="/api/v1/admin/operation-rules/export",
  *     summary="Экспортировать правила определения последовательности работ (операций) в виде CSV-файла",
  *     tags={"Правила определения последовательности работ"},

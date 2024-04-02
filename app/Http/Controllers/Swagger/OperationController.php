@@ -20,6 +20,20 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Get(
+ *     path="/api/v1/admin/operations/export-sub",
+ *     summary="Экспортировать подработы (подоперации) в виде CSV-файла",
+ *     tags={"Работы (операции)"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора возвращает CSV-файл со всеми подработами (подоперациями). Для администратора возвращает CSV-файл подработ (подопераций), связанных с техническими системами, которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\MediaType(mediaType="text/csv;charset=UTF-8")
+ *     )
+ * ),
+ *
+ * @OA\Get(
  *     path="/api/v1/admin/operations",
  *     summary="Получить список работ",
  *     tags={"Работы (операции)"},
