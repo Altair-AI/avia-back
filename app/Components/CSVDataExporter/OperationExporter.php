@@ -7,7 +7,7 @@ use App\Models\TechnicalSystemOperation;
 
 class OperationExporter extends CSVFileExporter
 {
-    const FILE_NAME = 'operation_export.csv';
+    const FILE_NAME = 'operations_export.csv';
     const CSV_FILE_HEADER = [
         'Имя',
         'Номер работы',
