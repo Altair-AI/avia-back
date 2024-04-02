@@ -48,7 +48,7 @@ class OperationRuleController extends Controller
         // Экспорт правил определения работ в форме CSV-файла
         $exporter = new OperationRuleExporter();
         $data = $exporter->generate($operation_rules);
-        $exporter->export($data);
+        $exporter->export($exporter::FILE_NAME, $data);
     }
 
     /**
