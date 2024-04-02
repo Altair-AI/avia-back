@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\CSVDataExporter\OperationExporter;
+use App\Components\CSVDataExporter\SubOperationExporter;
 use App\Components\Helper;
 use App\Http\Filters\OperationFilter;
 use App\Http\Requests\Operation\IndexOperationRequest;
 use App\Models\Operation;
+use App\Models\Organization;
 use App\Models\TechnicalSystemOperation;
 use App\Models\User;
 use App\Http\Requests\Operation\StoreOperationRequest;
@@ -23,6 +26,56 @@ class OperationController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Operation::class, 'operation');
+    }
+
+    /**
+     * Export main operations to csv file.
+     */
+    public function exportRoot()
+    {
+        // Формирование вложенного массива (иерархии) технических систем доступных администратору
+        $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+        // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
+        $tech_sys_ids = Helper::get_technical_system_ids($technical_systems, []);
+        // Поиск работ
+        $operations = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
+            $operations = Operation::where('type', Operation::BASIC_OPERATION_TYPE)->get();
+        if (auth()->user()->role === User::ADMIN_ROLE)
+            // Получение списка работ (операций) для технических систем доступных администратору
+            $operations = Operation::whereIn('id', TechnicalSystemOperation::select(['operation_id'])
+                ->whereIn('technical_system_id', $tech_sys_ids))
+                ->where('type', Operation::BASIC_OPERATION_TYPE)
+                ->get();
+        // Экспорт правил работ в форме CSV-файла
+        $exporter = new OperationExporter();
+        $data = $exporter->generate($operations);
+        $exporter->export($exporter::FILE_NAME, $data);
+    }
+
+    /**
+     * Export sub-operations to csv file.
+     */
+    public function exportSub()
+    {
+        // Формирование вложенного массива (иерархии) технических систем доступных администратору
+        $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+        // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
+        $tech_sys_ids = Helper::get_technical_system_ids($technical_systems, []);
+        // Поиск работ
+        $operations = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
+            $operations = Operation::where('type', Operation::NESTED_OPERATION_TYPE)->get();
+        if (auth()->user()->role === User::ADMIN_ROLE)
+            // Получение списка работ (операций) для технических систем доступных администратору
+            $operations = Operation::whereIn('id', TechnicalSystemOperation::select(['operation_id'])
+                ->whereIn('technical_system_id', $tech_sys_ids))
+                ->where('type', Operation::NESTED_OPERATION_TYPE)
+                ->get();
+        // Экспорт правил работ в форме CSV-файла
+        $exporter = new SubOperationExporter();
+        $data = $exporter->generate($operations);
+        $exporter->export($exporter::FILE_NAME, $data);
     }
 
     /**

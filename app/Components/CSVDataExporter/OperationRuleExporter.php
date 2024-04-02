@@ -6,7 +6,7 @@ use App\Models\Operation;
 use App\Models\OperationResult;
 use App\Models\OperationRule;
 
-class OperationRuleExporter
+class OperationRuleExporter extends CSVFileExporter
 {
     const FILE_NAME = 'operation_rules_export.csv';
     const CSV_FILE_HEADER = [
@@ -26,25 +26,6 @@ class OperationRuleExporter
         'id причины отказа',
         'id документа'
     ];
-
-    /**
-     * Export data array to csv file.
-     *
-     * @param array $data
-     */
-    public function export(array $data)
-    {
-        $fp = fopen(self::FILE_NAME,'wb');
-        foreach ($data as $row)
-            fwrite($fp, implode(';', $row) . "\r\n");
-        fclose($fp);
-
-        header('Content-type: text/csv');
-        header('Content-Disposition: inline; filename=' . self::FILE_NAME);
-        readfile(self::FILE_NAME);
-
-        exit;
-    }
 
     /**
      * Get data array for one record with operation rule.
