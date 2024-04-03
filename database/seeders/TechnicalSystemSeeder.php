@@ -13,7 +13,7 @@ class TechnicalSystemSeeder extends Seeder
     {
         // Загрузка реальных данных по техническим системам и подсистемам самолета
         $data_loader = new TechnicalSystemLoader();
-        $data_loader->create_technical_systems();
+        $data_loader->createTechnicalSystems();
 
         // Создание тестовой технической системы (альтернативный самолет) и ее подсистем
         $technical_system_id = DB::table('technical_system')->insertGetId([

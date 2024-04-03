@@ -11,6 +11,6 @@ class MalfunctionCodeSeeder extends Seeder
     {
         // Загрузка реальных данных по признакам (кодам) неисправностей
         $data_loader = new MalfunctionCodeLoader();
-        $data_loader->create_malfunction_codes();
+        $data_loader->createMalfunctionCodes();
     }
 }
