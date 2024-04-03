@@ -37,10 +37,10 @@ class RuleBasedKnowledgeBaseSeeder extends Seeder
 
         // Создание правил для базы знаний правил определения причин неисправностей
         $data_loader = new MalfunctionCauseRuleLoader();
-        $data_loader->create_malfunction_cause_rules($knowledge_base_id);
+        $data_loader->createMalfunctionCauseRules($knowledge_base_id);
 
         // Создание правил для базы знаний правил определения последовательности работ (операций)
         $data_loader = new OperationRuleLoader();
-        $data_loader->create_operation_rules($knowledge_base_id);
+        $data_loader->createOperationRules($knowledge_base_id);
     }
 }

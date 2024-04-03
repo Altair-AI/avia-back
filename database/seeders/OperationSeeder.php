@@ -13,10 +13,10 @@ class OperationSeeder extends Seeder
     {
         // Загрузка реальных данных по основным работам (операциям) РУН
         $data_loader = new OperationLoader();
-        $data_loader->create_operations(Document::all()->first()->id);
+        $data_loader->createOperations(Document::all()->first()->id);
 
         // Загрузка реальных данных по под-работам (под-операциям) РУН
         $data_loader = new SubOperationLoader();
-        $data_loader->create_sub_operations();
+        $data_loader->createSubOperations();
     }
 }

@@ -31,7 +31,7 @@ class UpdateOperationRequest extends FormRequest
             'description' => 'nullable|string',
             'document_section' => 'required|string|max:255',
             'document_subsection' => 'required|string|max:255',
-            'start_document_page' => 'required|integer',
+            'start_document_page' => 'nullable|integer',
             'end_document_page' => 'nullable|integer',
             'actual_document_page' => 'nullable|integer',
             'document_id' => 'required|integer'

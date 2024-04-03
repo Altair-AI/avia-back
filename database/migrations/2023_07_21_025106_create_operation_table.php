@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('document_section');
             $table->string('document_subsection');
-            $table->integer('start_document_page');
+            $table->integer('start_document_page')->nullable();
             $table->integer('end_document_page')->nullable();
             $table->integer('actual_document_page')->nullable();
             $table->integer('document_id')->unsigned();
