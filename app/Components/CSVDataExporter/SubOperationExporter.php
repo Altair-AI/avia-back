@@ -6,11 +6,9 @@ use App\Models\ConcreteOperationCondition;
 use App\Models\ConcreteOperationResult;
 use App\Models\MalfunctionCause;
 use App\Models\MalfunctionCauseOperation;
-use App\Models\Operation;
 use App\Models\OperationCondition;
 use App\Models\OperationHierarchy;
 use App\Models\OperationResult;
-use App\Models\TechnicalSystemOperation;
 
 class SubOperationExporter extends CSVFileExporter
 {

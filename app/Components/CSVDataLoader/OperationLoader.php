@@ -18,7 +18,7 @@ class OperationLoader
      * @param int $document_id - id target document
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      */
-    public function add_operation(array $row, int $document_id, bool $encoding = false)
+    public function addOperation(array $row, int $document_id, bool $encoding = false)
     {
         list($name, $operation_code, $section, $subsection, $system_code, $start_page, $end_page, $actual_page) = $row;
         // Создание новой работы (операции) в БД
@@ -30,15 +30,15 @@ class OperationLoader
             'description' => null,
             'document_section' => $section,
             'document_subsection' => $subsection,
-            'start_document_page' => $start_page != "" ? $start_page : null,
-            'end_document_page' => $end_page != "" ? $end_page : null,
-            'actual_document_page' => $actual_page != "" ? $actual_page : null,
+            'start_document_page' => $start_page != '' ? $start_page : null,
+            'end_document_page' => $end_page != '' ? $end_page : null,
+            'actual_document_page' => $actual_page != '' ? $actual_page : null,
             'document_id' => $document_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         // Создание новой связи работы (операции) с техническими системами в БД
-        if ($system_code != "")
+        if ($system_code != '')
             foreach (TechnicalSystem::where('code', $system_code)->get() as $technical_system)
                 DB::table('technical_system_operation')->insert([
                     'operation_id' => $operation_id,
@@ -54,7 +54,7 @@ class OperationLoader
      * @param int $document_id - id target document
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      */
-    public function create_operations(int $document_id, bool $encoding = false)
+    public function createOperations(int $document_id, bool $encoding = false)
     {
         // Пусть к csv-файлу с работами (операциями)
         $file = resource_path() . '/csv/' . self::FILE_NAME;
@@ -66,6 +66,6 @@ class OperationLoader
         while (($row = fgetcsv($fh, 0, ',')) !== false)
             // Игнорирование пустых строк и строк начинающихся с комментария
             if (array(null) !== $row and array_filter($row) and strncmp($row[0], '/*', 2) !== 0)
-                self::add_operation($row, $document_id, $encoding);
+                self::addOperation($row, $document_id, $encoding);
     }
 }

@@ -20,7 +20,7 @@ class SubOperationLoader
      * @param string $code
      * @return string|string[]
      */
-    public function normalize_operation_code(string $code)
+    public function normalizeOperationCode(string $code)
     {
         $cyr = ['А', 'В', 'Е'];
         $lat = ['A', 'B', 'E'];
@@ -33,10 +33,10 @@ class SubOperationLoader
      * @param string $result - operation results in the form of source string
      * @param int $operation_id - id operation
      */
-    public function create_operation_results(string $result, int $operation_id)
+    public function createOperationResults(string $result, int $operation_id)
     {
         // Получение строковых значений с результатами
-        $result_names = explode(" / ", $result);
+        $result_names = explode(' / ', $result);
         // Обход результатов
         foreach ($result_names as $result_name) {
             // Поиск результата работы (операции)
@@ -66,7 +66,7 @@ class SubOperationLoader
      * @param string $condition - operation condition in the form of source string
      * @param int $operation_id - id operation
      */
-    public function create_operation_conditions(string $condition, int $operation_id)
+    public function createOperationConditions(string $condition, int $operation_id)
     {
         // Поиск условия работы (операции)
         $operation_condition = OperationCondition::where('name', $condition)->first();
@@ -95,7 +95,7 @@ class SubOperationLoader
      * @param int $parent_operation_id - id parent operation
      * @param int $child_operation_id - id child operation
      */
-    public function create_operation_malfunction_causes(string $cause, int $parent_operation_id, int $child_operation_id)
+    public function createOperationMalfunctionCauses(string $cause, int $parent_operation_id, int $child_operation_id)
     {
         // Поиск причины неисправности
         $malfunction_cause = MalfunctionCause::where('name', $cause)->first();
@@ -148,16 +148,14 @@ class SubOperationLoader
      * @param array $row - row with data
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      */
-    public function add_sub_operation(array $row, bool $encoding = false)
+    public function addSubOperation(array $row, bool $encoding = false)
     {
-        error_reporting(0);
         list($child_operation_code, $designation, $imperative_name, $parent_operation_code, $verbal_name,
             $sequence_number, $result, $condition, $cause) = $row;
-
-        if ($child_operation_code != "" and $parent_operation_code != "") {
+        if ($child_operation_code != '' and $parent_operation_code != '') {
             $operation_id = null;
             // Поиск родительской работы по коду
-            $parent_operation = Operation::where('code', self::normalize_operation_code($parent_operation_code))
+            $parent_operation = Operation::where('code', self::normalizeOperationCode($parent_operation_code))
                 ->first();
             // Поиск дочерней работы по коду
             $child_operation = Operation::where('code', $child_operation_code)->first();
@@ -167,7 +165,7 @@ class SubOperationLoader
                     $child_operation_code;
                 // Создание новой подработы (подоперации) в БД
                 $operation_id = DB::table('operation')->insertGetId([
-                    'code' => self::normalize_operation_code($code),
+                    'code' => self::normalizeOperationCode($code),
                     'type' => Operation::NESTED_OPERATION_TYPE,
                     'imperative_name' => $encoding ? mb_convert_encoding($imperative_name, 'utf-8', 'windows-1251') :
                         $imperative_name,
@@ -203,7 +201,7 @@ class SubOperationLoader
                 DB::table('operation_hierarchy')->insert([
                     'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
                         $designation,
-                    'sequence_number' => $sequence != "" ? $sequence : null,
+                    'sequence_number' => $sequence != '' ? $sequence : null,
                     'parent_operation_id' => $parent_operation->id,
                     'child_operation_id' => $operation_id,
                     'created_at' => Carbon::now(),
@@ -213,19 +211,19 @@ class SubOperationLoader
                 // Создание результатов работ (операций)
                 if ($result != '') {
                     $result_name =  $encoding ? mb_convert_encoding($result, 'utf-8', 'windows-1251') : $result;
-                    self::create_operation_results($result_name, $operation_id);
+                    self::createOperationResults($result_name, $operation_id);
                 }
 
                 // Создание условий выполнения для работ (операций)
                 if ($condition != '') {
                     $cond_name =  $encoding ? mb_convert_encoding($condition, 'utf-8', 'windows-1251') : $condition;
-                    self::create_operation_conditions($cond_name, $operation_id);
+                    self::createOperationConditions($cond_name, $operation_id);
                 }
 
                 // Создание причин неисправности для работ (операций)
                 if ($cause != '') {
                     $cause_name =  $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause;
-                    self::create_operation_malfunction_causes($cause_name, $parent_operation->id, $operation_id);
+                    self::createOperationMalfunctionCauses($cause_name, $parent_operation->id, $operation_id);
                 }
             }
         }
@@ -236,7 +234,7 @@ class SubOperationLoader
      *
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
      */
-    public function create_sub_operations(bool $encoding = false)
+    public function createSubOperations(bool $encoding = false)
     {
         // Пусть к csv-файлу с подработами (подоперациями)
         $file = resource_path() . '/csv/' . self::FILE_NAME;
@@ -248,6 +246,6 @@ class SubOperationLoader
         while (($row = fgetcsv($fh, 0, ',')) !== false)
             // Игнорирование пустых строк и строк начинающихся с комментария
             if (array(null) !== $row and array_filter($row) and strncmp($row[0], '/*', 2) !== 0)
-                self::add_sub_operation($row, $encoding);
+                self::addSubOperation($row, $encoding);
     }
 }
