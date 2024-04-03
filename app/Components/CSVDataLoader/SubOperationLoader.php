@@ -150,6 +150,7 @@ class SubOperationLoader
      */
     public function addSubOperation(array $row, bool $encoding = false)
     {
+        error_reporting(0); // TODO: fix me
         list($child_operation_code, $designation, $imperative_name, $parent_operation_code, $verbal_name,
             $sequence_number, $result, $condition, $cause) = $row;
         if ($child_operation_code != '' and $parent_operation_code != '') {
