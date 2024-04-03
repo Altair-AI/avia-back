@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $description
  * @property string $document_section
  * @property string $document_subsection
- * @property int $start_document_page
+ * @property int|null $start_document_page
  * @property int|null $end_document_page
  * @property int|null $actual_document_page
  * @property int $document_id
