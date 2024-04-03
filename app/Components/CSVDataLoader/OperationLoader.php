@@ -59,7 +59,7 @@ class OperationLoader
         // Пусть к csv-файлу с работами (операциями)
         $file = resource_path() . '/csv/' . self::FILE_NAME;
         // Открываем файл с CSV-данными
-        $fh = fopen($file, "r");
+        $fh = fopen($file, 'r');
         // Делаем пропуск первой строки, смещая указатель на одну строку
         fgetcsv($fh, 0, ',');
         // Читаем построчно содержимое CSV-файла

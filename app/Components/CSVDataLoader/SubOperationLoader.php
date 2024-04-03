@@ -15,6 +15,19 @@ class SubOperationLoader
     const FILE_NAME = 'suboperations.csv';
 
     /**
+     * Get normalized operation code.
+     *
+     * @param string $code
+     * @return string|string[]
+     */
+    public function normalize_operation_code(string $code)
+    {
+        $cyr = ['А', 'В', 'Е'];
+        $lat = ['A', 'B', 'E'];
+        return str_replace($lat, $cyr, $code);
+    }
+
+    /**
      * Create new operation results in database.
      *
      * @param string $result - operation results in the form of source string
@@ -130,103 +143,111 @@ class SubOperationLoader
     }
 
     /**
-     * Get source data on sub-operations and store this data in database.
+     * Add new sub-operation to database.
      *
+     * @param array $row - row with data
      * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
-     * @return array|false|string|string[]|null
      */
-    public function create_sub_operations(bool $encoding = false)
+    public function add_sub_operation(array $row, bool $encoding = false)
     {
-        $sub_operations = [];
-        // Пусть к csv-файлу с подработами (подоперациями)
-        $file = resource_path() . '/csv/' . self::FILE_NAME;
-        // Открываем файл с CSV-данными
-        $fh = fopen($file, "r");
-        // Делаем пропуск первой строки, смещая указатель на одну строку
-        fgetcsv($fh, 0, ';');
+        error_reporting(0);
+        list($child_operation_code, $designation, $imperative_name, $parent_operation_code, $verbal_name,
+            $sequence_number, $result, $condition, $cause) = $row;
 
-        // Читаем построчно содержимое CSV-файла
-        while (($row = fgetcsv($fh, 0, ';')) !== false) {
-            list($child_operation_code, $designation, $imperative_name, $parent_operation_code, $verbal_name,
-                $sequence_number, $result, $condition, $cause) = $row;
-            array_push($sub_operations, [$child_operation_code, $designation, $imperative_name,
-                $parent_operation_code, $verbal_name, $sequence_number, $result, $condition, $cause]);
-
-            if ($child_operation_code != "" and $parent_operation_code != "") {
-                $operation_id = null;
-                // Поиск родительской работы по коду
-                $parent_operation = Operation::where('code', $parent_operation_code)->first();
-                // Поиск дочерней работы по коду
-                $child_operation = Operation::where('code', $child_operation_code)->first();
-                // Если родительская работа с таким кодом есть в БД, а дочерней работы нет
-                if ($parent_operation and !$child_operation) {
-                    // Создание новой подработы (подоперации) в БД
-                    $operation_id = DB::table('operation')->insertGetId([
-                        'code' => $encoding ? mb_convert_encoding($child_operation_code, 'utf-8', 'windows-1251') :
-                            $child_operation_code,
-                        'type' => Operation::NESTED_OPERATION_TYPE,
-                        'imperative_name' => $encoding ? mb_convert_encoding($imperative_name, 'utf-8', 'windows-1251') :
-                            $imperative_name,
-                        'verbal_name' => $encoding ? mb_convert_encoding($verbal_name, 'utf-8', 'windows-1251') :
-                            $verbal_name,
-                        'description' => null,
-                        'document_section' => $parent_operation->document_section,
-                        'document_subsection' => $parent_operation->document_subsection,
-                        'start_document_page' => $parent_operation->start_document_page,
-                        'end_document_page' => $parent_operation->end_document_page,
-                        'actual_document_page' => $parent_operation->actual_document_page,
-                        'document_id' => $parent_operation->document_id,
+        if ($child_operation_code != "" and $parent_operation_code != "") {
+            $operation_id = null;
+            // Поиск родительской работы по коду
+            $parent_operation = Operation::where('code', self::normalize_operation_code($parent_operation_code))
+                ->first();
+            // Поиск дочерней работы по коду
+            $child_operation = Operation::where('code', $child_operation_code)->first();
+            // Если родительская работа с таким кодом есть в БД, а дочерней работы нет
+            if ($parent_operation and !$child_operation) {
+                $code = $encoding ? mb_convert_encoding($child_operation_code, 'utf-8', 'windows-1251') :
+                    $child_operation_code;
+                // Создание новой подработы (подоперации) в БД
+                $operation_id = DB::table('operation')->insertGetId([
+                    'code' => self::normalize_operation_code($code),
+                    'type' => Operation::NESTED_OPERATION_TYPE,
+                    'imperative_name' => $encoding ? mb_convert_encoding($imperative_name, 'utf-8', 'windows-1251') :
+                        $imperative_name,
+                    'verbal_name' => $encoding ? mb_convert_encoding($verbal_name, 'utf-8', 'windows-1251') :
+                        $verbal_name,
+                    'description' => null,
+                    'document_section' => $parent_operation->document_section,
+                    'document_subsection' => $parent_operation->document_subsection,
+                    'start_document_page' => $parent_operation->start_document_page,
+                    'end_document_page' => $parent_operation->end_document_page,
+                    'actual_document_page' => $parent_operation->actual_document_page,
+                    'document_id' => $parent_operation->document_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                // Создание новой связи подработы (подоперации) с техническими системами в БД
+                foreach ($parent_operation->technical_systems as $technical_system)
+                    DB::table('technical_system_operation')->insert([
+                        'operation_id' => $operation_id,
+                        'technical_system_id' => $technical_system->id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now(),
                     ]);
-                    // Создание новой связи подработы (подоперации) с техническими системами в БД
-                    foreach ($parent_operation->technical_systems as $technical_system)
-                        DB::table('technical_system_operation')->insert([
-                            'operation_id' => $operation_id,
-                            'technical_system_id' => $technical_system->id,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
+            }
+
+            // Если дочерняя работа уже была добавлена в БД ранее, то запоминаем ее id
+            if ($child_operation)
+                $operation_id = $child_operation->id;
+            if ($parent_operation and $operation_id) {
+                $sequence = $encoding ? mb_convert_encoding($sequence_number, 'utf-8', 'windows-1251') :
+                    $sequence_number;
+                // Создание новой связи родительской и дочерней работы (подоперации) в БД
+                DB::table('operation_hierarchy')->insert([
+                    'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
+                        $designation,
+                    'sequence_number' => $sequence != "" ? $sequence : null,
+                    'parent_operation_id' => $parent_operation->id,
+                    'child_operation_id' => $operation_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+
+                // Создание результатов работ (операций)
+                if ($result != '') {
+                    $result_name =  $encoding ? mb_convert_encoding($result, 'utf-8', 'windows-1251') : $result;
+                    self::create_operation_results($result_name, $operation_id);
                 }
 
-                // Если дочерняя работа уже была добавлена в БД ранее, то запоминаем ее id
-                if ($child_operation)
-                    $operation_id = $child_operation->id;
-                if ($parent_operation and $operation_id) {
-                    $sequence = $encoding ? mb_convert_encoding($sequence_number, 'utf-8', 'windows-1251') :
-                        $sequence_number;
-                    // Создание новой связи родительской и дочерней работы (подоперации) в БД
-                    DB::table('operation_hierarchy')->insert([
-                        'designation' => $encoding ? mb_convert_encoding($designation, 'utf-8', 'windows-1251') :
-                            $designation,
-                        'sequence_number' => $sequence != "" ? $sequence : null,
-                        'parent_operation_id' => $parent_operation->id,
-                        'child_operation_id' => $operation_id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ]);
+                // Создание условий выполнения для работ (операций)
+                if ($condition != '') {
+                    $cond_name =  $encoding ? mb_convert_encoding($condition, 'utf-8', 'windows-1251') : $condition;
+                    self::create_operation_conditions($cond_name, $operation_id);
+                }
 
-                    // Создание результатов работ (операций)
-                    if ($result != "") {
-                        $result_name =  $encoding ? mb_convert_encoding($result, 'utf-8', 'windows-1251') : $result;
-                        self::create_operation_results($result_name, $operation_id);
-                    }
-
-                    // Создание условий выполнения для работ (операций)
-                    if ($condition != "") {
-                        $cond_name =  $encoding ? mb_convert_encoding($condition, 'utf-8', 'windows-1251') : $condition;
-                        self::create_operation_conditions($cond_name, $operation_id);
-                    }
-
-                    // Создание причин неисправности для работ (операций)
-                    if ($cause != "") {
-                        $cause_name =  $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause;
-                        self::create_operation_malfunction_causes($cause_name, $parent_operation->id, $operation_id);
-                    }
+                // Создание причин неисправности для работ (операций)
+                if ($cause != '') {
+                    $cause_name =  $encoding ? mb_convert_encoding($cause, 'utf-8', 'windows-1251') : $cause;
+                    self::create_operation_malfunction_causes($cause_name, $parent_operation->id, $operation_id);
                 }
             }
         }
+    }
 
-        return $encoding ? mb_convert_encoding($sub_operations, 'utf-8', 'windows-1251') : $sub_operations;
+    /**
+     * Get source data on sub-operations and store this data in database.
+     *
+     * @param bool $encoding - flag to include or exclude encoding conversion from windows-1251 to utf-8
+     */
+    public function create_sub_operations(bool $encoding = false)
+    {
+        // Пусть к csv-файлу с подработами (подоперациями)
+        $file = resource_path() . '/csv/' . self::FILE_NAME;
+        // Открываем файл с CSV-данными
+        $fh = fopen($file, 'r');
+        // Делаем пропуск первой строки, смещая указатель на одну строку
+        fgetcsv($fh, 0, ',');
+        // Читаем построчно содержимое CSV-файла
+        while (($row = fgetcsv($fh, 0, ',')) !== false)
+            // Игнорирование пустых строк и строк начинающихся с комментария
+            if (array(null) !== $row and array_filter($row) and strncmp($row[0], '/*', 2) !== 0)
+                self::add_sub_operation($row, $encoding);
     }
 }
