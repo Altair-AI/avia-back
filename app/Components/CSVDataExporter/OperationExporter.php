@@ -35,8 +35,8 @@ class OperationExporter extends CSVFileExporter
         array_push($row, $operation->document_section);
         array_push($row, $operation->document_subsection);
 
-        $technical_system_operation = TechnicalSystemOperation::where('operation_id', $operation->id)->first();
-        array_push($row, $technical_system_operation->technical_system->code);
+        $tech_sys_operation = TechnicalSystemOperation::where('operation_id', $operation->id)->first();
+        array_push($row, $tech_sys_operation ? $tech_sys_operation->technical_system->code : null);
 
         array_push($row, $operation->start_document_page);
         array_push($row, $operation->end_document_page);
