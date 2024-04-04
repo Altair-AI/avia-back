@@ -135,9 +135,7 @@ class Helper
             new OperationResultResource($completed_parent_operation->operation_result) : null;
         $data = [$parent_operation];
         // Поиск всех выполненных работ в БД, кроме начальной работы РУН
-        $completed_operations = CompletedOperation::where('work_session_id', $work_session_id)
-            ->whereNot('previous_operation_id', null)
-            ->get();
+        $completed_operations = CompletedOperation::where('work_session_id', $work_session_id)->get();
         // Формирование списка id всех выполненных работ (данные id будут выступать в роли id родительских работ)
         $parent_ids = [];
         foreach ($completed_operations as $completed_operation)
