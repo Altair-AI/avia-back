@@ -123,9 +123,9 @@ class OperationRuleLoader
         // Открываем файл с CSV-данными
         $fh = fopen($file, 'r');
         // Делаем пропуск первой строки, смещая указатель на одну строку
-        fgetcsv($fh, 0, ';');
+        fgetcsv($fh, 0, ',');
         // Читаем построчно содержимое CSV-файла
-        while (($row = fgetcsv($fh, 0, ';')) !== false)
+        while (($row = fgetcsv($fh, 0, ',')) !== false)
             self::addOperationRule($row, $knowledge_base_id, $encoding);
     }
 }
