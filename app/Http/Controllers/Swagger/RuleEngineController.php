@@ -119,6 +119,7 @@ use App\Http\Controllers\Controller;
  *                 )),
  *                 @OA\Property(property="completed_operations", type="array", @OA\Items(
  *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="code", type="string", example="Some code"),
  *                     @OA\Property(property="name", type="string", example="Some name"),
  *                     @OA\Property(property="status", type="integer", example=2),
  *                     @OA\Property(property="result",

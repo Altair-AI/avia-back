@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property mixed id
+ * @property mixed code
  * @property mixed verbal_name
  * @property mixed imperative_name
  * @property mixed operations
@@ -23,6 +24,7 @@ class SubOperationResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'code' => $this->code,
             'name' => $this->imperative_name != "" ? $this->imperative_name : $this->verbal_name,
             'status' => null,
             'result' => null,
