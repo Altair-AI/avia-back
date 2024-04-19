@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class HierarchyOperationRuleRequest extends FormRequest
+class ListOperationRuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class HierarchyOperationRuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'parent_operation_id' => 'integer'
+            'malfunction_system_id' => 'integer'
         ];
     }
 }

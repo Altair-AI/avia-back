@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Components\CSVDataExporter\OperationRuleExporter;
-use App\Http\Filters\AdditionalOperationRuleFilter;
 use App\Http\Filters\OperationRuleFilter;
 use App\Http\Requests\OperationRule\HierarchyOperationRuleRequest;
 use App\Http\Requests\OperationRule\IndexOperationRuleRequest;
+use App\Http\Requests\OperationRule\ListOperationRuleRequest;
 use App\Http\Requests\OperationRule\StoreOperationRuleRequest;
 use App\Http\Requests\OperationRule\UpdateOperationRuleRequest;
+use App\Http\Resources\Operation\MainOperationResource;
 use App\Http\Resources\Operation\OperationHierarchyResource;
 use App\Models\Operation;
+use App\Models\OperationHierarchy;
 use App\Models\OperationRule;
 use App\Models\Organization;
+use App\Models\TechnicalSystemOperation;
 use App\Models\User;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\JsonResponse;
@@ -52,64 +55,118 @@ class OperationRuleController extends Controller
     }
 
     /**
+     * Display a listing of main operations for technical system.
+     *
+     * @param ListOperationRuleRequest $request
+     * @return JsonResponse
+     */
+    public function getMainOperations(ListOperationRuleRequest $request)
+    {
+        $validated = $request->validated();
+        $pageSize = 10;
+        if (isset($request['pageSize']))
+            $pageSize = $request['pageSize'];
+        // Получение списка работ (операций) верхнего уровния (РУН) для выбранной технической системы
+        $operations = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE)
+            $operations = Operation::whereIn('id', TechnicalSystemOperation::select(['operation_id'])
+                ->where('technical_system_id', $validated))
+                ->where('type', Operation::BASIC_OPERATION_TYPE)
+                ->paginate($pageSize);
+        // Формирование выходных данных
+        $result['data'] = MainOperationResource::collection($operations);
+        $result['page_current'] = !is_array($operations) ? $operations->currentPage() : null;
+        $result['page_total'] = !is_array($operations) ? $operations->lastPage() : null;
+        $result['page_size'] = !is_array($operations) ? $operations->perPage() : null;
+        return response()->json($result);
+    }
+
+    /**
      * Display a hierarchy listing of the resource.
      *
      * @param HierarchyOperationRuleRequest $request
      * @return JsonResponse
-     * @throws BindingResolutionException
      */
     public function hierarchy(HierarchyOperationRuleRequest $request)
     {
         $validated = $request->validated();
-        $filter = app()->make(AdditionalOperationRuleFilter::class, [
-            'queryParams' => array_filter($validated, 'strlen')
-        ]);
-
-        // Получение списка работ (операций) верхнего уровния (РУН)
         $operations = [];
-        if (auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE)
-            $operations = Operation::select('id')
-                ->where('type', Operation::BASIC_OPERATION_TYPE)
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE) {
+            // Получение списка подработ (подопераций) для работы верхнего уровния (РУН)
+            $operations = Operation::whereIn('id', OperationHierarchy::select(['child_operation_id'])
+                ->where('parent_operation_id', $validated))
                 ->get();
-
-        $result = [];
-        $operation_rules = [];
-        if (auth()->user()->role === User::SUPER_ADMIN_ROLE) {
-            // Поиск правила определения работ и добавление его в общий список
-            foreach ($operations as $operation) {
-                $operation_rule = OperationRule::filter($filter)->where('operation_id_if', $operation->id)->first();
-                if ($operation_rule)
-                    array_push($operation_rules, $operation_rule);
-            }
         }
-        if (auth()->user()->role === User::ADMIN_ROLE) {
-            // Формирование списка идентификаторов баз знаний правил доступных администратору
-            $kb_ids = [];
-            foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
-                foreach ($project->rule_based_knowledge_bases as $knowledge_base)
-                    array_push($kb_ids, $knowledge_base->id);
-            // Поиск правила определения работ и добавление его в общий список
-            foreach ($operations as $operation) {
-                // Получение списка правил доступных администратору
-                $operation_rule = OperationRule::filter($filter)->whereIn('rule_based_knowledge_base_id', $kb_ids)
-                    ->where('operation_id_if', $operation->id)->first();
-                if ($operation_rule)
-                    array_push($operation_rules, $operation_rule);
-            }
-        }
-
         // Формирование выходных данных
-        $data = [];
-        foreach ($operation_rules as $operation_rule) {
-            $operation = Operation::where('id', $operation_rule->operation_id_if)
-                ->with('operation_rules')
-                ->with('hierarchy_operations')
-                ->first();
-            array_push($data, new OperationHierarchyResource($operation));
+        $result = [];
+        foreach ($operations as $operation) {
+            // Добавление дополнительного поля с id работы РУН
+            $operation->extra = (object) $validated;
+            array_push($result, new OperationHierarchyResource($operation));
         }
-        $result['hierarchy_operations'] = $data;
         return response()->json($result);
     }
+
+    // TODO: Удалить закомментированный метод после проверки новой функциональности.
+//    /**
+//     * Display a hierarchy listing of the resource.
+//     *
+//     * @param HierarchyOperationRuleRequest $request
+//     * @return JsonResponse
+//     * @throws BindingResolutionException
+//     */
+//    public function hierarchy(HierarchyOperationRuleRequest $request)
+//    {
+//        $validated = $request->validated();
+//        $filter = app()->make(AdditionalOperationRuleFilter::class, [
+//            'queryParams' => array_filter($validated, 'strlen')
+//        ]);
+//
+//        // Получение списка работ (операций) верхнего уровния (РУН)
+//        $operations = [];
+//        if (auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE)
+//            $operations = Operation::select('id')
+//                ->where('type', Operation::BASIC_OPERATION_TYPE)
+//                ->get();
+//
+//        $result = [];
+//        $operation_rules = [];
+//        if (auth()->user()->role === User::SUPER_ADMIN_ROLE) {
+//            // Поиск правила определения работ и добавление его в общий список
+//            foreach ($operations as $operation) {
+//                $operation_rule = OperationRule::filter($filter)->where('operation_id_if', $operation->id)->first();
+//                if ($operation_rule)
+//                    array_push($operation_rules, $operation_rule);
+//            }
+//        }
+//        if (auth()->user()->role === User::ADMIN_ROLE) {
+//            // Формирование списка идентификаторов баз знаний правил доступных администратору
+//            $kb_ids = [];
+//            foreach (Organization::find(auth()->user()->organization->id)->projects as $project)
+//                foreach ($project->rule_based_knowledge_bases as $knowledge_base)
+//                    array_push($kb_ids, $knowledge_base->id);
+//            // Поиск правила определения работ и добавление его в общий список
+//            foreach ($operations as $operation) {
+//                // Получение списка правил доступных администратору
+//                $operation_rule = OperationRule::filter($filter)->whereIn('rule_based_knowledge_base_id', $kb_ids)
+//                    ->where('operation_id_if', $operation->id)->first();
+//                if ($operation_rule)
+//                    array_push($operation_rules, $operation_rule);
+//            }
+//        }
+//
+//        // Формирование выходных данных
+//        $data = [];
+//        foreach ($operation_rules as $operation_rule) {
+//            $operation = Operation::where('id', $operation_rule->operation_id_if)
+//                ->with('operation_rules')
+//                ->with('hierarchy_operations')
+//                ->first();
+//            array_push($data, new OperationHierarchyResource($operation));
+//        }
+//        $result['hierarchy_operations'] = $data;
+//        return response()->json($result);
+//    }
 
     /**
      * Display a listing of the resource.

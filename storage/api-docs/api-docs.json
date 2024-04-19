@@ -2,8 +2,8 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Avia-back API",
-        "description": "Дата обновления: 02.04.2024",
-        "version": "1.3.3"
+        "description": "Дата обновления: 18.04.2024",
+        "version": "1.3.4"
     },
     "paths": {
         "/api/": {},
@@ -4941,13 +4941,13 @@
                 ]
             }
         },
-        "/api/v1/admin/operation-rules/hierarchy": {
+        "/api/v1/admin/operation-rules/get-main-operations": {
             "get": {
                 "tags": [
                     "Правила определения последовательности работ"
                 ],
-                "summary": "Получить иерархию работ с правилами определения последовательности работ (операций)",
-                "description": "Для супер-администратора возвращает иерархию правил определения последовательности работ. Для администратора возвращает иерархию только тех правил определения последовательности работ, принадлежащих базе знаний правил, которая доступна в рамках проекта для той организации к которой принадлежит администратор. Список может быть отфильтрован только по параметру id отказавшей технической системы.",
+                "summary": "Получить список основных операий (работ РУН) для определенной технической системы",
+                "description": "Для супер-администратора и администратора возвращает список основных операий (работ РУН) для определенной отказавшей технической системы или объекта.",
                 "parameters": [
                     {
                         "name": "malfunction_system_id",
@@ -4963,7 +4963,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "hierarchy_operations": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
@@ -4975,41 +4975,117 @@
                                                         "type": "string",
                                                         "example": "Some code"
                                                     },
-                                                    "verbal_name": {
+                                                    "name": {
                                                         "type": "string",
-                                                        "example": "Some verbal name"
-                                                    },
-                                                    "imperative_name": {
-                                                        "type": "string",
-                                                        "example": "Some imperative name"
-                                                    },
-                                                    "operation_rules": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "properties": {
-                                                                "id": {
-                                                                    "type": "integer",
-                                                                    "example": 1
-                                                                },
-                                                                "operation_if": {
-                                                                    "type": "string",
-                                                                    "example": "Some operation name from condition (if)"
-                                                                },
-                                                                "operation_then": {
-                                                                    "type": "string",
-                                                                    "example": "Some operation name from action (then)"
-                                                                }
-                                                            },
-                                                            "type": "object"
-                                                        }
-                                                    },
-                                                    "hierarchy_operations": {
-                                                        "type": "array",
-                                                        "items": {}
+                                                        "example": "Some name"
                                                     }
                                                 },
                                                 "type": "object"
                                             }
+                                        },
+                                        "page_current": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "page_total": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "page_size": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/operation-rules/hierarchy": {
+            "get": {
+                "tags": [
+                    "Правила определения последовательности работ"
+                ],
+                "summary": "Получить иерархию подработ с правилами определения последовательности работ (операций)",
+                "description": "Для супер-администратора и администратора возвращает полную иерархию подработ с соответствующими правилами определения последовательности работ. При этом необходимо задать параметр - id основной работы РУН",
+                "parameters": [
+                    {
+                        "name": "parent_operation_id",
+                        "in": "query",
+                        "description": "id работы РУН",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "code": {
+                                            "type": "string",
+                                            "example": "Some code"
+                                        },
+                                        "verbal_name": {
+                                            "type": "string",
+                                            "example": "Some verbal name"
+                                        },
+                                        "imperative_name": {
+                                            "type": "string",
+                                            "example": "Some imperative name"
+                                        },
+                                        "operation_rules": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "operation_if": {
+                                                        "type": "string",
+                                                        "example": "Some operation name from condition (if)"
+                                                    },
+                                                    "operation_status_if": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "operation_result_if": {
+                                                        "type": "string",
+                                                        "example": "Some operation result name from condition (if)"
+                                                    },
+                                                    "operation_then": {
+                                                        "type": "string",
+                                                        "example": "Some operation name from action (then)"
+                                                    },
+                                                    "operation_status_then": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "operation_result_then": {
+                                                        "type": "string",
+                                                        "example": "Some operation result name from action (then)"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "hierarchy_operations": {
+                                            "type": "array",
+                                            "items": {}
                                         }
                                     },
                                     "type": "object"
@@ -8915,6 +8991,10 @@
                                                             "id": {
                                                                 "type": "integer",
                                                                 "example": 1
+                                                            },
+                                                            "code": {
+                                                                "type": "string",
+                                                                "example": "Some code"
                                                             },
                                                             "name": {
                                                                 "type": "string",
