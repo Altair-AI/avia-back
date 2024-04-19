@@ -20,11 +20,11 @@ use App\Http\Controllers\Controller;
  * ),
  *
  * @OA\Get(
- *     path="/api/v1/admin/operation-rules/hierarchy",
- *     summary="Получить иерархию работ с правилами определения последовательности работ (операций)",
+ *     path="/api/v1/admin/operation-rules/get-main-operations",
+ *     summary="Получить список основных операий (работ РУН) для определенной технической системы",
  *     tags={"Правила определения последовательности работ"},
  *     security={{ "bearerAuth": {} }},
- *     description="Для супер-администратора возвращает иерархию правил определения последовательности работ. Для администратора возвращает иерархию только тех правил определения последовательности работ, принадлежащих базе знаний правил, которая доступна в рамках проекта для той организации к которой принадлежит администратор. Список может быть отфильтрован только по параметру id отказавшей технической системы.",
+ *     description="Для супер-администратора и администратора возвращает список основных операий (работ РУН) для определенной отказавшей технической системы или объекта.",
  *
  *     @OA\Parameter(
  *         description="id отказавшей технической системы или объекта",
@@ -37,18 +37,50 @@ use App\Http\Controllers\Controller;
  *         response=200,
  *         description="successful operation",
  *         @OA\JsonContent(
- *             @OA\Property(property="hierarchy_operations", type="array", @OA\Items(
+ *             @OA\Property(property="data", type="array", @OA\Items(
  *                 @OA\Property(property="id", type="integer", example=1),
  *                 @OA\Property(property="code", type="string", example="Some code"),
- *                 @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
- *                 @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
- *                 @OA\Property(property="operation_rules", type="array", @OA\Items(
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property(property="operation_if", type="string", example="Some operation name from condition (if)"),
- *                     @OA\Property(property="operation_then", type="string", example="Some operation name from action (then)")
- *                 )),
- *                 @OA\Property(property="hierarchy_operations", type="array", @OA\Items())
- *             ))
+ *                 @OA\Property(property="name", type="string", example="Some name")
+ *             )),
+ *             @OA\Property(property="page_current", type="integer", example=1),
+ *             @OA\Property(property="page_total", type="integer", example=20),
+ *             @OA\Property(property="page_size", type="integer", example=10)
+ *         )
+ *     )
+ * ),
+ *
+ * @OA\Get(
+ *     path="/api/v1/admin/operation-rules/hierarchy",
+ *     summary="Получить иерархию подработ с правилами определения последовательности работ (операций)",
+ *     tags={"Правила определения последовательности работ"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора и администратора возвращает полную иерархию подработ с соответствующими правилами определения последовательности работ. При этом необходимо задать параметр - id основной работы РУН",
+ *
+ *     @OA\Parameter(
+ *         description="id работы РУН",
+ *         in="query",
+ *         name="parent_operation_id",
+ *         required=false
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="code", type="string", example="Some code"),
+ *             @OA\Property(property="verbal_name", type="string", example="Some verbal name"),
+ *             @OA\Property(property="imperative_name", type="string", example="Some imperative name"),
+ *             @OA\Property(property="operation_rules", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="operation_if", type="string", example="Some operation name from condition (if)"),
+ *                 @OA\Property(property="operation_status_if", type="integer", example=1),
+ *                 @OA\Property(property="operation_result_if", type="string", example="Some operation result name from condition (if)"),
+ *                 @OA\Property(property="operation_then", type="string", example="Some operation name from action (then)"),
+ *                 @OA\Property(property="operation_status_then", type="integer", example=2),
+ *                 @OA\Property(property="operation_result_then", type="string", example="Some operation result name from action (then)")
+ *             )),
+ *             @OA\Property(property="hierarchy_operations", type="array", @OA\Items())
  *         )
  *     )
  * ),
