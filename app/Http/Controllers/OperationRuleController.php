@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Components\CSVDataExporter\OperationRuleExporter;
-use App\Http\Filters\AdditionalOperationRuleFilter;
 use App\Http\Filters\OperationRuleFilter;
 use App\Http\Requests\OperationRule\HierarchyOperationRuleRequest;
 use App\Http\Requests\OperationRule\IndexOperationRuleRequest;
@@ -12,7 +11,6 @@ use App\Http\Requests\OperationRule\StoreOperationRuleRequest;
 use App\Http\Requests\OperationRule\UpdateOperationRuleRequest;
 use App\Http\Resources\Operation\MainOperationResource;
 use App\Http\Resources\Operation\OperationHierarchyResource;
-use App\Http\Resources\OperationRule\OperationRuleResource;
 use App\Models\Operation;
 use App\Models\OperationHierarchy;
 use App\Models\OperationRule;
@@ -65,11 +63,9 @@ class OperationRuleController extends Controller
     public function getMainOperations(ListOperationRuleRequest $request)
     {
         $validated = $request->validated();
-
         $pageSize = 10;
         if (isset($request['pageSize']))
             $pageSize = $request['pageSize'];
-
         // Получение списка работ (операций) верхнего уровния (РУН) для выбранной технической системы
         $operations = [];
         if (auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE)
@@ -77,7 +73,6 @@ class OperationRuleController extends Controller
                 ->where('technical_system_id', $validated))
                 ->where('type', Operation::BASIC_OPERATION_TYPE)
                 ->paginate($pageSize);
-
         // Формирование выходных данных
         $result['data'] = MainOperationResource::collection($operations);
         $result['page_current'] = !is_array($operations) ? $operations->currentPage() : null;
@@ -112,6 +107,7 @@ class OperationRuleController extends Controller
         return response()->json($result);
     }
 
+    // TODO: Удалить закомментированный метод после проверки новой функциональности.
 //    /**
 //     * Display a hierarchy listing of the resource.
 //     *
