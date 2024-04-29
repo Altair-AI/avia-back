@@ -94,15 +94,27 @@ class OperationController extends Controller
         if (isset($request['pageSize']))
             $pageSize = $request['pageSize'];
 
+        $technical_system_id = null;
+        if (isset($request['technical_system_id']))
+            $technical_system_id = $request['technical_system_id'];
+
         $result = [];
         $operations = [];
         if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
-            $operations = Operation::filter($filter)->paginate($pageSize);
+            if ($technical_system_id)
+                $operations = Operation::filter($filter)
+                    ->whereIn('id', TechnicalSystemOperation::select(['operation_id'])
+                    ->where('technical_system_id', $technical_system_id))
+                    ->paginate($pageSize);
+            else
+                $operations = Operation::filter($filter)->paginate($pageSize);
         if (auth()->user()->role === User::ADMIN_ROLE) {
             // Формирование вложенного массива (иерархии) технических систем доступных администратору
             $technical_systems = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
             // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
             $tech_sys_ids = Helper::get_technical_system_ids($technical_systems, []);
+            if (in_array($technical_system_id, $tech_sys_ids))
+                $tech_sys_ids = [$technical_system_id];
             // Получение списка работ (операций) для технических систем доступных администратору
             $operations = Operation::filter($filter)->whereIn('id', TechnicalSystemOperation::select(['operation_id'])
                 ->whereIn('technical_system_id', $tech_sys_ids))->paginate($pageSize);

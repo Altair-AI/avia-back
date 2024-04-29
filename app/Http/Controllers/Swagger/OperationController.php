@@ -112,6 +112,12 @@ use App\Http\Controllers\Controller;
  *         name="page",
  *         required=false
  *     ),
+ *     @OA\Parameter(
+ *         description="id технической системы",
+ *         in="query",
+ *         name="technical_system_id",
+ *         required=false
+ *     ),
  *
  *     @OA\Response(
  *         response=200,
