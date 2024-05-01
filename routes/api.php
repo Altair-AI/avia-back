@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CaseBasedKnowledgeBaseController;
 use App\Http\Controllers\CaseEngineController;
+use App\Http\Controllers\CompletedOperationController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\CaseController;
 use App\Http\Controllers\MalfunctionCauseRuleController;
@@ -48,6 +49,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('case-based-knowledge-bases', CaseBasedKnowledgeBaseController::class);
     Route::apiResource('documents', DocumentController::class);
     Route::apiResource('cases', CaseController::class);
+    Route::apiResource('completed-operations', CompletedOperationController::class);
     Route::apiResource('malfunction-cause-rules', MalfunctionCauseRuleController::class);
     Route::apiResource('malfunction-codes', MalfunctionCodeController::class);
     Route::apiResource('malfunction-detection-stages', MalfunctionDetectionStageController::class);
