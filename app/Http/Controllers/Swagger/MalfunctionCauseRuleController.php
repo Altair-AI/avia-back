@@ -5,6 +5,67 @@ namespace App\Http\Controllers\Swagger;
 use App\Http\Controllers\Controller;
 
 /**
+ * * @OA\Get(
+ *     path="/api/v1/admin/malfunction-cause-rules/get-related-malfunction-codes",
+ *     summary="Получить списки сгруппированных кодов неисправности по типам",
+ *     tags={"Правила определения причины неисправности"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора и администратора возвращает список кодов неисправности сгруппированных по типам. Данные коды находятся по уловиям правил определения причин неисправности",
+ *     @OA\Parameter(
+ *         description="id кода неисправности",
+ *         in="query",
+ *         name="malfunction_code_id",
+ *         required=false
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="Аварийно‐сигнальное сообщение", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=0),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="Сообщение БСТО", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=2),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=1),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="Сигнализация СЭИ", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=3),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=2),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="Локальная сигнализация", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=4),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=3),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             )),
+ *             @OA\Property(property="Наблюдаемые неисправности", type="array", @OA\Items(
+ *                 @OA\Property(property="id", type="integer", example=5),
+ *                 @OA\Property(property="name", type="string", example="Some name"),
+ *                 @OA\Property(property="type", type="integer", example=4),
+ *                 @OA\Property(property="source", type="string", example="Some source"),
+ *                 @OA\Property(property="alternative_name", type="string", example="Some alternative name"),
+ *                 @OA\Property(property="technical_system_id", type="integer", example=1)
+ *             ))
+ *         )
+ *     )
+ * ),
+ *
  * @OA\Get(
  *     path="/api/v1/admin/malfunction-cause-rules",
  *     summary="Получить список правил определения причины неисправности",

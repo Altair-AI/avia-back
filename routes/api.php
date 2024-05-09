@@ -40,6 +40,8 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 });
 
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin/'], function () {
+    Route::get('malfunction-cause-rules/get-related-malfunction-codes', [MalfunctionCauseRuleController::class,
+        'getRelatedMalfunctionCodes']);
     Route::get('malfunction-codes/list', [MalfunctionCodeController::class, 'list']);
     Route::get('operations/export-root', [OperationController::class, 'exportRoot']);
     Route::get('operations/export-sub', [OperationController::class, 'exportSub']);

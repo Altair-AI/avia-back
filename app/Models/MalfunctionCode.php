@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 
 /**
@@ -79,6 +80,33 @@ class MalfunctionCode extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Get a list of types.
+     *
+     * @return string[]
+     */
+    public static function getTypeArray()
+    {
+        return [
+            self::EMRG_TYPE => 'Аварийно‐сигнальное сообщение',
+            self::BSTO_TYPE => 'Сообщение БСТО',
+            self::SEI_TYPE => 'Сигнализация СЭИ',
+            self::LOCAL_TYPE => 'Локальная сигнализация',
+            self::OBS_TYPE => 'Наблюдаемые неисправности'
+        ];
+    }
+
+    /**
+     * Get a type name.
+     *
+     * @param $type
+     * @return array|\ArrayAccess|mixed
+     */
+    public static function getTypeName($type)
+    {
+        return Arr::get(self::getTypeArray(), $type);
+    }
 
     public function technical_system()
     {
