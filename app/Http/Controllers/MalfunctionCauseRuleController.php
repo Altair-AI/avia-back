@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Filters\MalfunctionCauseRuleFilter;
+use App\Http\Requests\MalfunctionCauseRule\GetMalfunctionCodesMalfunctionCauseRuleRequest;
 use App\Models\MalfunctionCauseRule;
 use App\Http\Requests\MalfunctionCauseRule\IndexMalfunctionCauseRuleRequest;
 use App\Http\Requests\MalfunctionCauseRule\StoreMalfunctionCauseRuleRequest;
 use App\Http\Requests\MalfunctionCauseRule\UpdateMalfunctionCauseRuleRequest;
+use App\Models\MalfunctionCauseRuleIf;
+use App\Models\MalfunctionCode;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Contracts\Container\BindingResolutionException;
@@ -23,6 +26,35 @@ class MalfunctionCauseRuleController extends Controller
     public function __construct()
     {
         $this->authorizeResource(MalfunctionCauseRule::class, 'malfunction_cause_rule');
+    }
+
+    /**
+     * Display a listing of related malfunction codes.
+     *
+     * @param GetMalfunctionCodesMalfunctionCauseRuleRequest $request
+     * @return JsonResponse
+     */
+    public function getRelatedMalfunctionCodes(GetMalfunctionCodesMalfunctionCauseRuleRequest $request)
+    {
+        $malfunction_codes = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE or auth()->user()->role === User::ADMIN_ROLE) {
+            $value = $request['malfunction_code_id'];
+            // Поиск всех связанных кодов неисправности по правилам определения причин неисправности
+            $mcr_ids = MalfunctionCauseRuleIf::select(['malfunction_code_id'])
+                ->whereIn('malfunction_cause_rule_id',
+                    MalfunctionCauseRuleIf::select(['malfunction_cause_rule_id'])
+                        ->where('malfunction_code_id', $value))->get();
+            // Поиск кодов неисправности по сформированным id
+            $malfunctionCodes = MalfunctionCode::whereIn('id', $mcr_ids)->whereNot('id', $value)->get();
+            // Группировка кодов неисправности по типам
+            foreach (MalfunctionCode::getTypeArray() as $key => $value) {
+                $malfunction_codes[$value] = [];
+                foreach ($malfunctionCodes as $malfunctionCode)
+                    if ($malfunctionCode->type == $key)
+                        array_push($malfunction_codes[$value], $malfunctionCode);
+            }
+        }
+        return response()->json($malfunction_codes);
     }
 
     /**
