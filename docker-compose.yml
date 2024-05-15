@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   nginx:
     container_name: avia-back_nginx
@@ -14,6 +12,7 @@ services:
       
   app:
     container_name: avia-back_app
+    image: altairii/avia-back
     build: 
       context: .
       dockerfile: _docker/app/Dockerfile
