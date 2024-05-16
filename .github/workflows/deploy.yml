@@ -28,11 +28,11 @@ jobs:
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
-      - name: docker-compose
-        run: docker-compose exec app composer install       
-      - name: chmod
-        run: docker-compose exec app chmod 777 -R storage       
+      - name: install composer
+        run: docker exec -it avia-back_app composer install     
+      - name: chmod storage
+        run: docker exec -it avia-back_app chmod 777 -R storage       
       - name: migrate
-        run: docker-compose exec app php artisan migrate:refresh --seed       
+        run: docker exec -it avia-back_app php artisan migrate:refresh --seed       
       - name: swagger generate docs
-        run: docker-compose exec app php artisan L5-swagger:generate        
+        run: docker exec -it avia-back_app php artisan L5-swagger:generate        
