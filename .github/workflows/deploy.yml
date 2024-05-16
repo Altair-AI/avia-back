@@ -15,7 +15,7 @@ jobs:
         run: docker system prune -a -f
 
   deploy:
-   needs: prepare-environment
+    needs: prepare-environment
     runs-on: self-hosted
     steps:
       - name: checkout repo
