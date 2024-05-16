@@ -6,13 +6,13 @@ on:
   workflow_dispatch:    
       
 jobs:
-  # prepare-environment:
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Stop and remove containers, networks
-  #       run: docker-compose down
-  #     - name: Remove unused data
-  #       run: docker system prune -a -f
+  prepare-environment:
+    runs-on: self-hosted
+    steps:
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      - name: Remove unused data
+        run: docker system prune -a -f
 
   deploy:
     runs-on: self-hosted
@@ -22,12 +22,12 @@ jobs:
       - name: docker-compose
         run: docker-compose up -d
       - name: install composer
-        run: docker exec -it avia-back_app composer install     
+        run: docker exec -d avia-back_app composer install     
       - name: storage
-        run: docker exec -it avia-back_app chmod 777 -R storage       
+        run: docker exec -d avia-back_app chmod 777 -R storage       
       - name: migrate
-        run: docker exec -it avia-back_app php artisan migrate:refresh --seed       
+        run: docker exec -d avia-back_app php artisan migrate:refresh --seed       
       - name: swagger
-        run: docker exec -it avia-back_app php artisan L5-swagger:generate  
+        run: docker exec -d avia-back_app php artisan L5-swagger:generate  
 
    
