@@ -12,7 +12,7 @@ services:
       
   app:
     container_name: avia-back_app
-    image: altairii/avia-back
+    # image: altairii/avia-back
     build: 
       context: .
       dockerfile: _docker/app/Dockerfile
