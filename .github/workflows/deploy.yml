@@ -21,18 +21,13 @@ jobs:
         uses: actions/checkout@v3
       - name: docker-compose
         run: docker-compose up -d
-
-  configure:
-    runs-on: self-hosted
-    needs: deploy
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v3
       - name: install composer
         run: docker exec -it avia-back_app composer install     
-      - name: chmod storage
+      - name: storage
         run: docker exec -it avia-back_app chmod 777 -R storage       
       - name: migrate
         run: docker exec -it avia-back_app php artisan migrate:refresh --seed       
-      - name: swagger generate docs
-        run: docker exec -it avia-back_app php artisan L5-swagger:generate        
+      - name: swagger
+        run: docker exec -it avia-back_app php artisan L5-swagger:generate  
+
+   
