@@ -40,6 +40,7 @@ Route::group(['middleware' => ['cors', 'api'], 'prefix' => 'auth/'], function ()
 });
 
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin/'], function () {
+    Route::get('documents/download/{document}', [DocumentController::class, 'download']);
     Route::get('malfunction-cause-rules/get-related-malfunction-codes', [MalfunctionCauseRuleController::class,
         'getRelatedMalfunctionCodes']);
     Route::get('malfunction-codes/list', [MalfunctionCodeController::class, 'list']);
