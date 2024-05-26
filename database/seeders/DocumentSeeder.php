@@ -14,11 +14,11 @@ class DocumentSeeder extends Seeder
     {
         // Создание документа
         $document_id = DB::table('document')->insertGetId([
-            'code' => 'Уникальный код документа',
-            'name' => 'Название документа',
+            'code' => '24',
+            'name' => 'RRJ-95 РУКОВОДСТВО ПО ПОИСКУ И УСТРАНЕНИЮ НЕИСПРАВНОСТЕЙ. РАЗДЕЛ 24 — СИСТЕМА ЭЛЕКТРОСНАБЖЕНИЯ',
             'type' => Document::TROUBLESHOOTING_GUIDE_TYPE,
-            'version' => 'Версия документа',
-            'file' => 'Путь к файлу документа',
+            'version' => 'Дек 30/21',
+            'file' => 'RRj95_FIM_24.pdf',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

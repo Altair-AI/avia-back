@@ -7,7 +7,13 @@ use App\Models\Document;
 use App\Http\Requests\Document\StoreDocumentRequest;
 use App\Http\Requests\Document\UpdateDocumentRequest;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -19,6 +25,24 @@ class DocumentController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Document::class, 'document');
+    }
+
+    /**
+     * Download PDF file from local storage using document ID
+     *
+     * @param Document $document
+     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|RedirectResponse|Response|Redirector
+     */
+    public function download(Document $document)
+    {
+        if (Storage::disk('local')->exists("pdf/$document->file")) {
+            $path = Storage::disk('local')->path("pdf/$document->file");
+            $content = file_get_contents($path);
+            return response($content)->withHeaders([
+                'Content-Type'=>mime_content_type($path)
+            ]);
+        }
+        return redirect('/404');
     }
 
     /**

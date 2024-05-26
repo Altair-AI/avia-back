@@ -6,6 +6,28 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Get(
+ *     path="/api/v1/admin/documents/download/{document}",
+ *     summary="Выгрузить PDF-файл документа",
+ *     tags={"Документы"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для всех зарегистрированных пользователей возвращает PDF-файл документации по его ID.",
+ *
+ *     @OA\Parameter(
+ *         description="id документа",
+ *         in="path",
+ *         name="document",
+ *         required=true,
+ *         example=1
+ *     ),
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\MediaType(mediaType="application/pdf;charset=UTF-8")
+ *     )
+ * ),
+ *
+ * @OA\Get(
  *     path="/api/v1/admin/documents",
  *     summary="Получить список всех документов",
  *     tags={"Документы"},
