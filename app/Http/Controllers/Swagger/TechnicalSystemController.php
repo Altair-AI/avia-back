@@ -6,6 +6,23 @@ use App\Http\Controllers\Controller;
 
 /**
  * @OA\Get(
+ *     path="/api/v1/admin/technical-systems/list",
+ *     summary="Получить список основных технических систем (самолетов)",
+ *     tags={"Технические системы"},
+ *     security={{ "bearerAuth": {} }},
+ *     description="Для супер-администратора возвращает список всех основных технических систем (самолетов), созданных в системе. Для администратора возвращает список основных технических систем (самолетов), которые доступны в рамках проекта для той организации к которой принадлежит администратор.",
+ *
+ *     @OA\Response(
+ *         response=200,
+ *         description="successful operation",
+ *         @OA\JsonContent(type="array", @OA\Items(
+ *             @OA\Property(property="id", type="integer", example=1),
+ *             @OA\Property(property="name", type="string", example="Some name")
+ *         ))
+ *     )
+ * ),
+ *
+ * @OA\Get(
  *     path="/api/v1/admin/technical-systems",
  *     summary="Получить список технических систем",
  *     tags={"Технические системы"},
