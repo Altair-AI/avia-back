@@ -49,6 +49,7 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::get('operation-rules/export', [OperationRuleController::class, 'export']);
     Route::get('operation-rules/get-main-operations', [OperationRuleController::class, 'getMainOperations']);
     Route::get('operation-rules/hierarchy', [OperationRuleController::class, 'hierarchy']);
+    Route::get('technical-systems/list', [TechnicalSystemController::class, 'list']);
     Route::apiResource('case-based-knowledge-bases', CaseBasedKnowledgeBaseController::class);
     Route::apiResource('documents', DocumentController::class);
     Route::apiResource('cases', CaseController::class);

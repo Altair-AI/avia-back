@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Components\Helper;
 use App\Http\Filters\TechnicalSystemFilter;
 use App\Http\Requests\TechnicalSystem\IndexTechnicalSystemRequest;
+use App\Http\Resources\TechnicalSystem\TechnicalSystemResource;
 use App\Models\TechnicalSystem;
 use App\Http\Requests\TechnicalSystem\StoreTechnicalSystemRequest;
 use App\Http\Requests\TechnicalSystem\UpdateTechnicalSystemRequest;
@@ -22,6 +23,29 @@ class TechnicalSystemController extends Controller
     public function __construct()
     {
         $this->authorizeResource(TechnicalSystem::class, 'technical_system');
+    }
+
+    /**
+     * Display a short listing of the resource.
+     *
+     * @return JsonResponse
+     */
+    public function list()
+    {
+        $technical_systems = [];
+        if (auth()->user()->role === User::SUPER_ADMIN_ROLE)
+            $technical_systems = TechnicalSystem::where('parent_technical_system_id', null)->get();
+        if (auth()->user()->role === User::ADMIN_ROLE) {
+            // Формирование вложенного массива (иерархии) технических систем доступных администратору
+            $items = Helper::get_technical_system_hierarchy(auth()->user()->organization->id);
+            // Получение всех идентификаторов технических систем для вложенного массива (иерархии) технических систем
+            $tech_sys_ids = Helper::get_technical_system_ids($items, []);
+            // Поиск всех технических систем удовлетворяющих фильтру и совпадающих с массивом идентификаторов
+            $technical_systems = TechnicalSystem::where('parent_technical_system_id', null)
+                ->whereIn('id', $tech_sys_ids)
+                ->get();
+        }
+        return response()->json(TechnicalSystemResource::collection($technical_systems));
     }
 
     /**
