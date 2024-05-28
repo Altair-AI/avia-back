@@ -24,7 +24,7 @@ class UpdateRealTimeTechnicalSystemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'registration_code' => 'required|string|max:255|unique:real_time_technical_system',
+            'registration_code' => "required|string|max:255|unique:real_time_technical_system,registration_code,{$this->real_time_technical_system->id}",
             'registration_description' => 'nullable|string',
             'operation_time_from_start' => 'nullable|integer',
             'operation_time_from_last_repair' => 'nullable|integer',
