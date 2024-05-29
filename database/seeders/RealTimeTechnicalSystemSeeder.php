@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Project;
 use App\Models\TechnicalSystem;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -34,16 +33,40 @@ class RealTimeTechnicalSystemSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-        // Создание доступа пользователей (техников) к реальным техническим системам
+        // Создание доступа всех пользователей по умолчанию к реальным техническим системам
         DB::table('real_time_technical_system_user')->insert([
             'real_time_technical_system_id' => $first_system_id,
-            'user_id' => User::whereId(3)->first()->id,
+            'user_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('real_time_technical_system_user')->insert([
+            'real_time_technical_system_id' => $first_system_id,
+            'user_id' => 2,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('real_time_technical_system_user')->insert([
+            'real_time_technical_system_id' => $first_system_id,
+            'user_id' => 3,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
         DB::table('real_time_technical_system_user')->insert([
             'real_time_technical_system_id' => $second_system_id,
-            'user_id' => User::whereId(3)->first()->id,
+            'user_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('real_time_technical_system_user')->insert([
+            'real_time_technical_system_id' => $second_system_id,
+            'user_id' => 2,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        DB::table('real_time_technical_system_user')->insert([
+            'real_time_technical_system_id' => $second_system_id,
+            'user_id' => 3,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
