@@ -1,7 +1,7 @@
 services:
   nginx:
     container_name: avia-back_nginx
-    image: nginx:latest
+    image: dockerhub.timeweb.cloud/nginx:latest
     volumes:
       - ./:/var/www/
       - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
@@ -22,7 +22,7 @@ services:
 
   db:
     container_name: avia-postgres
-    image: postgres:14.8-alpine3.18
+    image: dockerhub.timeweb.cloud/postgres:14.8-alpine3.18
     volumes:
       - aviadb-data:/var/lib/postgresql/data
     restart: always 
@@ -66,7 +66,7 @@ services:
 
   pgadmin:
     container_name: avia-pgadmin
-    image: dpage/pgadmin4
+    image: dockerhub.timeweb.cloud/dpage/pgadmin4
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
