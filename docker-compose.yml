@@ -1,6 +1,6 @@
 services:
   nginx:
-    container_name: avia-nginx
+    container_name: avia-back_nginx
     image: nginx:latest
     volumes:
       - ./:/var/www/
@@ -24,7 +24,7 @@ services:
     container_name: avia-postgres
     image: postgres:14.8-alpine3.18
     volumes:
-      - /var/lib/postgresql/data:/var/lib/postgresql/data
+      - aviadb-data:/var/lib/postgresql/data
     restart: always 
     environment:
       POSTGRES_DB: "avia-db"
@@ -68,7 +68,7 @@ services:
     container_name: avia-pgadmin
     image: dpage/pgadmin4
     volumes:
-      - /var/lib/pgadmin:/var/lib/pgadmin
+      - pgadmin-data:/var/lib/pgadmin
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: "pgadmin@avia-front.com"
@@ -77,7 +77,6 @@ services:
     ports:
       - "5050:80"
 
-# volumes:
-#   aviadb-data:
-#   pgadmin-data:
-
+volumes:
+  aviadb-data:
+  pgadmin-data:
