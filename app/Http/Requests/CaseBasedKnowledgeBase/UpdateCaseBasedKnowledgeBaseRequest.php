@@ -28,7 +28,6 @@ class UpdateCaseBasedKnowledgeBaseRequest extends FormRequest
             'description' => 'nullable|string',
             'status' => 'required|integer',
             'correctness' => 'required|integer',
-            'author' => 'required|integer',
             'real_time_technical_system_id' => 'required|integer',
             'project_id' => 'required|integer'
         ];

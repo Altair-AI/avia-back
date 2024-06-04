@@ -63,6 +63,7 @@ class CaseBasedKnowledgeBaseController extends Controller
     public function store(StoreCaseBasedKnowledgeBaseRequest $request)
     {
         $validated = $request->validated();
+        $validated['author'] = auth()->user()->id;
         $caseBasedKnowledgeBase = CaseBasedKnowledgeBase::create($validated);
         return response()->json(array_merge($caseBasedKnowledgeBase->toArray(), [
             'user' => $caseBasedKnowledgeBase->user,
