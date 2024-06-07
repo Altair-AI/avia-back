@@ -2,6 +2,8 @@
 
 namespace App\Components\CSVDataLoader;
 
+use App\Models\ConcreteOperationCondition;
+use App\Models\ConcreteOperationResult;
 use App\Models\MalfunctionCause;
 use App\Models\MalfunctionCauseOperation;
 use App\Models\Operation;
@@ -50,13 +52,18 @@ class SubOperationLoader
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-            // Создание новой связи результата работы (операции) с конкретной работой (операцией) в БД
-            DB::table('concrete_operation_result')->insert([
-                'operation_id' => $operation_id,
-                'operation_result_id' => $operation_result_id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+            // Поиск связи результата работы (операции) с конкретной работой (операцией)
+            $concrete_operation_results = ConcreteOperationResult::where('operation_id', $operation_id)
+                ->where('operation_result_id', $operation_result_id)
+                ->first();
+            // Создание новой связи результата работы (операции) с конкретной работой (операцией) в БД, если ее нет
+            if (!$concrete_operation_results)
+                DB::table('concrete_operation_result')->insert([
+                    'operation_id' => $operation_id,
+                    'operation_result_id' => $operation_result_id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
         }
     }
 
@@ -79,13 +86,18 @@ class SubOperationLoader
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
-        // Создание новой связи условия работы (операции) с конкретной работой (операцией) в БД
-        DB::table('concrete_operation_condition')->insert([
-            'operation_id' => $operation_id,
-            'operation_condition_id' => $operation_condition_id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
+        // Поиск связи условия работы (операции) с конкретной работой (операцией)
+        $concrete_operation_conditions = ConcreteOperationCondition::where('operation_id', $operation_id)
+            ->where('operation_condition_id', $operation_condition_id)
+            ->first();
+        // Создание новой связи условия работы (операции) с конкретной работой (операцией) в БД, если ее нет
+        if (!$concrete_operation_conditions)
+            DB::table('concrete_operation_condition')->insert([
+                'operation_id' => $operation_id,
+                'operation_condition_id' => $operation_condition_id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
     }
 
     /**
