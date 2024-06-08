@@ -185,9 +185,13 @@ class RuleEngineController extends Controller
                     }
             }
 
+            // Поиск корневого узла начальной работы РУН для машины вывода
+            $completed_parent_operation = CompletedOperation::where('work_session_id', $work_session->id)
+                ->where('previous_operation_id', null)
+                ->first();
             /* Запуск машины вывода и получение результата */
-            $rule_engine = new RuleEngine(RuleEngine::IN_PROGRESS_CODE, $work_memory, $rule_queue,
-                $execution_rule);
+            $rule_engine = new RuleEngine(RuleEngine::IN_PROGRESS_CODE, $completed_parent_operation->operation_id,
+                $work_memory, $rule_queue, $execution_rule);
             $operation_status = isset($validated['operation_status']) ? $validated['operation_status'] : null;
             $operation_result = isset($validated['operation_result']) ? $validated['operation_result'] : null;
             $rule_engine->run($operation_status, $operation_result);

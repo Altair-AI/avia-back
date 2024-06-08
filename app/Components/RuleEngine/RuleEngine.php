@@ -14,6 +14,8 @@ class RuleEngine
 
     private int $status;
 
+    private int $root_operation_id;
+
     private array $work_memory;
 
     private array $rule_queue;
@@ -22,19 +24,28 @@ class RuleEngine
 
     private array $completed_operations;
 
-    public function __construct(int $status, array $work_memory, array $rule_queue = [], Rule $execution_rule = null,
-                                array $completed_operations = [])
+    private bool $completed;
+
+    public function __construct(int $status, int $root_operation_id, array $work_memory, array $rule_queue = [],
+                                Rule $execution_rule = null, array $completed_operations = [], bool $completed = false)
     {
         $this->status = $status;
+        $this->root_operation_id = $root_operation_id;
         $this->work_memory = $work_memory;
         $this->rule_queue = $rule_queue;
         $this->execution_rule = $execution_rule;
         $this->completed_operations = $completed_operations;
+        $this->completed = $completed;
     }
 
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function getRootOperationId()
+    {
+        return $this->root_operation_id;
     }
 
     public function getWorkMemory()
@@ -55,6 +66,11 @@ class RuleEngine
     public function getCompletedOperations()
     {
         return $this->completed_operations;
+    }
+
+    public function getCompleted()
+    {
+        return $this->completed;
     }
 
     /**
@@ -81,6 +97,9 @@ class RuleEngine
         array_push($this->completed_operations, $operation);
         // Обнуление текущего выполняемого правила
         $this->execution_rule = null;
+        // Запоминание факта выполненной корневой работы РУН
+        if ($operation['operation'] == $this->root_operation_id)
+            $this->completed = true;
     }
 
     /**
@@ -144,6 +163,9 @@ class RuleEngine
                 if ($operation_exists == true and $operation_status_exists == false) {
                     $this->status = self::NO_STATUS_CODE;
                     $this->execution_rule->setStatus(Rule::NO_STATUS_STATUS);
+                    // Если выполнена корневая работа РУН, то завершаем остальные правила.
+                    if ($this->completed)
+                        self::refresh();
                     break;
                 }
                 // Если нет совпадения факта результата работы
