@@ -297,7 +297,9 @@ class RuleEngineController extends Controller
                     ->first();
                 if ($last_execution_rule) {
                     $current_operation = new OperationResource(Operation::find($last_execution_rule->operation_id));
-                    if ($last_execution_rule->operation_rule_list->operation_rule->operation_result_id_then != null)
+                    $opr_rule = OperationRule::where('context', $last_execution_rule->operation_rule_list->operation_rule->context)
+                        ->where('operation_id_if', $last_execution_rule->operation_id)->first();
+                    if ($opr_rule->operation_result_id_if != null)
                         $opr_res = OperationResultResource::collection(
                             $last_execution_rule->operation->operation_results
                         );
