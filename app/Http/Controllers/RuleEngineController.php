@@ -297,7 +297,10 @@ class RuleEngineController extends Controller
                     ->first();
                 if ($last_execution_rule) {
                     $current_operation = new OperationResource(Operation::find($last_execution_rule->operation_id));
-                    $opr_res = OperationResultResource::collection($last_execution_rule->operation->operation_results);
+                    if ($last_execution_rule->operation_result_id != null)
+                        $opr_res = OperationResultResource::collection(
+                            $last_execution_rule->operation->operation_results
+                        );
                 }
             }
             $result['data']['current_operation'] = $current_operation;
