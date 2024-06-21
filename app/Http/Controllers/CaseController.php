@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Filters\CaseFilter;
 use App\Http\Requests\ECase\IndexCaseRequest;
+use App\Http\Resources\Cases\CaseResource;
 use App\Models\CaseBasedKnowledgeBase;
 use App\Models\ECase;
 use App\Http\Requests\ECase\StoreCaseRequest;
@@ -22,7 +23,7 @@ class CaseController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(ECase::class, 'ecase');
+        $this->authorizeResource(ECase::class, 'case');
     }
 
     /**
@@ -69,16 +70,7 @@ class CaseController extends Controller
             $cases = ECase::filter($filter)->whereIn('case_based_knowledge_base_id', $case_based_kb_ids)
                 ->paginate($pageSize);
         }
-        $data = [];
-        foreach ($cases as $case)
-            array_push($data, array_merge($case->toArray(), [
-                'malfunction_detection_stage' => $case->malfunction_detection_stage,
-                'malfunction_cause' => $case->malfunction_cause,
-                'system_for_repair' => $case->system_for_repair,
-                'initial_completed_operation' => $case->initial_completed_operation,
-                'case_based_knowledge_base' => $case->case_based_knowledge_base
-            ]));
-        $result['data'] = $data;
+        $result['data'] = CaseResource::collection($cases);
         $result['page_current'] = !is_array($cases) ? $cases->currentPage() : null;
         $result['page_total'] = !is_array($cases) ? $cases->lastPage() : null;
         $result['page_size'] = !is_array($cases) ? $cases->perPage() : null;
