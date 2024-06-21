@@ -22,7 +22,7 @@ class CaseController extends Controller
      */
     public function __construct()
     {
-        $this->authorizeResource(ECase::class, 'case');
+        $this->authorizeResource(ECase::class, 'ecase');
     }
 
     /**
@@ -54,8 +54,7 @@ class CaseController extends Controller
             $case_based_kb_ids = CaseBasedKnowledgeBase::select('id')
                 ->whereIn('project_id', $project_ids)->get();
             // Выбираем только те прецеденты, которые доступны в рамках определенной базы знаний прецедентов
-            $cases = ECase::whereIn('case_based_knowledge_base_id', $case_based_kb_ids)
-                ->filter($filter)
+            $cases = ECase::filter($filter)->whereIn('case_based_knowledge_base_id', $case_based_kb_ids)
                 ->paginate($pageSize);
         }
         if (auth()->user()->role === User::TECHNICIAN_ROLE) {
@@ -67,8 +66,7 @@ class CaseController extends Controller
             $case_based_kb_ids = CaseBasedKnowledgeBase::select('id')
                 ->whereIn('real_time_technical_system_id', $real_time_tech_system_ids)->get();
             // Выбираем только те прецеденты, которые доступны в рамках определенной базы знаний прецедентов
-            $cases = ECase::whereIn('case_based_knowledge_base_id', $case_based_kb_ids)
-                ->filter($filter)
+            $cases = ECase::filter($filter)->whereIn('case_based_knowledge_base_id', $case_based_kb_ids)
                 ->paginate($pageSize);
         }
         $data = [];

@@ -24,10 +24,15 @@ class IndexCaseRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'date' => 'string',
             'card_number' => 'string',
             'operation_time_from_start' => 'integer',
             'operation_time_from_last_repair' => 'integer',
-            'malfunction_detection_stage_id' => 'integer'
+            'malfunction_detection_stage_id' => 'integer',
+            'malfunction_cause_id' => 'integer',
+            'system_id_for_repair' => 'integer',
+            'initial_completed_operation_id' => 'integer',
+            'case_based_knowledge_base_id' => 'integer'
         ];
     }
 }

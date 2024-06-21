@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,7 +50,7 @@ use Illuminate\Support\Carbon;
  */
 class ECase extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     /**
      * The table associated with the model.
