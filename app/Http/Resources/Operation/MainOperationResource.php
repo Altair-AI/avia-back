@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Operation;
 
-use App\Http\Resources\OperationRule\OperationRuleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Components\Helper;
 use App\Http\Filters\TechnicalSystemFilter;
 use App\Http\Requests\TechnicalSystem\IndexTechnicalSystemRequest;
+use App\Http\Resources\TechnicalSystem\TechnicalSystemHierarchyResource;
 use App\Http\Resources\TechnicalSystem\TechnicalSystemResource;
 use App\Models\TechnicalSystem;
 use App\Http\Requests\TechnicalSystem\StoreTechnicalSystemRequest;
@@ -77,14 +78,7 @@ class TechnicalSystemController extends Controller
             // Поиск всех технических систем удовлетворяющих фильтру и совпадающих с массивом идентификаторов
             $technical_systems = TechnicalSystem::filter($filter)->whereIn('id', $tech_sys_ids)->paginate($pageSize);
         }
-        $data = [];
-        foreach ($technical_systems as $technical_system)
-            array_push($data, array_merge($technical_system->toArray(), [
-                'technical_subsystems' => $technical_system->technical_subsystems,
-                'documents' => $technical_system->documents,
-                'rule_based_knowledge_bases' => $technical_system->rule_based_knowledge_bases
-            ]));
-        $result['data'] = $data;
+        $result['data'] = TechnicalSystemHierarchyResource::collection($technical_systems);
         $result['page_current'] = !is_array($technical_systems) ? $technical_systems->currentPage() : null;
         $result['page_total'] = !is_array($technical_systems) ? $technical_systems->lastPage() : null;
         $result['page_size'] = !is_array($technical_systems) ? $technical_systems->perPage() : null;
@@ -112,11 +106,7 @@ class TechnicalSystemController extends Controller
      */
     public function show(TechnicalSystem $technical_system)
     {
-        return response()->json(array_merge($technical_system->toArray(), [
-            'technical_subsystems' => $technical_system->technical_subsystems,
-            'documents' => $technical_system->documents,
-            'rule_based_knowledge_bases' => $technical_system->rule_based_knowledge_bases
-        ]));
+        return response()->json(new TechnicalSystemHierarchyResource($technical_system));
     }
 
     /**
