@@ -66,7 +66,6 @@ Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/admin
     Route::apiResource('technical-systems', TechnicalSystemController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('work-sessions', WorkSessionController::class);
-
 });
 
 Route::group(['middleware' => ['cors', 'api', 'jwt.auth'], 'prefix' => 'v1/tech/'], function () {
