@@ -15,8 +15,8 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $status
  * @property Carbon|null $stop_time
- * @property int malfunction_cause_rule_id
- * @property int user_id
+ * @property int $malfunction_cause_rule_id
+ * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read Collection<int, CompletedOperation> $completed_operations
