@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Helper;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -27,8 +30,17 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if ($token = $this->guard()->attempt($credentials))
+        if ($token = $this->guard()->attempt($credentials)) {
+            DB::table('action_log')->insert([
+                'datetime' => Carbon::now(),
+                'description' => 'Вход пользователя в систему.',
+                'client_ip' => Helper::getIp(),
+                'user_id' => $this->guard()->id(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
             return $this->respondWithToken($token);
+        }
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
@@ -48,6 +60,14 @@ class AuthController extends Controller
      * @return JsonResponse
      */
     public function logout() {
+        DB::table('action_log')->insert([
+            'datetime' => Carbon::now(),
+            'description' => 'Выход пользователя из системы.',
+            'client_ip' => Helper::getIp(),
+            'user_id' => $this->guard()->id(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         $this->guard()->logout();
         return response()->json(['message' => 'User successfully signed out.']);
     }
